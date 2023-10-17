@@ -4,7 +4,20 @@ import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 const Pagination = ({ totalPages, onPageChange, currentPage }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= totalPages; i++) {
+  let startPage = currentPage - 2;
+  let endPage = currentPage + 1;
+
+  if (startPage < 1) {
+    startPage = 1;
+    endPage = 4;
+  }
+
+  if (endPage > totalPages) {
+    endPage = totalPages;
+    startPage = Math.max(1, totalPages - 3);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }
 
