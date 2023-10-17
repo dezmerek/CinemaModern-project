@@ -1,8 +1,11 @@
+import React from 'react';
+import UserView from './components/dashboard/UsersView/UsersView';
+
 function App() {
   return (
-    <>
-      <h1>test</h1>
-    </>
+    <div className="App">
+      <UserView />
+    </div>
   );
 }
 
