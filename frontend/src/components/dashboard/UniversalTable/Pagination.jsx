@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Pagination = ({ totalPages, onPageChange }) => {
+const Pagination = ({ totalPages, onPageChange, currentPage }) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= totalPages; i++) {
@@ -9,6 +9,9 @@ const Pagination = ({ totalPages, onPageChange }) => {
 
   return (
     <div>
+      <p>
+        {currentPage} z {totalPages}
+      </p>
       {pageNumbers.map((pageNumber) => (
         <button key={pageNumber} onClick={() => onPageChange(pageNumber)}>
           {pageNumber}
