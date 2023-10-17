@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import GenericTable from '../UniversalTable/UniversalTable';
 import usersData from '../../../data/usersData';
 
 const UsersView = () => {
+  const [searchText, setSearchText] = useState('');
+
   const userColumns = ['id', 'firstName', 'lastName', 'role', 'phoneNumber'];
+
   const translatedColumns = [
     'ID',
     'Imię',
@@ -17,10 +20,27 @@ const UsersView = () => {
     value: column,
   }));
 
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const filteredUsersData = usersData.filter((user) => {
+    const userDataString = Object.values(user).join(' ').toLowerCase();
+    return userDataString.includes(searchText.toLowerCase());
+  });
+
   return (
-    <div className="users-page">
-      <h2>Lista użytkowników</h2>
-      <GenericTable data={usersData} columns={columnsMap} />
+    <div>
+      <h2>
+        Lista użytkowników
+        <input
+          type="text"
+          placeholder="Szukaj..."
+          value={searchText}
+          onChange={handleSearchChange}
+        />
+      </h2>
+      <GenericTable data={filteredUsersData} columns={columnsMap} />
     </div>
   );
 };
