@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import GenericTable from '../UniversalTable/UniversalTable';
+import UniversalTable from '../UniversalTable/UniversalTable';
 import usersData from '../../../data/usersData';
 
 const UsersView = () => {
@@ -40,7 +40,7 @@ const UsersView = () => {
           onChange={handleSearchChange}
         />
       </h2>
-      <GenericTable data={filteredUsersData} columns={columnsMap} />
+      <UniversalTable data={filteredUsersData} columns={columnsMap} />
     </div>
   );
 };
