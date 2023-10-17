@@ -29,6 +29,18 @@ const UsersView = () => {
     return userDataString.includes(searchText.toLowerCase());
   });
 
+  const handlePreview = (user) => {
+    console.log(`Previewing user with ID ${user.id}`);
+  };
+
+  const handleEdit = (user) => {
+    console.log(`Editing user with ID ${user.id}`);
+  };
+
+  const handleDelete = (user) => {
+    console.log(`Deleting user with ID ${user.id}`);
+  };
+
   return (
     <div>
       <h2>
@@ -40,7 +52,13 @@ const UsersView = () => {
           onChange={handleSearchChange}
         />
       </h2>
-      <UniversalTable data={filteredUsersData} columns={columnsMap} />
+      <UniversalTable
+        data={filteredUsersData}
+        columns={columnsMap}
+        onPreview={handlePreview}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     </div>
   );
 };

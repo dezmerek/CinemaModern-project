@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import Pagination from './Pagination';
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 
-const UniversalTable = ({ data, columns, itemsPerPage = 10 }) => {
+const UniversalTable = ({
+  data,
+  columns,
+  itemsPerPage = 10,
+  onPreview,
+  onEdit,
+  onDelete,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -20,6 +28,7 @@ const UniversalTable = ({ data, columns, itemsPerPage = 10 }) => {
             {columns.map((column, index) => (
               <th key={index}>{column.label}</th>
             ))}
+            <th>Akcje</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +37,17 @@ const UniversalTable = ({ data, columns, itemsPerPage = 10 }) => {
               {columns.map((column, colIndex) => (
                 <td key={colIndex}>{item[column.value]}</td>
               ))}
+              <td>
+                <button onClick={() => onPreview(item)}>
+                  <BsEye />
+                </button>
+                <button onClick={() => onEdit(item)}>
+                  <BsPencil />
+                </button>
+                <button onClick={() => onDelete(item)}>
+                  <BsTrash />
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
