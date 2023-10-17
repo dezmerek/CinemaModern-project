@@ -1,4 +1,5 @@
 import React from 'react';
+import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 
 const Pagination = ({ totalPages, onPageChange, currentPage }) => {
   const pageNumbers = [];
@@ -12,11 +13,23 @@ const Pagination = ({ totalPages, onPageChange, currentPage }) => {
       <p>
         {currentPage} z {totalPages}
       </p>
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        <BsChevronLeft />
+      </button>
       {pageNumbers.map((pageNumber) => (
         <button key={pageNumber} onClick={() => onPageChange(pageNumber)}>
           {pageNumber}
         </button>
       ))}
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+      >
+        <BsChevronRight />
+      </button>
     </div>
   );
 };
