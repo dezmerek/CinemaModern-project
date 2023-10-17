@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Pagination from './Pagination';
 
 const UniversalTable = ({ data, columns, itemsPerPage = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -6,6 +7,10 @@ const UniversalTable = ({ data, columns, itemsPerPage = 10 }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div>
@@ -27,6 +32,13 @@ const UniversalTable = ({ data, columns, itemsPerPage = 10 }) => {
           ))}
         </tbody>
       </table>
+      <div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(data.length / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };
