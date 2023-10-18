@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../Styles/components/_pagination.scss';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 
 const Pagination = ({ totalPages, onPageChange, currentPage }) => {
@@ -33,7 +34,11 @@ const Pagination = ({ totalPages, onPageChange, currentPage }) => {
         <BsChevronLeft />
       </button>
       {pageNumbers.map((pageNumber) => (
-        <button key={pageNumber} onClick={() => onPageChange(pageNumber)}>
+        <button
+          key={pageNumber}
+          onClick={() => onPageChange(pageNumber)}
+          className={pageNumber === currentPage ? 'selected' : ''}
+        >
           {pageNumber}
         </button>
       ))}
