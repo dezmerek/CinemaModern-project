@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pagination from './Pagination';
-import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
+import {
+  BsEye,
+  BsPencil,
+  BsTrash,
+  BsFillCaretUpFill,
+  BsFillCaretDownFill,
+} from 'react-icons/bs';
 
 const UniversalTable = ({
   data,
@@ -11,14 +17,43 @@ const UniversalTable = ({
   onDelete,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+
+  useEffect(() => {
+    setSortConfig({ key: columns[0].value, direction: 'asc' });
+  }, [columns]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const handleColumnSort = (key) => {
+    if (sortConfig.key === key) {
+      setSortConfig({
+        key,
+        direction: sortConfig.direction === 'asc' ? 'desc' : 'asc',
+      });
+    } else {
+      setSortConfig({ key, direction: 'asc' });
+    }
+  };
+
+  const sortedData = [...data].sort((a, b) => {
+    const aValue = a[sortConfig.key];
+    const bValue = b[sortConfig.key];
+    const direction = sortConfig.direction === 'asc' ? 1 : -1;
+
+    if (typeof aValue === 'string' && typeof bValue === 'string') {
+      return aValue.localeCompare(bValue) * direction;
+    } else {
+      return (aValue - bValue) * direction;
+    }
+  });
+
+  const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -26,7 +61,22 @@ const UniversalTable = ({
         <thead>
           <tr>
             {columns.map((column, index) => (
-              <th key={index}>{column.label}</th>
+              <th
+                key={index}
+                onClick={() => handleColumnSort(column.value)}
+                style={{ cursor: 'pointer' }}
+              >
+                {column.label}
+                {sortConfig.key === column.value && (
+                  <span>
+                    {sortConfig.direction === 'asc' ? (
+                      <BsFillCaretUpFill />
+                    ) : (
+                      <BsFillCaretDownFill />
+                    )}
+                  </span>
+                )}
+              </th>
             ))}
             <th>Akcje</th>
           </tr>
@@ -55,7 +105,7 @@ const UniversalTable = ({
       <div>
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(data.length / itemsPerPage)}
+          totalPages={Math.ceil(sortedData.length / itemsPerPage)}
           onPageChange={handlePageChange}
         />
       </div>
