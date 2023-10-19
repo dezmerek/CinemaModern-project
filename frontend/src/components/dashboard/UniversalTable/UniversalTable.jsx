@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Pagination from './Pagination';
-import {
-  BsEye,
-  BsPencil,
-  BsTrash,
-  BsFillCaretUpFill,
-  BsFillCaretDownFill,
-} from 'react-icons/bs';
+import TablePagination from './TablePagination';
+import TableHeader from './TableHeader';
+import TableRow from './TableRow';
 
 const UniversalTable = ({
   data,
@@ -58,52 +53,26 @@ const UniversalTable = ({
   return (
     <div>
       <table>
-        <thead>
-          <tr>
-            {columns.map((column, index) => (
-              <th
-                key={index}
-                onClick={() => handleColumnSort(column.value)}
-                style={{ cursor: 'pointer' }}
-              >
-                {column.label}
-                {sortConfig.key === column.value && (
-                  <span>
-                    {sortConfig.direction === 'asc' ? (
-                      <BsFillCaretUpFill />
-                    ) : (
-                      <BsFillCaretDownFill />
-                    )}
-                  </span>
-                )}
-              </th>
-            ))}
-            <th>Akcje</th>
-          </tr>
-        </thead>
+        <TableHeader
+          columns={columns}
+          sortConfig={sortConfig}
+          onSort={handleColumnSort}
+        />
         <tbody>
           {currentItems.map((item, rowIndex) => (
-            <tr key={rowIndex}>
-              {columns.map((column, colIndex) => (
-                <td key={colIndex}>{item[column.value]}</td>
-              ))}
-              <td>
-                <button onClick={() => onPreview(item)}>
-                  <BsEye />
-                </button>
-                <button onClick={() => onEdit(item)}>
-                  <BsPencil />
-                </button>
-                <button onClick={() => onDelete(item)}>
-                  <BsTrash />
-                </button>
-              </td>
-            </tr>
+            <TableRow
+              key={rowIndex}
+              item={item}
+              columns={columns}
+              onPreview={onPreview}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
           ))}
         </tbody>
       </table>
       <div>
-        <Pagination
+        <TablePagination
           currentPage={currentPage}
           totalPages={Math.ceil(sortedData.length / itemsPerPage)}
           onPageChange={handlePageChange}
