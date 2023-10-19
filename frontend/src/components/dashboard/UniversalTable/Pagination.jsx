@@ -23,31 +23,33 @@ const Pagination = ({ totalPages, onPageChange, currentPage }) => {
   }
 
   return (
-    <div>
-      <p>
+    <div className="pagination">
+      <div className="pagination__info">
         {currentPage} z {totalPages}
-      </p>
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        <BsChevronLeft />
-      </button>
-      {pageNumbers.map((pageNumber) => (
+      </div>
+      <div className="pagination__controls">
         <button
-          key={pageNumber}
-          onClick={() => onPageChange(pageNumber)}
-          className={pageNumber === currentPage ? 'selected' : ''}
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
         >
-          {pageNumber}
+          <BsChevronLeft />
         </button>
-      ))}
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        <BsChevronRight />
-      </button>
+        {pageNumbers.map((pageNumber) => (
+          <button
+            key={pageNumber}
+            onClick={() => onPageChange(pageNumber)}
+            className={pageNumber === currentPage ? 'selected' : ''}
+          >
+            {pageNumber}
+          </button>
+        ))}
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          <BsChevronRight />
+        </button>
+      </div>
     </div>
   );
 };
