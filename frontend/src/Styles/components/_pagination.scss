@@ -4,14 +4,14 @@
     justify-content: space-between;
 
     .pagination__info {
-        background-color: #151F30;
+        background-color: rgb(21, 31, 48);
         padding: 1rem;
         border-radius: 10px;
         font-size: 14px;
     }
 
     .pagination__controls {
-        background-color: #151F30;
+        background-color: rgb(21, 31, 48);
         border-radius: 10px;
     }
 }
@@ -25,14 +25,14 @@ button {
     font-size: 14px;
 
     &.selected {
-        background-color: #007bff;
+        background-color: rgb(0, 123, 255);
         color: #fff;
     }
 
     &:active {
         background-color: rgba(31, 128, 224, 0.2);
         border-radius: 10px;
-        color: #1F80E0;
+        color: rgb(31, 128, 224);
     }
 
     &:disabled {
@@ -45,6 +45,6 @@ button {
 
     &.selected {
         background-color: rgba(31, 128, 224, 0.2);
-        color: #1F80E0;
+        color: rgb(31, 128, 224);
     }
 }
