@@ -1,6 +1,6 @@
 import React from 'react';
-import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 import '../../../Styles/components/_TableRow.scss';
+import TableButtons from './TableButtons';
 
 const TableRow = ({ item, columns, onPreview, onEdit, onDelete }) => {
   return (
@@ -8,17 +8,12 @@ const TableRow = ({ item, columns, onPreview, onEdit, onDelete }) => {
       {columns.map((column, colIndex) => (
         <td key={colIndex}>{item[column.value]}</td>
       ))}
-      <td>
-        <button onClick={() => onPreview(item)}>
-          <BsEye />
-        </button>
-        <button onClick={() => onEdit(item)}>
-          <BsPencil />
-        </button>
-        <button onClick={() => onDelete(item)}>
-          <BsTrash />
-        </button>
-      </td>
+      <TableButtons
+        item={item}
+        onPreview={onPreview}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
     </tr>
   );
 };
