@@ -1,11 +1,17 @@
 import React from 'react';
-import UserView from './components/dashboard/UsersView/UsersView';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Users } from "./routers/Users";
+
 
 function App() {
   return (
-    <div className="App">
-      <UserView />
-    </div>
+    <BrowserRouter>
+      <>
+        <Routes>
+          <Route path="/dashboard/users" element={<Users />} />
+        </Routes>
+      </>
+    </BrowserRouter>
   );
 }
 
