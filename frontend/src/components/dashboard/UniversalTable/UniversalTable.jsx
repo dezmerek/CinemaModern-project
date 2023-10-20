@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TablePagination from './TablePagination';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
+import '../../../Styles/layout/_UniversalTable.scss';
 
 const UniversalTable = ({
   data,
@@ -51,7 +52,7 @@ const UniversalTable = ({
   const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
-    <div>
+    <div className="universal">
       <table>
         <TableHeader
           columns={columns}

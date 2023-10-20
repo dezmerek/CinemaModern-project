@@ -1,8 +1,8 @@
 import React from 'react';
-import '../../../Styles/components/_pagination.scss';
+import '../../../main.scss';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 
-const Pagination = ({ totalPages, onPageChange, currentPage }) => {
+const TablePagination = ({ totalPages, onPageChange, currentPage }) => {
   const pageNumbers = [];
 
   let startPage = currentPage - 2;
@@ -54,4 +54,4 @@ const Pagination = ({ totalPages, onPageChange, currentPage }) => {
   );
 };
 
-export default Pagination;
+export default TablePagination;

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../Styles/components/_TableHeader.scss';
 import { BsFillCaretUpFill, BsFillCaretDownFill } from 'react-icons/bs';
 
 const TableHeader = ({ columns, sortConfig, onSort }) => {

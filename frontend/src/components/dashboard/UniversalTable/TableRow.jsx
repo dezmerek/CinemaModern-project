@@ -1,9 +1,10 @@
 import React from 'react';
 import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
+import '../../../Styles/components/_TableRow.scss';
 
 const TableRow = ({ item, columns, onPreview, onEdit, onDelete }) => {
   return (
-    <tr>
+    <tr className="row">
       {columns.map((column, colIndex) => (
         <td key={colIndex}>{item[column.value]}</td>
       ))}

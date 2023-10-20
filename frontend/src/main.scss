@@ -1,4 +1,16 @@
+//base
 @import './Styles/base/fonts';
 @import './Styles/base/base';
 
-@import './Styles/variables';
+//variables
+@import './Styles/utils/variables';
+
+//components
+@import './Styles/components/TableHeader';
+@import './Styles/components/TablePagination';
+@import './Styles/components/TableRow';
+@import './Styles/components/TableSearch';
+
+//layout
+@import './Styles/layout/UniversalTable';
+@import './Styles/layout/UsersView';

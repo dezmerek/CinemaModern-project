@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import UniversalTable from '../UniversalTable/UniversalTable';
 import usersData from '../../../data/usersData';
+import SearchBar from '../UniversalTable/TableSearch';
+import '../../../Styles/layout/_UsersView.scss';
 
 const UsersView = () => {
   const [searchText, setSearchText] = useState('');
@@ -20,8 +22,8 @@ const UsersView = () => {
     value: column,
   }));
 
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
+  const handleSearchChange = (newSearchText) => {
+    setSearchText(newSearchText);
   };
 
   const filteredUsersData = usersData.filter((user) => {
@@ -43,15 +45,12 @@ const UsersView = () => {
 
   return (
     <div>
-      <h2>
-        Lista użytkowników
-        <input
-          type="text"
-          placeholder="Szukaj..."
-          value={searchText}
-          onChange={handleSearchChange}
-        />
-      </h2>
+      <div className="users">
+        <div>
+          <h2>Lista użytkowników</h2>
+        </div>
+        <SearchBar onSearchChange={handleSearchChange} />
+      </div>
       <UniversalTable
         data={filteredUsersData}
         columns={columnsMap}

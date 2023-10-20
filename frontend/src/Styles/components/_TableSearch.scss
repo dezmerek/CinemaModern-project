@@ -1,0 +1,23 @@
+.search {
+    display: flex;
+    align-items: center;
+    background-color: rgb(21, 31, 48);
+    border-radius: 5px;
+    padding: 0.7rem;
+
+    input[type="text"] {
+        background-color: rgb(21, 31, 48);
+        border: none;
+        outline: none;
+        font-size: 16px;
+        color: rgb(255, 255, 255);
+    }
+
+    input[type="text"]:focus::placeholder {
+        color: transparent;
+    }
+
+    svg {
+        color: rgb(31, 128, 224);
+    }
+}
