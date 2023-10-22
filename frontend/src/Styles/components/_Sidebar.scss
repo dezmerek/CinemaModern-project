@@ -1,14 +1,9 @@
 .sidebar {
-    width: 190px;
     display: flex;
     flex-direction: column;
 
     .sidebar__logo {
-        padding-top: 20px;
-
-        img {
-            max-width: 100%;
-        }
+        padding-top: 10px;
     }
 
     .profile {
