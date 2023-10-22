@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import menuItems from './SidebarItems';
 import '../../../Styles/components/_Sidebar.scss';
 import logo from '../../../assets/images/logo.png';
 import avatar from '../../../assets/images/avatar.png';
 
 const Sidebar = () => {
+  const location = useLocation();
+
   return (
     <div className="sidebar">
       <div className="sidebar__logo">
@@ -20,7 +22,11 @@ const Sidebar = () => {
       </div>
       <div className="menu">
         {menuItems.map((item, index) => (
-          <Link to={item.link} key={index}>
+          <Link
+            to={item.link}
+            key={index}
+            className={location.pathname === item.link ? 'active' : ''}
+          >
             {item.icon} {item.name}
           </Link>
         ))}
