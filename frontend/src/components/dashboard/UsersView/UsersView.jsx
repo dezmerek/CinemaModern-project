@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import UniversalTable from '../UniversalTable/UniversalTable';
 import usersData from '../../../data/usersData';
 import SearchBar from '../UniversalTable/TableSearch';
+import UserEdit from './UserEdit';
 import '../../../Styles/layout/_UsersView.scss';
 import UserPreview from './UserPreview';
 import DeleteConfirmationDialog from '../UsersView/UsersDelete';
@@ -9,7 +10,9 @@ import DeleteConfirmationDialog from '../UsersView/UsersDelete';
 const UsersView = () => {
   const [searchText, setSearchText] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
-  const [userToDelete, setUserToDelete] = useState(null); // Dodaj stan userToDelete
+  const [userToDelete, setUserToDelete] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUser, setEditedUser] = useState(null);
 
   const userColumns = ['id', 'firstName', 'lastName', 'role', 'phoneNumber'];
 
@@ -31,7 +34,6 @@ const UsersView = () => {
   };
 
   const handlePreview = (user) => {
-    console.log(`Previewing user with ID ${user.id}`);
     setSelectedUser(user);
   };
 
@@ -39,8 +41,14 @@ const UsersView = () => {
     setSelectedUser(null);
   };
 
-  const handleEdit = (user) => {
-    console.log(`Editing user with ID ${user.id}`);
+  const startEditing = (user) => {
+    setIsEditing(true);
+    setEditedUser(user);
+  };
+
+  const handleSaveEdit = (editedUser) => {
+    setIsEditing(false);
+    setEditedUser(null);
   };
 
   const showDeleteConfirmation = (user) => {
@@ -71,13 +79,24 @@ const UsersView = () => {
         </div>
         <SearchBar onSearchChange={handleSearchChange} />
       </div>
-      <UniversalTable
-        data={filteredUsersData}
-        columns={columnsMap}
-        onPreview={handlePreview}
-        onEdit={handleEdit}
-        onDelete={showDeleteConfirmation}
-      />
+      <div className="user-list-container">
+        <UniversalTable
+          data={filteredUsersData}
+          columns={columnsMap}
+          onPreview={handlePreview}
+          onEdit={startEditing}
+          onDelete={showDeleteConfirmation}
+        />
+      </div>
+      {isEditing && (
+        <div className="user-edit-container">
+          <UserEdit
+            user={editedUser}
+            onSave={handleSaveEdit}
+            onCancel={() => setIsEditing(false)}
+          />
+        </div>
+      )}
 
       {selectedUser && (
         <UserPreview user={selectedUser} onClose={handleClosePreview} />
