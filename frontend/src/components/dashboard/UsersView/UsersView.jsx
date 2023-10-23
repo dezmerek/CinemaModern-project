@@ -3,9 +3,11 @@ import UniversalTable from '../UniversalTable/UniversalTable';
 import usersData from '../../../data/usersData';
 import SearchBar from '../UniversalTable/TableSearch';
 import '../../../Styles/layout/_UsersView.scss';
+import UserPreview from './UserPreview';
 
 const UsersView = () => {
   const [searchText, setSearchText] = useState('');
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const userColumns = ['id', 'firstName', 'lastName', 'role', 'phoneNumber'];
 
@@ -33,6 +35,11 @@ const UsersView = () => {
 
   const handlePreview = (user) => {
     console.log(`Previewing user with ID ${user.id}`);
+    setSelectedUser(user);
+  };
+
+  const handleClosePreview = () => {
+    setSelectedUser(null);
   };
 
   const handleEdit = (user) => {
@@ -58,6 +65,10 @@ const UsersView = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
+
+      {selectedUser && (
+        <UserPreview user={selectedUser} onClose={handleClosePreview} />
+      )}
     </div>
   );
 };
