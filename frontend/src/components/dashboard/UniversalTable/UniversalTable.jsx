@@ -53,25 +53,27 @@ const UniversalTable = ({
 
   return (
     <div className="universal">
-      <table>
-        <TableHeader
-          columns={columns}
-          sortConfig={sortConfig}
-          onSort={handleColumnSort}
-        />
-        <tbody>
-          {currentItems.map((item, rowIndex) => (
-            <TableRow
-              key={rowIndex}
-              item={item}
-              columns={columns}
-              onPreview={onPreview}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className="universal__table">
+        <table>
+          <TableHeader
+            columns={columns}
+            sortConfig={sortConfig}
+            onSort={handleColumnSort}
+          />
+          <tbody>
+            {currentItems.map((item, rowIndex) => (
+              <TableRow
+                key={rowIndex}
+                item={item}
+                columns={columns}
+                onPreview={onPreview}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div>
         <TablePagination
           currentPage={currentPage}
