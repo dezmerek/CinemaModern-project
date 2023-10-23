@@ -2,15 +2,17 @@
     display: flex;
     align-items: center;
     background-color: rgb(21, 31, 48);
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 0.7rem;
+    height: 2.7rem;
 
     input[type="text"] {
         background-color: rgb(21, 31, 48);
         border: none;
         outline: none;
-        font-size: 16px;
+        font-size: 14px;
         color: rgb(255, 255, 255);
+        flex: 1;
     }
 
     input[type="text"]:focus::placeholder {
@@ -19,5 +21,6 @@
 
     svg {
         color: rgb(31, 128, 224);
+        font-size: 1rem;
     }
 }

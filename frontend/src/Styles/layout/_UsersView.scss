@@ -1,5 +1,11 @@
 .users {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .users {
+        flex-direction: column;
+    }
+
 }
