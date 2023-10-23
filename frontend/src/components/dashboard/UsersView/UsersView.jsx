@@ -4,10 +4,12 @@ import usersData from '../../../data/usersData';
 import SearchBar from '../UniversalTable/TableSearch';
 import '../../../Styles/layout/_UsersView.scss';
 import UserPreview from './UserPreview';
+import DeleteConfirmationDialog from '../UsersView/UsersDelete';
 
 const UsersView = () => {
   const [searchText, setSearchText] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
+  const [userToDelete, setUserToDelete] = useState(null); // Dodaj stan userToDelete
 
   const userColumns = ['id', 'firstName', 'lastName', 'role', 'phoneNumber'];
 
@@ -28,11 +30,6 @@ const UsersView = () => {
     setSearchText(newSearchText);
   };
 
-  const filteredUsersData = usersData.filter((user) => {
-    const userDataString = Object.values(user).join(' ').toLowerCase();
-    return userDataString.includes(searchText.toLowerCase());
-  });
-
   const handlePreview = (user) => {
     console.log(`Previewing user with ID ${user.id}`);
     setSelectedUser(user);
@@ -46,9 +43,25 @@ const UsersView = () => {
     console.log(`Editing user with ID ${user.id}`);
   };
 
-  const handleDelete = (user) => {
-    console.log(`Deleting user with ID ${user.id}`);
+  const showDeleteConfirmation = (user) => {
+    setUserToDelete(user);
   };
+
+  const handleDelete = () => {
+    if (userToDelete) {
+      console.log(`Deleting user with ID ${userToDelete.id}`);
+      setUserToDelete(null);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setUserToDelete(null);
+  };
+
+  const filteredUsersData = usersData.filter((user) => {
+    const userDataString = Object.values(user).join(' ').toLowerCase();
+    return userDataString.includes(searchText.toLowerCase());
+  });
 
   return (
     <div>
@@ -63,11 +76,19 @@ const UsersView = () => {
         columns={columnsMap}
         onPreview={handlePreview}
         onEdit={handleEdit}
-        onDelete={handleDelete}
+        onDelete={showDeleteConfirmation}
       />
 
       {selectedUser && (
         <UserPreview user={selectedUser} onClose={handleClosePreview} />
+      )}
+
+      {userToDelete && (
+        <DeleteConfirmationDialog
+          item={userToDelete}
+          onDelete={handleDelete}
+          onCancel={handleCancelDelete}
+        />
       )}
     </div>
   );
