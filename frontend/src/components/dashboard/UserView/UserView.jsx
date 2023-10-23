@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import UniversalTable from '../UniversalTable/UniversalTable';
+import UniversalTable from '../TableUniversal/TableUniversal';
 import usersData from '../../../data/usersData';
-import SearchBar from '../UniversalTable/TableSearch';
+import SearchBar from '../TableUniversal/TableSearch';
 import UserEdit from './UserEdit';
 import '../../../Styles/layout/_UserView.scss';
 import UserPreview from './UserPreview';

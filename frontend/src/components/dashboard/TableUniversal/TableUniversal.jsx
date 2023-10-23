@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TablePagination from './TablePagination';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
-import '../../../Styles/layout/_UniversalTable.scss';
+import '../../../Styles/layout/_TableUniversal.scss';
 
 const UniversalTable = ({
   data,
