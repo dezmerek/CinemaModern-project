@@ -64,10 +64,14 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <button onClick={handleSave}>Zapisz</button>
-            <button className="cancel" onClick={onCancel}>
-              Anuluj
-            </button>
+            <div>
+              <button type="button" onClick={handleSave}>
+                Zapisz
+              </button>
+              <button type="button" className="cancel" onClick={onCancel}>
+                Anuluj
+              </button>
+            </div>
           </div>
         </form>
       </div>
