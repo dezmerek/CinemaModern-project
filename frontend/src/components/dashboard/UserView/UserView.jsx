@@ -3,9 +3,9 @@ import UniversalTable from '../UniversalTable/UniversalTable';
 import usersData from '../../../data/usersData';
 import SearchBar from '../UniversalTable/TableSearch';
 import UserEdit from './UserEdit';
-import '../../../Styles/layout/_UsersView.scss';
+import '../../../Styles/layout/_UserView.scss';
 import UserPreview from './UserPreview';
-import DeleteConfirmationDialog from '../UsersView/UsersDelete';
+import UserDelete from './UserDelete';
 
 const UsersView = () => {
   const [searchText, setSearchText] = useState('');
@@ -103,7 +103,7 @@ const UsersView = () => {
       )}
 
       {userToDelete && (
-        <DeleteConfirmationDialog
+        <UserDelete
           item={userToDelete}
           onDelete={handleDelete}
           onCancel={handleCancelDelete}

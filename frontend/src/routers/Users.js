@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import UsersView from '../components/dashboard/UsersView/UsersView';
+import UserView from '../components/dashboard/UserView/UserView';
 import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 
 export const Users = () => {
@@ -22,7 +22,7 @@ export const Users = () => {
             <div style={isFlex ? { display: 'flex', gap: '3rem' } : {}}>
                 <Sidebar />
                 <div style={isFlex ? { flex: 1 } : {}}>
-                    <UsersView />
+                    <UserView />
                 </div>
             </div>
         </>

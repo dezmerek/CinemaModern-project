@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../../Styles/components/_UsersDelete.scss';
+import '../../../Styles/components/_UserDelete.scss';
 
-const ConfirmationDialog = ({ item, onDelete, onCancel }) => {
+const UserDelete = ({ item, onDelete, onCancel }) => {
   const handleDelete = () => {
     onDelete(item);
   };
@@ -17,4 +17,4 @@ const ConfirmationDialog = ({ item, onDelete, onCancel }) => {
   );
 };
 
-export default ConfirmationDialog;
+export default UserDelete;
