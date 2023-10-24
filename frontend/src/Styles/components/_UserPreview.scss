@@ -1,4 +1,4 @@
-.user-preview-overlay {
+.preview {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,26 +11,31 @@
     z-index: 999;
 
     &__content {
-        background-color: #131720;
-        padding: 20px;
+        background-color: rgb(19, 23, 32);
+        padding: 1rem;
         border: 1px solid rgb(31, 128, 224);
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         max-width: 400px;
         z-index: 1000;
 
-        &__close-button {
-            background-color: #ff0000;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
+        h3 {
+            margin-top: 0;
+        }
+    }
 
-            &:hover {
-                background-color: #cc0000;
-            }
+    &__btn-close {
+        background-color: rgb(47, 128, 237);
+        color: rgb(255, 255, 255);
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+
+        &:hover {
+            background-color: rgb(31, 94, 188);
         }
     }
 }

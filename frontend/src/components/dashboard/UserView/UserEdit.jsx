@@ -14,21 +14,22 @@ const UserEdit = ({ user, onSave, onCancel }) => {
   };
 
   return (
-    <div className="overlay">
-      <div className="user-edit">
+    <div className="user-edit">
+      <div className="user-edit__content">
         <h3>Edycja użytkownika</h3>
         <form>
           <div>
-            <label>ID:</label>
+            <label className="user-edit__label">ID:</label>
             <input
               type="text"
               name="id"
               value={editedUser.id}
               onChange={handleInputChange}
+              disabled
             />
           </div>
           <div>
-            <label>Imię:</label>
+            <label className="user-edit__label">Imię:</label>
             <input
               type="text"
               name="firstName"
@@ -37,7 +38,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label>Nazwisko:</label>
+            <label className="user-edit__label">Nazwisko:</label>
             <input
               type="text"
               name="lastName"
@@ -46,7 +47,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label>Rola:</label>
+            <label className="user-edit__label">Rola:</label>
             <input
               type="text"
               name="role"
@@ -55,7 +56,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label>Numer telefonu:</label>
+            <label className="user-edit__label">Numer telefonu:</label>
             <input
               type="text"
               name="phoneNumber"
@@ -63,15 +64,21 @@ const UserEdit = ({ user, onSave, onCancel }) => {
               onChange={handleInputChange}
             />
           </div>
-          <div>
-            <div>
-              <button type="button" onClick={handleSave}>
-                Zapisz
-              </button>
-              <button type="button" className="cancel" onClick={onCancel}>
-                Anuluj
-              </button>
-            </div>
+          <div className="user-edit__content__buttons">
+            <button
+              type="button"
+              onClick={handleSave}
+              className="user-edit__button"
+            >
+              Zapisz
+            </button>
+            <button
+              type="button"
+              className="user-edit__button"
+              onClick={onCancel}
+            >
+              Anuluj
+            </button>
           </div>
         </form>
       </div>
