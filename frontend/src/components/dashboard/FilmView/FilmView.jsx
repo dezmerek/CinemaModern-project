@@ -8,13 +8,13 @@ import FilmPreview from './FilmPreview';
 import FilmDelete from './FilmDelete';
 
 const UsersView = () => {
-  const [searchText, setSearchText] = useState('');
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [userToDelete, setUserToDelete] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedUser, setEditedUser] = useState(null);
+  const [editedItem, setEditedItem] = useState(null);
 
-  const filmColumns = [
+  const itemFields = [
     'id',
     'title',
     'rating',
@@ -23,7 +23,7 @@ const UsersView = () => {
     'dateAdded',
   ];
 
-  const translatedColumns = [
+  const translatedFields = [
     'ID',
     'Tytuł',
     'Ocena',
@@ -32,87 +32,87 @@ const UsersView = () => {
     'Data dodania',
   ];
 
-  const columnsMap = filmColumns.map((column, index) => ({
-    label: translatedColumns[index],
-    value: column,
+  const fieldMap = itemFields.map((field, index) => ({
+    label: translatedFields[index],
+    value: field,
   }));
 
-  const handleSearchChange = (newSearchText) => {
-    setSearchText(newSearchText);
+  const handleSearchChange = (newSearchQuery) => {
+    setSearchQuery(newSearchQuery);
   };
 
-  const handlePreview = (user) => {
-    setSelectedUser(user);
+  const handlePreview = (item) => {
+    setSelectedItem(item);
   };
 
   const handleClosePreview = () => {
-    setSelectedUser(null);
+    setSelectedItem(null);
   };
 
-  const startEditing = (user) => {
+  const startEditing = (item) => {
     setIsEditing(true);
-    setEditedUser(user);
+    setEditedItem(item);
   };
 
-  const handleSaveEdit = (editedUser) => {
+  const handleSaveEdit = (editedItem) => {
     setIsEditing(false);
-    setEditedUser(null);
+    setEditedItem(null);
   };
 
-  const showDeleteConfirmation = (user) => {
-    setUserToDelete(user);
+  const showDeleteConfirmation = (item) => {
+    setItemToDelete(item);
   };
 
   const handleDelete = () => {
-    if (userToDelete) {
-      console.log(`Deleting user with ID ${userToDelete.id}`);
-      setUserToDelete(null);
+    if (itemToDelete) {
+      console.log(`Deleting item with ID ${itemToDelete.id}`);
+      setItemToDelete(null);
     }
   };
 
   const handleCancelDelete = () => {
-    setUserToDelete(null);
+    setItemToDelete(null);
   };
 
-  const filteredUsersData = filmsData.filter((user) => {
-    const userDataString = Object.values(user).join(' ').toLowerCase();
-    return userDataString.includes(searchText.toLowerCase());
+  const filteredItemsData = filmsData.filter((item) => {
+    const itemDataString = Object.values(item).join(' ').toLowerCase();
+    return itemDataString.includes(searchQuery.toLowerCase());
   });
 
   return (
     <div>
-      <div className="users">
+      <div className="items">
         <div>
           <h2>Lista filmów</h2>
         </div>
         <SearchBar onSearchChange={handleSearchChange} />
       </div>
-      <div className="user-list-container">
+      <div className="item-list-container">
         <UniversalTable
-          data={filteredUsersData}
-          columns={columnsMap}
+          data={filteredItemsData}
+          columns={fieldMap}
           onPreview={handlePreview}
           onEdit={startEditing}
           onDelete={showDeleteConfirmation}
         />
       </div>
       {isEditing && (
-        <div className="user-edit-container">
+        <div className="item-edit-container">
           <FilmEdit
-            user={editedUser}
+            item={editedItem}
             onSave={handleSaveEdit}
             onCancel={() => setIsEditing(false)}
           />
         </div>
       )}
 
-      {selectedUser && (
-        <FilmPreview user={selectedUser} onClose={handleClosePreview} />
+      {selectedItem && (
+        <FilmPreview item={selectedItem} onClose={handleClosePreview} />
       )}
 
-      {userToDelete && (
+      {itemToDelete && (
         <FilmDelete
-          item={userToDelete}
+          item={itemToDelete}
           onDelete={handleDelete}
           onCancel={handleCancelDelete}
         />
