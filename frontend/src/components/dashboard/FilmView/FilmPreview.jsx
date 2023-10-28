@@ -1,5 +1,5 @@
 import React from 'react';
-import './../../../Styles/components/_UserPreview.scss';
+import './../../../Styles/components/_Preview.scss';
 
 const FilmPreview = ({ item, onClose }) => {
   return (
