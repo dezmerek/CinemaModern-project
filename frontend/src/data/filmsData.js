@@ -1,4 +1,4 @@
-const usersData = [
+const filmsData = [
     {
         id: 1,
         title: 'Incepcja',
@@ -449,4 +449,4 @@ const usersData = [
     }
 ];
 
-export default usersData;
+export default filmsData;
