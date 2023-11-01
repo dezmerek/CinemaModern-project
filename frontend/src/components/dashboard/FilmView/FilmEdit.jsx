@@ -21,7 +21,7 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
           <div>
             <label className="universal-edit__label">ID:</label>
             <input
-              type="text"
+              type="number"
               name="id"
               value={editedFilm.id}
               onChange={handleInputChange}
@@ -40,7 +40,7 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
           <div>
             <label className="universal-edit__label">Ocena:</label>
             <input
-              type="text"
+              type="number"
               name="rating"
               value={editedFilm.rating}
               onChange={handleInputChange}
@@ -58,7 +58,7 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
           <div>
             <label className="universal-edit__label">Bilety:</label>
             <input
-              type="text"
+              type="number"
               name="tickets"
               value={editedFilm.tickets}
               onChange={handleInputChange}

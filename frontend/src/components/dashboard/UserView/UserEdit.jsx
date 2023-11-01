@@ -21,7 +21,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
           <div>
             <label className="universal-edit__label">ID:</label>
             <input
-              type="text"
+              type="number"
               name="id"
               value={editedUser.id}
               onChange={handleInputChange}
