@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../Styles/components/_UserDelete.scss';
+import '../../../Styles/components/_UniversalDelete.scss';
 
 const UserDelete = ({ item, onDelete, onCancel }) => {
   const handleDelete = () => {
@@ -7,25 +7,13 @@ const UserDelete = ({ item, onDelete, onCancel }) => {
   };
 
   return (
-    <div className="user-delete">
-      <div className="user-delete__content user-delete__content--confirmation">
+    <div className="universal-delete">
+      <div className="universal-delete__content">
         <h3>Potwierdzenie</h3>
-        <p className="user-delete__content__text">
-          Czy na pewno chcesz usunąć ten element?
-        </p>
-        <div className="user-delete__content__buttons">
-          <button
-            className="user-delete__content__button user-delete__content__button--delete"
-            onClick={handleDelete}
-          >
-            Tak
-          </button>
-          <button
-            className="user-delete__content__button user-delete__content__button--cancel"
-            onClick={onCancel}
-          >
-            Anuluj
-          </button>
+        <p>Czy na pewno chcesz usunąć ten element?</p>
+        <div className="universal-delete__buttons">
+          <button onClick={handleDelete}>Tak</button>
+          <button onClick={onCancel}>Anuluj</button>
         </div>
       </div>
     </div>

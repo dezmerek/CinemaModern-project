@@ -3,9 +3,10 @@ import UniversalTable from '../TableUniversal/TableUniversal';
 import usersData from '../../../data/usersData';
 import SearchBar from '../TableUniversal/TableSearch';
 import UserEdit from './UserEdit';
-import '../../../Styles/layout/_UserView.scss';
 import UserPreview from './UserPreview';
 import UserDelete from './UserDelete';
+
+import '../../../Styles/layout/_ListUniversal.scss';
 
 const UsersView = () => {
   const [searchText, setSearchText] = useState('');
@@ -73,23 +74,23 @@ const UsersView = () => {
 
   return (
     <div>
-      <div className="users">
+      <div className="universal-list--header">
         <div>
           <h2>Lista użytkowników</h2>
         </div>
         <SearchBar onSearchChange={handleSearchChange} />
       </div>
-      <div className="user-list-container">
-        <UniversalTable
-          data={filteredUsersData}
-          columns={columnsMap}
-          onPreview={handlePreview}
-          onEdit={startEditing}
-          onDelete={showDeleteConfirmation}
-        />
-      </div>
+
+      <UniversalTable
+        data={filteredUsersData}
+        columns={columnsMap}
+        onPreview={handlePreview}
+        onEdit={startEditing}
+        onDelete={showDeleteConfirmation}
+      />
+
       {isEditing && (
-        <div className="user-edit-container">
+        <div>
           <UserEdit
             user={editedUser}
             onSave={handleSaveEdit}

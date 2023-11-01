@@ -1,10 +1,10 @@
-.users {
+.universal-list--header {
     display: flex;
     justify-content: space-between;
 }
 
 @media (max-width: 768px) {
-    .users {
+    .universal-list--header {
         flex-direction: column;
     }
 

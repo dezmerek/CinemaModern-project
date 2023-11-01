@@ -1,4 +1,4 @@
-.user-edit {
+.universal-delete {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,42 +11,30 @@
     z-index: 999;
 
     &__content {
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        max-width: 400px;
         background-color: rgb(19, 23, 32);
+        padding: 20px;
         border: 1px solid rgb(31, 128, 224);
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        z-index: 1000;
 
         h3 {
             margin-top: 0;
         }
 
-        form {
-            display: grid;
-            gap: 10px;
+        p {
+            margin-bottom: 20px;
+            color: rgb(255, 255, 255);
+        }
 
-            label {
-                font-weight: bold;
-            }
-
-            input {
-                width: 100%;
-                padding: 10px;
-                border: 0;
-                border-radius: 3px;
-                background-color: rgb(21, 31, 48);
-                color: #fff;
-
-                &:focus {
-                    border-color: rgb(0, 123, 255);
-                    outline: none;
-                }
-            }
+        .universal-delete__buttons {
+            display: flex;
+            gap: 1rem;
 
             button {
                 background-color: rgb(47, 128, 237);
-                color: #fff;
+                color: rgb(255, 255, 255);
                 border: none;
                 padding: 0.5rem 1rem;
                 border-radius: 5px;
@@ -58,11 +46,6 @@
                     background-color: rgb(31, 94, 188);
                 }
             }
-        }
-
-        &__buttons {
-            display: flex;
-            gap: 1rem;
         }
     }
 }

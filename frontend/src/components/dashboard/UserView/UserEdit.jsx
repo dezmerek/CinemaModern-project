@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../../../Styles/components/_UserEdit.scss';
+import '../../../Styles/components/_UniversalEdit.scss';
 
 const UserEdit = ({ user, onSave, onCancel }) => {
   const [editedUser, setEditedUser] = useState(user);
@@ -14,12 +14,12 @@ const UserEdit = ({ user, onSave, onCancel }) => {
   };
 
   return (
-    <div className="user-edit">
-      <div className="user-edit__content">
+    <div className="universal-edit">
+      <div className="universal-edit__content">
         <h3>Edycja użytkownika</h3>
         <form>
           <div>
-            <label className="user-edit__label">ID:</label>
+            <label className="universal-edit__label">ID:</label>
             <input
               type="text"
               name="id"
@@ -29,7 +29,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label className="user-edit__label">Imię:</label>
+            <label className="universal-edit__label">Imię:</label>
             <input
               type="text"
               name="firstName"
@@ -38,7 +38,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label className="user-edit__label">Nazwisko:</label>
+            <label className="universal-edit__label">Nazwisko:</label>
             <input
               type="text"
               name="lastName"
@@ -47,7 +47,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label className="user-edit__label">Rola:</label>
+            <label className="universal-edit__label">Rola:</label>
             <input
               type="text"
               name="role"
@@ -56,7 +56,7 @@ const UserEdit = ({ user, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label className="user-edit__label">Numer telefonu:</label>
+            <label className="universal-edit__label">Numer telefonu:</label>
             <input
               type="text"
               name="phoneNumber"
@@ -64,19 +64,11 @@ const UserEdit = ({ user, onSave, onCancel }) => {
               onChange={handleInputChange}
             />
           </div>
-          <div className="user-edit__content__buttons">
-            <button
-              type="button"
-              onClick={handleSave}
-              className="user-edit__button"
-            >
+          <div className="universal-edit__buttons">
+            <button type="button" onClick={handleSave}>
               Zapisz
             </button>
-            <button
-              type="button"
-              className="user-edit__button"
-              onClick={onCancel}
-            >
+            <button type="button" onClick={onCancel}>
               Anuluj
             </button>
           </div>

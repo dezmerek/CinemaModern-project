@@ -1,4 +1,4 @@
-.preview {
+.universal-preview {
     position: fixed;
     top: 0;
     left: 0;
@@ -24,7 +24,7 @@
         }
     }
 
-    &__btn-close {
+    &__btn--close {
         background-color: rgb(47, 128, 237);
         color: rgb(255, 255, 255);
         border: none;
