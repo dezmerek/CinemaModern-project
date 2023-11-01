@@ -5,7 +5,7 @@ const filmsData = [
         rating: 9.5,
         language: 'napisy',
         tickets: 150,
-        dateAdded: '2023/10/25'
+        dateAdded: '2023-10-25'
     },
     {
         id: 2,
@@ -13,7 +13,7 @@ const filmsData = [
         rating: 8.7,
         language: 'dubbing',
         tickets: 120,
-        dateAdded: '2023/10/26'
+        dateAdded: '2023-10-26'
     },
     {
         id: 3,
@@ -21,7 +21,7 @@ const filmsData = [
         rating: 9.2,
         language: 'polski',
         tickets: 90,
-        dateAdded: '2023/10/27'
+        dateAdded: '2023-10-27'
     },
     {
         id: 4,
@@ -29,7 +29,7 @@ const filmsData = [
         rating: 9.7,
         language: 'napisy',
         tickets: 100,
-        dateAdded: '2023/10/28'
+        dateAdded: '2023-10-28'
     },
     {
         id: 5,
@@ -37,7 +37,7 @@ const filmsData = [
         rating: 8.9,
         language: 'dubbing',
         tickets: 110,
-        dateAdded: '2023/10/29'
+        dateAdded: '2023-10-29'
     },
     {
         id: 6,
@@ -45,7 +45,7 @@ const filmsData = [
         rating: 9.1,
         language: 'napisy',
         tickets: 95,
-        dateAdded: '2023/10/30'
+        dateAdded: '2023-10-30'
     },
     {
         id: 7,
@@ -53,7 +53,7 @@ const filmsData = [
         rating: 9.4,
         language: 'polski',
         tickets: 85,
-        dateAdded: '2023/10/31'
+        dateAdded: '2023-10-31'
     },
     {
         id: 8,
@@ -61,7 +61,7 @@ const filmsData = [
         rating: 8.5,
         language: 'dubbing',
         tickets: 105,
-        dateAdded: '2023/11/01'
+        dateAdded: '2023-11-01'
     },
     {
         id: 9,
@@ -69,7 +69,7 @@ const filmsData = [
         rating: 8.8,
         language: 'napisy',
         tickets: 125,
-        dateAdded: '2023/11/02'
+        dateAdded: '2023-11-02'
     },
     {
         id: 10,
@@ -77,7 +77,7 @@ const filmsData = [
         rating: 7.9,
         language: 'polski',
         tickets: 80,
-        dateAdded: '2023/11/03'
+        dateAdded: '2023-11-03'
     },
     {
         id: 11,
@@ -85,7 +85,7 @@ const filmsData = [
         rating: 8.2,
         language: 'dubbing',
         tickets: 95,
-        dateAdded: '2023/11/04'
+        dateAdded: '2023-11-04'
     },
     {
         id: 12,
@@ -93,7 +93,7 @@ const filmsData = [
         rating: 8.6,
         language: 'napisy',
         tickets: 110,
-        dateAdded: '2023/11/05'
+        dateAdded: '2023-11-05'
     },
     {
         id: 13,
@@ -101,7 +101,7 @@ const filmsData = [
         rating: 9.3,
         language: 'napisy',
         tickets: 100,
-        dateAdded: '2023/11/06'
+        dateAdded: '2023-11-06'
     },
     {
         id: 14,
@@ -109,7 +109,7 @@ const filmsData = [
         rating: 9.0,
         language: 'dubbing',
         tickets: 95,
-        dateAdded: '2023/11/07'
+        dateAdded: '2023-11-07'
     },
     {
         id: 15,
@@ -117,7 +117,7 @@ const filmsData = [
         rating: 9.6,
         language: 'napisy',
         tickets: 105,
-        dateAdded: '2023/11/08'
+        dateAdded: '2023-11-08'
     },
     {
         id: 16,
@@ -125,7 +125,7 @@ const filmsData = [
         rating: 9.1,
         language: 'polski',
         tickets: 90,
-        dateAdded: '2023/11/09'
+        dateAdded: '2023-11-09'
     },
     {
         id: 17,
@@ -133,7 +133,7 @@ const filmsData = [
         rating: 9.7,
         language: 'napisy',
         tickets: 115,
-        dateAdded: '2023/11/10'
+        dateAdded: '2023-11-10'
     },
     {
         id: 18,
@@ -141,7 +141,7 @@ const filmsData = [
         rating: 8.4,
         language: 'dubbing',
         tickets: 100,
-        dateAdded: '2023/11/11'
+        dateAdded: '2023-11-11'
     },
     {
         id: 19,
@@ -149,7 +149,7 @@ const filmsData = [
         rating: 9.2,
         language: 'napisy',
         tickets: 95,
-        dateAdded: '2023/11/12'
+        dateAdded: '2023-11-12'
     },
     {
         id: 20,
@@ -157,7 +157,7 @@ const filmsData = [
         rating: 8.8,
         language: 'polski',
         tickets: 85,
-        dateAdded: '2023/11/13'
+        dateAdded: '2023-11-13'
     },
     {
         id: 21,
@@ -165,7 +165,7 @@ const filmsData = [
         rating: 8.9,
         language: 'napisy',
         tickets: 105,
-        dateAdded: '2023/11/14'
+        dateAdded: '2023-11-14'
     },
     {
         id: 22,
@@ -173,7 +173,7 @@ const filmsData = [
         rating: 9.4,
         language: 'dubbing',
         tickets: 110,
-        dateAdded: '2023/11/15'
+        dateAdded: '2023-11-15'
     },
     {
         id: 23,
@@ -181,7 +181,7 @@ const filmsData = [
         rating: 8.6,
         language: 'napisy',
         tickets: 95,
-        dateAdded: '2023/11/16'
+        dateAdded: '2023-11-16'
     },
     {
         id: 24,
@@ -189,7 +189,7 @@ const filmsData = [
         rating: 8.7,
         language: 'polski',
         tickets: 90,
-        dateAdded: '2023/11/17'
+        dateAdded: '2023-11-17'
     },
     {
         id: 25,
@@ -197,7 +197,7 @@ const filmsData = [
         rating: 9.3,
         language: 'napisy',
         tickets: 100,
-        dateAdded: '2023/11/18'
+        dateAdded: '2023-11-18'
     },
     {
         id: 26,
@@ -205,7 +205,7 @@ const filmsData = [
         rating: 8.3,
         language: 'napisy',
         tickets: 90,
-        dateAdded: '2023/11/19'
+        dateAdded: '2023-11-19'
     },
     {
         id: 27,
@@ -213,7 +213,7 @@ const filmsData = [
         rating: 9.1,
         language: 'polski',
         tickets: 95,
-        dateAdded: '2023/11/20'
+        dateAdded: '2023-11-20'
     },
     {
         id: 28,
@@ -221,7 +221,7 @@ const filmsData = [
         rating: 8.7,
         language: 'dubbing',
         tickets: 100,
-        dateAdded: '2023/11/21'
+        dateAdded: '2023-11-21'
     },
     {
         id: 29,
@@ -229,7 +229,7 @@ const filmsData = [
         rating: 8.9,
         language: 'napisy',
         tickets: 105,
-        dateAdded: '2023/11/22'
+        dateAdded: '2023-11-22'
     },
     {
         id: 30,
@@ -237,7 +237,7 @@ const filmsData = [
         rating: 9.2,
         language: 'polski',
         tickets: 110,
-        dateAdded: '2023/11/23'
+        dateAdded: '2023-11-23'
     },
     {
         id: 31,
@@ -245,7 +245,7 @@ const filmsData = [
         rating: 8.5,
         language: 'napisy',
         tickets: 95,
-        dateAdded: '2023/11/24'
+        dateAdded: '2023-11-24'
     },
     {
         id: 32,
@@ -253,7 +253,7 @@ const filmsData = [
         rating: 8.8,
         language: 'dubbing',
         tickets: 90,
-        dateAdded: '2023/11/25'
+        dateAdded: '2023-11-25'
     },
     {
         id: 33,
@@ -261,7 +261,7 @@ const filmsData = [
         rating: 9.0,
         language: 'napisy',
         tickets: 100,
-        dateAdded: '2023/11/26'
+        dateAdded: '2023-11-26'
     },
     {
         id: 34,
@@ -269,7 +269,7 @@ const filmsData = [
         rating: 9.4,
         language: 'polski',
         tickets: 115,
-        dateAdded: '2023/11/27'
+        dateAdded: '2023-11-27'
     },
     {
         id: 35,
@@ -277,7 +277,7 @@ const filmsData = [
         rating: 9.2,
         language: 'napisy',
         tickets: 105,
-        dateAdded: '2023/11/28'
+        dateAdded: '2023-11-28'
     },
     {
         id: 36,
@@ -285,7 +285,7 @@ const filmsData = [
         rating: 8.6,
         language: 'dubbing',
         tickets: 95,
-        dateAdded: '2023/11/29'
+        dateAdded: '2023-11-29'
     },
     {
         id: 37,
@@ -293,7 +293,7 @@ const filmsData = [
         rating: 9.5,
         language: 'napisy',
         tickets: 110,
-        dateAdded: '2023/11/30'
+        dateAdded: '2023-11-30'
     },
     {
         id: 38,
@@ -301,7 +301,7 @@ const filmsData = [
         rating: 9.0,
         language: 'polski',
         tickets: 100,
-        dateAdded: '2023/12/01'
+        dateAdded: '2023-12-01'
     },
     {
         id: 39,
@@ -309,7 +309,7 @@ const filmsData = [
         rating: 9.3,
         language: 'napisy',
         tickets: 105,
-        dateAdded: '2023/12/02'
+        dateAdded: '2023-12-02'
     },
     {
         id: 40,
@@ -317,7 +317,7 @@ const filmsData = [
         rating: 8.7,
         language: 'dubbing',
         tickets: 95,
-        dateAdded: '2023/12/03'
+        dateAdded: '2023-12-03'
     },
     {
         id: 41,
@@ -325,7 +325,7 @@ const filmsData = [
         rating: 9.7,
         language: 'napisy',
         tickets: 120,
-        dateAdded: '2023/12/04'
+        dateAdded: '2023-12-04'
     },
     {
         id: 42,
@@ -333,7 +333,7 @@ const filmsData = [
         rating: 9.3,
         language: 'polski',
         tickets: 110,
-        dateAdded: '2023/12/05'
+        dateAdded: '2023-12-05'
     },
     {
         id: 43,
@@ -341,7 +341,7 @@ const filmsData = [
         rating: 9.1,
         language: 'napisy',
         tickets: 105,
-        dateAdded: '2023/12/06'
+        dateAdded: '2023-12-06'
     },
     {
         id: 44,
@@ -349,7 +349,7 @@ const filmsData = [
         rating: 9.2,
         language: 'dubbing',
         tickets: 100,
-        dateAdded: '2023/12/07'
+        dateAdded: '2023-12-07'
     },
     {
         id: 45,
@@ -357,7 +357,7 @@ const filmsData = [
         rating: 8.5,
         language: 'napisy',
         tickets: 95,
-        dateAdded: '2023/12/08'
+        dateAdded: '2023-12-08'
     },
     {
         id: 46,
@@ -365,7 +365,7 @@ const filmsData = [
         rating: 8.8,
         language: 'polski',
         tickets: 90,
-        dateAdded: '2023/12/09'
+        dateAdded: '2023-12-09'
     },
     {
         id: 47,
@@ -373,7 +373,7 @@ const filmsData = [
         rating: 9.6,
         language: 'napisy',
         tickets: 125,
-        dateAdded: '2023/12/10'
+        dateAdded: '2023-12-10'
     },
     {
         id: 48,
@@ -381,7 +381,7 @@ const filmsData = [
         rating: 8.9,
         language: 'dubbing',
         tickets: 105,
-        dateAdded: '2023/12/11'
+        dateAdded: '2023-12-11'
     },
     {
         id: 49,
@@ -389,7 +389,7 @@ const filmsData = [
         rating: 8.7,
         language: 'napisy',
         tickets: 95,
-        dateAdded: '2023/12/12'
+        dateAdded: '2023-12-12'
     },
     {
         id: 50,
@@ -397,7 +397,7 @@ const filmsData = [
         rating: 8.4,
         language: 'polski',
         tickets: 90,
-        dateAdded: '2023/12/13'
+        dateAdded: '2023-12-13'
     },
     {
         id: 51,
@@ -405,7 +405,7 @@ const filmsData = [
         rating: 8.6,
         language: 'napisy',
         tickets: 110,
-        dateAdded: '2023/12/14'
+        dateAdded: '2023-12-14'
     },
     {
         id: 52,
@@ -413,7 +413,7 @@ const filmsData = [
         rating: 8.9,
         language: 'dubbing',
         tickets: 105,
-        dateAdded: '2023/12/15'
+        dateAdded: '2023-12-15'
     },
     {
         id: 53,
@@ -421,7 +421,7 @@ const filmsData = [
         rating: 9.2,
         language: 'polski',
         tickets: 100,
-        dateAdded: '2023/12/16'
+        dateAdded: '2023-12-16'
     },
     {
         id: 54,
@@ -429,7 +429,7 @@ const filmsData = [
         rating: 8.5,
         language: 'napisy',
         tickets: 95,
-        dateAdded: '2023/12/17'
+        dateAdded: '2023-12-17'
     },
     {
         id: 55,
@@ -437,7 +437,7 @@ const filmsData = [
         rating: 8.7,
         language: 'dubbing',
         tickets: 90,
-        dateAdded: '2023/12/18'
+        dateAdded: '2023-12-18'
     },
     {
         id: 56,
@@ -445,7 +445,7 @@ const filmsData = [
         rating: 8.4,
         language: 'napisy',
         tickets: 85,
-        dateAdded: '2023/12/19'
+        dateAdded: '2023-12-19'
     }
 ];
 
