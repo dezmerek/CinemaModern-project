@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import UniversalTable from '../TableUniversal/TableUniversal';
-import usersData from '../../../data/usersData';
+import data from '../../../data/usersData';
 import SearchBar from '../TableUniversal/TableSearch';
 import UserEdit from './UserEdit';
 import UserPreview from './UserPreview';
@@ -10,10 +10,10 @@ import '../../../Styles/layout/_ListUniversal.scss';
 
 const UsersView = () => {
   const [searchText, setSearchText] = useState('');
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [userToDelete, setUserToDelete] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [itemToDelete, setItemToDelete] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedUser, setEditedUser] = useState(null);
+  const [editedItem, setEditedItem] = useState(null);
 
   const userColumns = ['id', 'firstName', 'lastName', 'role', 'phoneNumber'];
 
@@ -34,42 +34,41 @@ const UsersView = () => {
     setSearchText(newSearchText);
   };
 
-  const handlePreview = (user) => {
-    setSelectedUser(user);
+  const handlePreview = (item) => {
+    setSelectedItem(item);
   };
 
   const handleClosePreview = () => {
-    setSelectedUser(null);
+    setSelectedItem(null);
   };
 
-  const startEditing = (user) => {
+  const startEditing = (item) => {
     setIsEditing(true);
-    setEditedUser(user);
+    setEditedItem(item);
   };
 
-  const handleSaveEdit = (editedUser) => {
+  const handleSaveEdit = (editedItem) => {
     setIsEditing(false);
-    setEditedUser(null);
+    setEditedItem(null);
   };
 
-  const showDeleteConfirmation = (user) => {
-    setUserToDelete(user);
+  const showDeleteConfirmation = (item) => {
+    setItemToDelete(item);
   };
 
   const handleDelete = () => {
-    if (userToDelete) {
-      console.log(`Deleting user with ID ${userToDelete.id}`);
-      setUserToDelete(null);
+    if (itemToDelete) {
+      setItemToDelete(null);
     }
   };
 
   const handleCancelDelete = () => {
-    setUserToDelete(null);
+    setItemToDelete(null);
   };
 
-  const filteredUsersData = usersData.filter((user) => {
-    const userDataString = Object.values(user).join(' ').toLowerCase();
-    return userDataString.includes(searchText.toLowerCase());
+  const filteredData = data.filter((item) => {
+    const itemDataString = Object.values(item).join(' ').toLowerCase();
+    return itemDataString.includes(searchText.toLowerCase());
   });
 
   return (
@@ -82,7 +81,7 @@ const UsersView = () => {
       </div>
 
       <UniversalTable
-        data={filteredUsersData}
+        data={filteredData}
         columns={columnsMap}
         onPreview={handlePreview}
         onEdit={startEditing}
@@ -92,20 +91,20 @@ const UsersView = () => {
       {isEditing && (
         <div>
           <UserEdit
-            user={editedUser}
+            user={editedItem}
             onSave={handleSaveEdit}
             onCancel={() => setIsEditing(false)}
           />
         </div>
       )}
 
-      {selectedUser && (
-        <UserPreview user={selectedUser} onClose={handleClosePreview} />
+      {selectedItem && (
+        <UserPreview user={selectedItem} onClose={handleClosePreview} />
       )}
 
-      {userToDelete && (
+      {itemToDelete && (
         <UserDelete
-          item={userToDelete}
+          item={itemToDelete}
           onDelete={handleDelete}
           onCancel={handleCancelDelete}
         />
