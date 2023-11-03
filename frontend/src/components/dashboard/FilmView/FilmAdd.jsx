@@ -37,29 +37,69 @@ const FilmAdd = () => {
     <>
       <h2>Dodaj nowy film</h2>
 
-      <form>
-        <input type="file" name="" accept="image/*" />
-        <input type="text" name="title" placeholder="Tytuł" required />
-        <textarea
-          type="text"
-          name="description"
-          placeholder="Opis"
-          required
-        ></textarea>
-        <input
-          type="number"
-          name="duration"
-          placeholder="Czas trwania (minuty)"
-          required
-        />
-        <input type="text" name="director" placeholder="reżyseria" required />
-        <input type="text" name="writer" placeholder="scenariusz" required />
-        <label>Data premiery (świat)</label>
-        <input type="date" name="releaseDateWorld" required />
-        <label>Data premiery (polska)</label>
-        <input type="date" name="releaseDatePoland" required />
+      <form className="film-add">
+        <div className="film-add__container">
+          <div className="film-add__banner">
+            <input type="file" name="" accept="image/*" />
+          </div>
+          <div className="film-add__content">
+            <input type="text" name="title" placeholder="Tytuł" required />
+            <textarea
+              type="text"
+              name="description"
+              placeholder="Opis"
+              required
+            ></textarea>
+            <input
+              type="number"
+              name="duration"
+              placeholder="Czas trwania (minuty)"
+              required
+            />
+            <div className="film-add__director-writer">
+              <div>
+                <input
+                  type="text"
+                  name="director"
+                  placeholder="reżyseria"
+                  required
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="writer"
+                  placeholder="scenariusz"
+                  required
+                />
+              </div>
+            </div>
+            <div className="film-add__dates">
+              <div>
+                <label>Data premiery (świat)</label>
+                <input
+                  type="text"
+                  pattern="\d{2}.\d{2}.\d{4}"
+                  placeholder="dd.mm.rrrr"
+                  name="releaseDateWorld"
+                  required
+                />
+              </div>
+              <div>
+                <label>Data premiery (polska)</label>
+                <input
+                  type="text"
+                  pattern="\d{2}.\d{2}.\d{4}"
+                  placeholder="dd.mm.rrrr"
+                  name="releaseDatePoland"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <label>
+        <div className="film-add__genre">
           {movieGenres.map((genre) => (
             <div key={genre}>
               <label>
@@ -72,7 +112,7 @@ const FilmAdd = () => {
               </label>
             </div>
           ))}
-        </label>
+        </div>
 
         <label>
           <input type="radio" name="language" />
