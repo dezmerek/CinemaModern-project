@@ -99,36 +99,63 @@ const FilmAdd = () => {
           </div>
         </div>
 
-        <div className="film-add__genre">
-          {movieGenres.map((genre) => (
-            <div key={genre}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={genresChecked[genre]}
-                  onChange={() => handleGenreChange(genre)}
-                />
-                {genre}
-              </label>
+        <div className="film-add__content-down">
+          <div className="film-add__genre">
+            <div className="film-add__genre--title">Wybierz gatunek</div>
+            <div className="film-add__genre--content">
+              {movieGenres.map((genre) => (
+                <div key={genre}>
+                  <input
+                    type="checkbox"
+                    checked={genresChecked[genre]}
+                    onChange={() => handleGenreChange(genre)}
+                  />
+                  <label>{genre}</label>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
 
-        <label>
-          <input type="radio" name="language" />
-          Polski
-        </label>
-        <label>
-          <input type="radio" name="language" />
-          Napisy
-        </label>
-        <label>
-          <input type="radio" name="language" />
-          Dubbing
-        </label>
-        <input type="url" name="trailerLink" placeholder="https://" required />
-        <input type="file" accept="image/*" name="trailerBanner" required />
-        <button>Dodaj film</button>
+          <div className="film-add__languages">
+            <div className="film-add__languages--title">Język</div>
+            <div className="film-add__languages--content">
+              <div>
+                <input type="radio" name="language" />
+                <label>Polski</label>
+              </div>
+              <div>
+                <input type="radio" name="language" />
+                <label>Napisy</label>
+              </div>
+              <div>
+                <input type="radio" name="language" />
+                <label>Dubbing</label>
+              </div>
+            </div>
+          </div>
+
+          <div className="film-add__trailer">
+            <div>
+              <label>Link do trailer</label>
+              <input
+                type="url"
+                name="trailerLink"
+                placeholder="https://"
+                required
+              />
+            </div>
+            <div>
+              <label>Wybierz banner trailer (255 x 170)</label>
+              <input
+                type="file"
+                accept="image/*"
+                name="trailerBanner"
+                required
+              />
+            </div>
+          </div>
+        </div>
+        <button className="film-add__btn-save">Dodaj film</button>
       </form>
     </>
   );
