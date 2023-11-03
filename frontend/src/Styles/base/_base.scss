@@ -30,6 +30,7 @@ input[type="date"],
 input[type="number"],
 textarea {
     font-family: $font-inter;
+    color: $white-color;
 }
 
 ::-webkit-calendar-picker-indicator {
@@ -37,6 +38,6 @@ textarea {
 }
 
 
-input::placeholder {
+::placeholder {
     color: $white-color;
 }
