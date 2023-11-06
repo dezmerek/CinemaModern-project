@@ -23,7 +23,8 @@
         justify-content: center;
         text-align: center;
         min-width: 255px;
-        min-height: 420px;
+        max-width: 255px;
+        height: 420px;
 
         input[type="file"] {
             width: 100%;
