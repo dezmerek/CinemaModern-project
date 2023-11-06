@@ -46,11 +46,41 @@ const FilmAdd = () => {
     }
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    try {
+      const response = await fetch('http://localhost:3001/api/movies', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Film został dodany:', responseData);
+        // Tutaj możesz dodać logikę do obsługi sukcesu
+      } else {
+        console.error('Błąd dodawania filmu:', await response.text());
+
+        // Tutaj możesz dodać logikę do obsługi błędów
+      }
+    } catch (error) {
+      console.error('Błąd sieci:', error);
+      // Obsługa błędów związanych z siecią
+    }
+  };
+
   return (
     <>
       <h2>Dodaj nowy film</h2>
 
-      <form className="film-add">
+      <form className="film-add" onSubmit={handleSubmit}>
         <div className="film-add__container">
           <div className="film-add__banner">
             <input
@@ -145,15 +175,15 @@ const FilmAdd = () => {
             <div className="film-add__languages--title">Język</div>
             <div className="film-add__languages--content">
               <div>
-                <input type="radio" name="language" />
+                <input type="radio" name="language" value="polski" required />
                 <label>Polski</label>
               </div>
               <div>
-                <input type="radio" name="language" />
+                <input type="radio" name="language" value="napisy" required />
                 <label>Napisy</label>
               </div>
               <div>
-                <input type="radio" name="language" />
+                <input type="radio" name="language" value="dubbing" required />
                 <label>Dubbing</label>
               </div>
             </div>
