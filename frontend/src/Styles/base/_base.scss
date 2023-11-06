@@ -41,3 +41,10 @@ textarea {
 ::placeholder {
     color: $white-color;
 }
+
+@media (max-width: 1110px) {
+    body {
+        padding-right: 0.75rem;
+        padding-left: 0.75rem;
+    }
+}
