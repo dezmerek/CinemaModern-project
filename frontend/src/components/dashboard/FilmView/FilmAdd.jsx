@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../../../Styles/layout/_FilmAdd.scss';
 
 const FilmAdd = () => {
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const movieGenres = [
     'thriller',
     'romans',
@@ -33,6 +35,17 @@ const FilmAdd = () => {
     });
   };
 
+  const handleImageChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setSelectedImage(event.target.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
   return (
     <>
       <h2>Dodaj nowy film</h2>
@@ -40,8 +53,20 @@ const FilmAdd = () => {
       <form className="film-add">
         <div className="film-add__container">
           <div className="film-add__banner">
-            <input type="file" name="" accept="image/*" />
+            <input
+              type="file"
+              name=""
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            {selectedImage && <img src={selectedImage} alt="Podgląd obrazu" />}
+            {!selectedImage && (
+              <label>
+                Dodaj baner<br></br>(255 x 420)
+              </label>
+            )}
           </div>
+
           <div className="film-add__content">
             <input type="text" name="title" placeholder="Tytuł" required />
             <textarea
