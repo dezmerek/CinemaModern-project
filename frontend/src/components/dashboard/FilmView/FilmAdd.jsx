@@ -49,8 +49,13 @@ const FilmAdd = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const selectedGenres = Object.keys(genresChecked).filter(
+      (genre) => genresChecked[genre]
+    );
+
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+    data.genres = selectedGenres;
 
     try {
       const response = await fetch('http://localhost:3001/api/movies', {
