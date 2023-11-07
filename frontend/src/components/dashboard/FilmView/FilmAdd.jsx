@@ -90,7 +90,7 @@ const FilmAdd = () => {
           <div className="film-add__banner">
             <input
               type="file"
-              name=""
+              name="bannerImage"
               accept="image/*"
               onChange={handleImageChange}
             />
