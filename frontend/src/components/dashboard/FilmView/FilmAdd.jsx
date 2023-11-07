@@ -103,35 +103,23 @@ const FilmAdd = () => {
           </div>
 
           <div className="film-add__content">
-            <input type="text" name="title" placeholder="Tytuł" required />
+            <input type="text" name="title" placeholder="Tytuł" />
             <textarea
               type="text"
               name="description"
               placeholder="Opis"
-              required
             ></textarea>
             <input
               type="number"
               name="duration"
               placeholder="Czas trwania (minuty)"
-              required
             />
             <div className="film-add__director-writer">
               <div>
-                <input
-                  type="text"
-                  name="director"
-                  placeholder="reżyseria"
-                  required
-                />
+                <input type="text" name="director" placeholder="reżyseria" />
               </div>
               <div>
-                <input
-                  type="text"
-                  name="writer"
-                  placeholder="scenariusz"
-                  required
-                />
+                <input type="text" name="writer" placeholder="scenariusz" />
               </div>
             </div>
             <div className="film-add__dates">
@@ -142,7 +130,6 @@ const FilmAdd = () => {
                   pattern="\d{2}.\d{2}.\d{4}"
                   placeholder="dd.mm.rrrr"
                   name="releaseDateWorld"
-                  required
                 />
               </div>
               <div>
@@ -152,7 +139,6 @@ const FilmAdd = () => {
                   pattern="\d{2}.\d{2}.\d{4}"
                   placeholder="dd.mm.rrrr"
                   name="releaseDatePoland"
-                  required
                 />
               </div>
             </div>
@@ -180,15 +166,15 @@ const FilmAdd = () => {
             <div className="film-add__languages--title">Język</div>
             <div className="film-add__languages--content">
               <div>
-                <input type="radio" name="language" value="polski" required />
+                <input type="radio" name="language" value="polski" />
                 <label>Polski</label>
               </div>
               <div>
-                <input type="radio" name="language" value="napisy" required />
+                <input type="radio" name="language" value="napisy" />
                 <label>Napisy</label>
               </div>
               <div>
-                <input type="radio" name="language" value="dubbing" required />
+                <input type="radio" name="language" value="dubbing" />
                 <label>Dubbing</label>
               </div>
             </div>
@@ -197,21 +183,11 @@ const FilmAdd = () => {
           <div className="film-add__trailer">
             <div>
               <label>Link do trailer</label>
-              <input
-                type="url"
-                name="trailerLink"
-                placeholder="https://"
-                required
-              />
+              <input type="url" name="trailerLink" placeholder="https://" />
             </div>
             <div>
               <label>Wybierz banner trailer (255 x 170)</label>
-              <input
-                type="file"
-                accept="image/*"
-                name="trailerBanner"
-                required
-              />
+              <input type="file" accept="image/*" name="trailerBanner" />
             </div>
           </div>
         </div>
