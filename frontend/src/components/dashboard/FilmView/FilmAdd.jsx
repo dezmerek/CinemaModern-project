@@ -69,15 +69,11 @@ const FilmAdd = () => {
       if (response.ok) {
         const responseData = await response.json();
         console.log('Film został dodany:', responseData);
-        // Tutaj możesz dodać logikę do obsługi sukcesu
       } else {
         console.error('Błąd dodawania filmu:', await response.text());
-
-        // Tutaj możesz dodać logikę do obsługi błędów
       }
     } catch (error) {
       console.error('Błąd sieci:', error);
-      // Obsługa błędów związanych z siecią
     }
   };
 
