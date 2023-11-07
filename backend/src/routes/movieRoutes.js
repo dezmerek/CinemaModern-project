@@ -1,7 +1,21 @@
 import express from 'express';
+import fs from "fs";
 import Movie from '../models/movie.js';
 
 const router = express.Router();
+const uploadFolder = "public/images/movieBanners";
+const trailerUploadFolder = "public/images/trailerBanners";
+
+function createUploadFolders() {
+    if (!fs.existsSync(uploadFolder)) {
+        fs.mkdirSync(uploadFolder, { recursive: true });
+    }
+    if (!fs.existsSync(trailerUploadFolder)) {
+        fs.mkdirSync(trailerUploadFolder, { recursive: true });
+    }
+}
+
+createUploadFolders();
 
 router.post('/', async (req, res) => {
     const movie = new Movie({
