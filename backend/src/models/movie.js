@@ -17,6 +17,10 @@ const movieSchema = new mongoose.Schema({
     trailerLink: String,
     mainBannerImage: String,
     trailerBannerImage: String,
+    dateAdded: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
