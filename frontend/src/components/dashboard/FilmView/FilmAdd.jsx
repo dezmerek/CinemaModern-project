@@ -149,6 +149,7 @@ const FilmAdd = () => {
               name="mainBannerImage"
               accept="image/*"
               onChange={handleMainBannerChange}
+              required
             />
             {selectedImage && <img src={selectedImage} alt="Podgląd obrazu" />}
             {!selectedImage && (
@@ -159,42 +160,54 @@ const FilmAdd = () => {
           </div>
 
           <div className="film-add__content">
-            <input type="text" name="title" placeholder="Tytuł" />
+            <input type="text" name="title" placeholder="Tytuł" required />
             <textarea
               type="text"
               name="description"
               placeholder="Opis"
+              required
             ></textarea>
             <input
               type="number"
               name="duration"
               placeholder="Czas trwania (minuty)"
+              required
             />
             <div className="film-add__director-writer">
               <div>
-                <input type="text" name="director" placeholder="reżyseria" />
+                <input
+                  type="text"
+                  name="director"
+                  placeholder="reżyseria"
+                  required
+                />
               </div>
               <div>
-                <input type="text" name="writer" placeholder="scenariusz" />
+                <input
+                  type="text"
+                  name="writer"
+                  placeholder="scenariusz"
+                  required
+                />
               </div>
             </div>
             <div className="film-add__dates">
               <div>
                 <label>Data premiery (świat)</label>
                 <input
-                  type="text"
-                  pattern="\d{2}.\d{2}.\d{4}"
+                  type="date"
                   placeholder="dd.mm.rrrr"
                   name="releaseDateWorld"
+                  required
                 />
               </div>
               <div>
                 <label>Data premiery (polska)</label>
                 <input
-                  type="text"
-                  pattern="\d{2}.\d{2}.\d{4}"
+                  type="date"
                   placeholder="dd.mm.rrrr"
                   name="releaseDatePoland"
+                  required
                 />
               </div>
             </div>
@@ -231,16 +244,16 @@ const FilmAdd = () => {
                   type="radio"
                   name="language"
                   value="polski"
-                  defaultChecked
+                  defaultCheckedrequired
                 />
                 <label>Polski</label>
               </div>
               <div>
-                <input type="radio" name="language" value="napisy" />
+                <input type="radio" name="language" value="napisy" required />
                 <label>Napisy</label>
               </div>
               <div>
-                <input type="radio" name="language" value="dubbing" />
+                <input type="radio" name="language" value="dubbing" required />
                 <label>Dubbing</label>
               </div>
             </div>
@@ -248,8 +261,13 @@ const FilmAdd = () => {
 
           <div className="film-add__trailer">
             <div>
-              <label>Link do trailer</label>
-              <input type="url" name="trailerLink" placeholder="https://" />
+              <label>Link do trailer (youtube)</label>
+              <input
+                type="url"
+                name="trailerLink"
+                placeholder="https://"
+                required
+              />
             </div>
             <div>
               <label>Wybierz banner trailer (255 x 170)</label>
@@ -258,6 +276,7 @@ const FilmAdd = () => {
                 accept="image/*"
                 name="trailerBannerImage"
                 onChange={handleTrailerBannerChange}
+                required
               />
             </div>
           </div>
