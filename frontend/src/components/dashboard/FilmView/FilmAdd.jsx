@@ -35,7 +35,7 @@ const FilmAdd = () => {
     });
   };
 
-  const handleImageChange = (event) => {
+  const handleMainBannerChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
@@ -53,27 +53,47 @@ const FilmAdd = () => {
       (genre) => genresChecked[genre]
     );
 
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    data.genres = selectedGenres;
+    const formData = new FormData();
+    formData.append('title', event.target.title.value);
+    formData.append('description', event.target.description.value);
+    formData.append('duration', event.target.duration.value);
+    formData.append('director', event.target.director.value);
+    formData.append('writer', event.target.writer.value);
+    formData.append('releaseDateWorld', event.target.releaseDateWorld.value);
+    formData.append('releaseDatePoland', event.target.releaseDatePoland.value);
+    formData.append('language', event.target.language.value);
+    formData.append('trailerLink', event.target.trailerLink.value);
+
+    if (event.target.bannerImage && event.target.bannerImage.files.length > 0) {
+      formData.append('mainBannerImage', event.target.bannerImage.files[0]);
+    }
+
+    if (
+      event.target.trailerBanner &&
+      event.target.trailerBanner.files.length > 0
+    ) {
+      formData.append(
+        'trailerBannerImage',
+        event.target.trailerBanner.files[0]
+      );
+    }
+
+    formData.append('genres', JSON.stringify(selectedGenres));
 
     try {
       const response = await fetch('http://localhost:3001/api/movies', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       if (response.ok) {
         const responseData = await response.json();
-        console.log('Film został dodany:', responseData);
+        console.log('Film added:', responseData);
       } else {
-        console.error('Błąd dodawania filmu:', await response.text());
+        console.error('Error adding film:', await response.text());
       }
     } catch (error) {
-      console.error('Błąd sieci:', error);
+      console.error('Network Error:', error);
     }
   };
 
@@ -86,9 +106,9 @@ const FilmAdd = () => {
           <div className="film-add__banner">
             <input
               type="file"
-              name="bannerImage"
+              name="mainBannerImage"
               accept="image/*"
-              onChange={handleImageChange}
+              onChange={handleMainBannerChange}
             />
             {selectedImage && <img src={selectedImage} alt="Podgląd obrazu" />}
             {!selectedImage && (
@@ -162,7 +182,12 @@ const FilmAdd = () => {
             <div className="film-add__languages--title">Język</div>
             <div className="film-add__languages--content">
               <div>
-                <input type="radio" name="language" value="polski" />
+                <input
+                  type="radio"
+                  name="language"
+                  value="polski"
+                  defaultChecked
+                />
                 <label>Polski</label>
               </div>
               <div>
@@ -183,7 +208,7 @@ const FilmAdd = () => {
             </div>
             <div>
               <label>Wybierz banner trailer (255 x 170)</label>
-              <input type="file" accept="image/*" name="trailerBanner" />
+              <input type="file" accept="image/*" name="trailerBannerImage" />
             </div>
           </div>
         </div>

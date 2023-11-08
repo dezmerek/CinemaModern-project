@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const movieSchema = new mongoose.Schema({
+    movieID: Number,
     title: String,
     description: String,
     duration: Number,
@@ -14,8 +15,8 @@ const movieSchema = new mongoose.Schema({
         enum: ['polski', 'napisy', 'dubbing']
     },
     trailerLink: String,
-    trailerBanner: String,
-    bannerImage: String
+    mainBannerImage: String,
+    trailerBannerImage: String,
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
