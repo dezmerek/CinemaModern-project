@@ -3,6 +3,7 @@ import '../../../Styles/layout/_FilmAdd.scss';
 
 const FilmAdd = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [genreError, setGenreError] = useState(false);
 
   const movieGenres = [
     'thriller',
@@ -80,6 +81,14 @@ const FilmAdd = () => {
     const selectedGenres = Object.keys(genresChecked).filter(
       (genre) => genresChecked[genre]
     );
+
+    if (selectedGenres.length === 0) {
+      // Wyświetlenie błędu gdy nie jest zaznaczony żaden gatunek
+      setGenreError(true);
+      return;
+    } else {
+      setGenreError(false); // Usunięcie ewentualnego wcześniejszego błędu
+    }
 
     const formData = new FormData();
     formData.append('title', event.target.title.value);
@@ -194,7 +203,7 @@ const FilmAdd = () => {
 
         <div className="film-add__content-down">
           <div className="film-add__genre">
-            <div className="film-add__genre--title">Wybierz gatunek</div>
+            <div className="film-add__genre--title">Wybierz gatunek *</div>
             <div className="film-add__genre--content">
               {movieGenres.map((genre) => (
                 <div key={genre}>
@@ -206,6 +215,11 @@ const FilmAdd = () => {
                   <label>{genre}</label>
                 </div>
               ))}
+              {genreError && (
+                <p style={{ color: 'red', marginTop: '0.5rem' }}>
+                  Proszę wybrać przynajmniej jeden gatunek filmu.
+                </p>
+              )}
             </div>
           </div>
 
