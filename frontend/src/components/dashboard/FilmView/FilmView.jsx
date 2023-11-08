@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UniversalTable from '../TableUniversal/TableUniversal';
-import data from '../../../data/filmsData';
 import SearchBar from '../TableUniversal/TableSearch';
 import FilmEdit from './FilmEdit';
 import FilmPreview from './FilmPreview';
@@ -9,29 +8,38 @@ import FilmDelete from './FilmDelete';
 import '../../../Styles/layout/_ListUniversal.scss';
 
 const FilmView = () => {
+  const [films, setFilms] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedItem, setEditedItem] = useState(null);
 
-  const filmColumns = [
-    'id',
-    'title',
-    'rating',
-    'language',
-    'tickets',
-    'dateAdded',
-  ];
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
-  const translatedColumns = [
-    'ID',
-    'Tytuł',
-    'Ocena',
-    'Język',
-    'Bilety',
-    'Data Dodatnia',
-  ];
+  useEffect(() => {
+    async function fetchFilms() {
+      try {
+        const response = await fetch('http://localhost:3001/api/movies');
+        if (!response.ok) {
+          throw new Error('Failed to fetch films');
+        }
+        const data = await response.json();
+        setFilms(data);
+      } catch (error) {
+        console.error('Error fetching films:');
+      }
+    }
+
+    fetchFilms();
+  }, []);
+
+  const filmColumns = ['movieID', 'title', 'genres', 'language', 'dateAdded'];
+
+  const translatedColumns = ['ID', 'Tytuł', 'Gatunki', 'Język', 'Data dodania'];
 
   const columnsMap = filmColumns.map((column, index) => ({
     label: translatedColumns[index],
@@ -74,7 +82,7 @@ const FilmView = () => {
     setItemToDelete(null);
   };
 
-  const filteredData = data.filter((item) => {
+  const filteredData = films.filter((item) => {
     const itemDataString = Object.values(item).join(' ').toLowerCase();
     return itemDataString.includes(searchText.toLowerCase());
   });
@@ -89,7 +97,10 @@ const FilmView = () => {
       </div>
 
       <UniversalTable
-        data={filteredData}
+        data={filteredData.map((item) => ({
+          ...item,
+          dateAdded: formatDate(item.dateAdded),
+        }))}
         columns={columnsMap}
         onPreview={handlePreview}
         onEdit={startEditing}
