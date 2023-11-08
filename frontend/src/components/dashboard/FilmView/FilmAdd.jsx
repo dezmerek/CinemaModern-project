@@ -64,17 +64,20 @@ const FilmAdd = () => {
     formData.append('language', event.target.language.value);
     formData.append('trailerLink', event.target.trailerLink.value);
 
-    if (event.target.bannerImage && event.target.bannerImage.files.length > 0) {
-      formData.append('mainBannerImage', event.target.bannerImage.files[0]);
+    if (
+      event.target.mainBannerImage &&
+      event.target.mainBannerImage.files.length > 0
+    ) {
+      formData.append('mainBannerImage', event.target.mainBannerImage.files[0]);
     }
 
     if (
-      event.target.trailerBanner &&
-      event.target.trailerBanner.files.length > 0
+      event.target.trailerBannerImage &&
+      event.target.trailerBannerImage.files.length > 0
     ) {
       formData.append(
         'trailerBannerImage',
-        event.target.trailerBanner.files[0]
+        event.target.trailerBannerImage.files[0]
       );
     }
 
