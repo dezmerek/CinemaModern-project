@@ -39,10 +39,38 @@ const FilmAdd = () => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
-      reader.onload = (event) => {
-        setSelectedImage(event.target.result);
+
+      const image = new Image();
+      image.src = URL.createObjectURL(selectedFile);
+      image.onload = () => {
+        if (image.width === 255 && image.height === 420) {
+          reader.onload = (event) => {
+            setSelectedImage(event.target.result);
+          };
+          reader.readAsDataURL(selectedFile);
+        } else {
+          alert('Obraz baneru głównego musi mieć wymiary 255x420 pikseli.');
+          event.target.value = '';
+        }
       };
-      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const handleTrailerBannerChange = (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const reader = new FileReader();
+
+      const image = new Image();
+      image.src = URL.createObjectURL(selectedFile);
+      image.onload = () => {
+        if (image.width === 255 && image.height === 170) {
+          reader.readAsDataURL(selectedFile);
+        } else {
+          alert('Obraz baneru zwiastuna musi mieć wymiary 255x170 pikseli.');
+          event.target.value = '';
+        }
+      };
     }
   };
 
@@ -211,7 +239,12 @@ const FilmAdd = () => {
             </div>
             <div>
               <label>Wybierz banner trailer (255 x 170)</label>
-              <input type="file" accept="image/*" name="trailerBannerImage" />
+              <input
+                type="file"
+                accept="image/*"
+                name="trailerBannerImage"
+                onChange={handleTrailerBannerChange}
+              />
             </div>
           </div>
         </div>
