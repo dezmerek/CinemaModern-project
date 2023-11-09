@@ -72,35 +72,25 @@ const FilmView = () => {
     setItemToDelete(item);
   };
 
-  const handleDelete = async (item) => {
-    try {
-      if (!item || !item._id) {
-        throw new Error('Invalid movie data for deletion');
-      }
+  const handleDelete = () => {
+    if (itemToDelete) {
+      setItemToDelete(null);
+    }
+  };
 
-      const response = await fetch(
-        `http://localhost:3001/api/movies/${item._id}`,
-        {
-          method: 'DELETE',
-        }
-      );
+  const updateMovies = (updatedMovie) => {
+    const updatedMovieIndex = films.findIndex(
+      (movie) => movie._id === updatedMovie._id
+    );
 
-      if (!response.ok) {
-        throw new Error('Failed to delete the movie');
-      }
-      setFilms((prevFilms) =>
-        prevFilms.filter((movie) => movie._id !== item._id)
-      );
-    } catch (error) {
-      console.error('Error deleting movie:', error);
+    if (updatedMovieIndex !== -1) {
+      const updatedMovies = [...films];
+      updatedMovies[updatedMovieIndex] = updatedMovie;
+      setFilms(updatedMovies);
     }
   };
 
   const handleCancelDelete = () => {
-    setItemToDelete(null);
-  };
-
-  const handleCloseDeleteConfirmation = () => {
     setItemToDelete(null);
   };
 
@@ -133,7 +123,10 @@ const FilmView = () => {
         <div>
           <FilmEdit
             film={editedItem}
-            onSave={handleSaveEdit}
+            onSave={(updatedMovie) => {
+              handleSaveEdit(updatedMovie);
+              updateMovies(updatedMovie);
+            }}
             onCancel={() => setIsEditing(false)}
           />
         </div>
@@ -148,7 +141,6 @@ const FilmView = () => {
           item={itemToDelete}
           onDelete={handleDelete}
           onCancel={handleCancelDelete}
-          onClose={handleCloseDeleteConfirmation}
         />
       )}
     </div>

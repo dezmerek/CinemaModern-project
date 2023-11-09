@@ -95,20 +95,23 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
-    const { id } = req.params;
-
+router.put('/:id', async (req, res) => {
     try {
-        const deletedMovie = await Movie.findByIdAndDelete(id);
+        const movieId = req.params.id;
+        const updatedMovieData = req.body;
 
-        if (!deletedMovie) {
-            return res.status(404).json({ message: 'Movie not found' });
+        const updatedMovie = await Movie.findByIdAndUpdate(movieId, updatedMovieData, { new: true });
+
+        if (!updatedMovie) {
+            return res.status(404).json({ error: 'Movie not found' });
         }
 
-        res.status(200).json({ message: 'Movie deleted successfully' });
+        res.status(200).json(updatedMovie);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
 
 export default router;

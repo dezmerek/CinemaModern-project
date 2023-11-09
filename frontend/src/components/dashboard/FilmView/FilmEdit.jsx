@@ -9,10 +9,28 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
     setEditedFilm({ ...editedFilm, [name]: value });
   };
 
-  const handleSave = () => {
-    onSave(editedFilm);
-  };
+  const handleSave = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/movies/${editedFilm._id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(editedFilm),
+        }
+      );
 
+      if (!response.ok) {
+        throw new Error('Failed to save changes');
+      }
+
+      onSave(editedFilm);
+    } catch (error) {
+      console.error('Error saving changes:', error);
+    }
+  };
   return (
     <div className="universal-edit">
       <div className="universal-edit__content">
@@ -22,7 +40,7 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
             <label className="universal-edit__label">ID:</label>
             <input
               type="number"
-              name="id"
+              name="movieID"
               value={editedFilm.movieID}
               onChange={handleInputChange}
               disabled
@@ -38,11 +56,11 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
             />
           </div>
           <div>
-            <label className="universal-edit__label">Ocena:</label>
+            <label className="universal-edit__label">Opis:</label>
             <input
-              type="number"
-              name="rating"
-              value={editedFilm.rating}
+              type="text"
+              name="description"
+              value={editedFilm.description}
               onChange={handleInputChange}
             />
           </div>
@@ -52,24 +70,6 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
               type="text"
               name="language"
               value={editedFilm.language}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="universal-edit__label">Bilety:</label>
-            <input
-              type="number"
-              name="tickets"
-              value={editedFilm.tickets}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="universal-edit__label">Data dodania:</label>
-            <input
-              type="date"
-              name="dateAdded"
-              value={editedFilm.dateAdded}
               onChange={handleInputChange}
             />
           </div>
