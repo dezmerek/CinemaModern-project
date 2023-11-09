@@ -23,7 +23,7 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
             <input
               type="number"
               name="id"
-              value={editedFilm.id}
+              value={editedFilm.movieID}
               onChange={handleInputChange}
               disabled
             />

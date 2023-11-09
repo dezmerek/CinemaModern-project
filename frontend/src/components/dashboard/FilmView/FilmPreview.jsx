@@ -6,7 +6,7 @@ const FilmPreview = ({ film, onClose }) => {
     <div className="universal-preview">
       <div className="universal-preview__content">
         <h3>Podgląd filmu</h3>
-        <p>ID: {film.id}</p>
+        <p>ID: {film.movieID}</p>
         <p>Tytuł: {film.title}</p>
         <p>Ocena: {film.rating}</p>
         <p>Język: {film.language}</p>
