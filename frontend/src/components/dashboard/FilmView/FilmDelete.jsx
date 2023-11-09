@@ -1,9 +1,10 @@
 import React from 'react';
 import '../../../Styles/components/_UniversalDelete.scss';
 
-const UserDelete = ({ item, onDelete, onCancel }) => {
+const UserDelete = ({ item, onDelete, onCancel, onClose }) => {
   const handleDelete = () => {
     onDelete(item);
+    onClose();
   };
 
   return (

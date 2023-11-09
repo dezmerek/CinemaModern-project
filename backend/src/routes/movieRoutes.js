@@ -95,5 +95,20 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deletedMovie = await Movie.findByIdAndDelete(id);
+
+        if (!deletedMovie) {
+            return res.status(404).json({ message: 'Movie not found' });
+        }
+
+        res.status(200).json({ message: 'Movie deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
 
 export default router;
