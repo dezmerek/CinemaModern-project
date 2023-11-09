@@ -34,7 +34,7 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
   return (
     <div className="universal-edit">
       <div className="universal-edit__content">
-        <h3>Edycja użytkownika</h3>
+        <h3>Edycja filmu</h3>
         <form>
           <div>
             <label className="universal-edit__label">ID:</label>
