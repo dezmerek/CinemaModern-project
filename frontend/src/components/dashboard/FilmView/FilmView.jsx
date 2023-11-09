@@ -72,10 +72,34 @@ const FilmView = () => {
     setItemToDelete(item);
   };
 
-  const handleDelete = () => {
-    if (itemToDelete) {
-      setItemToDelete(null);
+  const handleDelete = async () => {
+    try {
+      if (itemToDelete) {
+        const response = await fetch(
+          `http://localhost:3001/api/movies/${itemToDelete._id}`,
+          {
+            method: 'DELETE',
+          }
+        );
+
+        if (response.ok) {
+          // Assuming the movie was deleted successfully
+          // You might want to update your local state to reflect this change
+          const updatedMovies = films.filter(
+            (movie) => movie._id !== itemToDelete._id
+          );
+          setFilms(updatedMovies);
+        } else {
+          console.error('Failed to delete the movie');
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting movie:', error);
     }
+  };
+
+  const handleCloseDeleteConfirmation = () => {
+    setItemToDelete(null);
   };
 
   const updateMovies = (updatedMovie) => {
@@ -141,6 +165,7 @@ const FilmView = () => {
           item={itemToDelete}
           onDelete={handleDelete}
           onCancel={handleCancelDelete}
+          onClose={handleCloseDeleteConfirmation}
         />
       )}
     </div>
