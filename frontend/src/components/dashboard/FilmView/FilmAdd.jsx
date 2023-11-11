@@ -141,12 +141,14 @@ const FilmAdd = () => {
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
+    document.getElementById('filmAddForm').reset();
+    setSelectedImage(null);
   };
   return (
     <>
       <h2>Dodaj nowy film</h2>
 
-      <form className="film-add" onSubmit={handleSubmit}>
+      <form id="filmAddForm" className="film-add" onSubmit={handleSubmit}>
         <div className="film-add__container">
           <div className="film-add__banner">
             <input
