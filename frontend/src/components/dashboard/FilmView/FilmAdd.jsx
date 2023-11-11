@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import '../../../Styles/layout/_FilmAdd.scss';
+import AddConfirmation from './FilmAddConfirmation';
 
 const FilmAdd = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [genreError, setGenreError] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const movieGenres = [
     'thriller',
@@ -83,11 +85,10 @@ const FilmAdd = () => {
     );
 
     if (selectedGenres.length === 0) {
-      // Wyświetlenie błędu gdy nie jest zaznaczony żaden gatunek
       setGenreError(true);
       return;
     } else {
-      setGenreError(false); // Usunięcie ewentualnego wcześniejszego błędu
+      setGenreError(false);
     }
 
     const formData = new FormData();
@@ -128,6 +129,7 @@ const FilmAdd = () => {
 
       if (response.ok) {
         const responseData = await response.json();
+        setShowConfirmation(true);
         console.log('Film added:', responseData);
       } else {
         console.error('Error adding film:', await response.text());
@@ -137,6 +139,9 @@ const FilmAdd = () => {
     }
   };
 
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
+  };
   return (
     <>
       <h2>Dodaj nowy film</h2>
@@ -283,6 +288,9 @@ const FilmAdd = () => {
         </div>
         <button className="film-add__btn-save">Dodaj film</button>
       </form>
+      {showConfirmation && (
+        <AddConfirmation onClose={handleConfirmationClose} />
+      )}
     </>
   );
 };
