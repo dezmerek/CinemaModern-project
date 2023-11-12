@@ -14,6 +14,7 @@ const FilmView = () => {
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedItem, setEditedItem] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -23,19 +24,19 @@ const FilmView = () => {
   useEffect(() => {
     async function fetchFilms() {
       try {
-        const response = await fetch('http://localhost:3001/api/movies');
+        const response = await fetch(`${apiUrl}/api/movies`);
         if (!response.ok) {
           throw new Error('Failed to fetch films');
         }
         const data = await response.json();
         setFilms(data);
       } catch (error) {
-        console.error('Error fetching films:');
+        console.error('Error fetching films:', error);
       }
     }
 
     fetchFilms();
-  }, []);
+  }, [apiUrl]);
 
   const filmColumns = ['movieID', 'title', 'genres', 'language', 'dateAdded'];
 
@@ -76,15 +77,13 @@ const FilmView = () => {
     try {
       if (itemToDelete) {
         const response = await fetch(
-          `http://localhost:3001/api/movies/${itemToDelete._id}`,
+          `${apiUrl}/api/movies/${itemToDelete._id}`,
           {
             method: 'DELETE',
           }
         );
 
         if (response.ok) {
-          // Assuming the movie was deleted successfully
-          // You might want to update your local state to reflect this change
           const updatedMovies = films.filter(
             (movie) => movie._id !== itemToDelete._id
           );

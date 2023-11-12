@@ -6,6 +6,7 @@ const FilmAdd = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [genreError, setGenreError] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const movieGenres = [
     'thriller',
@@ -122,7 +123,7 @@ const FilmAdd = () => {
     formData.append('genres', JSON.stringify(selectedGenres));
 
     try {
-      const response = await fetch('http://localhost:3001/api/movies', {
+      const response = await fetch(`${apiUrl}/api/movies`, {
         method: 'POST',
         body: formData,
       });
@@ -251,7 +252,8 @@ const FilmAdd = () => {
                   type="radio"
                   name="language"
                   value="polski"
-                  defaultCheckedrequired
+                  defaultChecked
+                  required
                 />
                 <label>Polski</label>
               </div>
