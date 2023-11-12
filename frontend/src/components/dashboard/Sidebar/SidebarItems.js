@@ -6,6 +6,7 @@ import {
     BsPeople,
     BsSticky,
     BsClockHistory,
+    BsRecordFill,
 } from 'react-icons/bs';
 
 const menuItems = [
@@ -21,13 +22,35 @@ const menuItems = [
     },
     {
         name: 'Filmy',
-        link: '/dashboard/films',
         icon: <BsFileEarmarkPlus />,
+        submenu: [
+            {
+                name: 'Lista filmów',
+                link: '/dashboard/films',
+                icon: <BsRecordFill />,
+            },
+            {
+                name: 'Dodaj film',
+                link: '/dashboard/films/add',
+                icon: <BsRecordFill />,
+            },
+        ],
     },
     {
         name: 'Sale',
-        link: '/dashboard/halls',
         icon: <BsEasel2 />,
+        submenu: [
+            {
+                name: 'Lista sal',
+                link: '/dashboard/halls',
+                icon: <BsRecordFill />,
+            },
+            {
+                name: 'Dodaj sale',
+                link: '/dashboard/halls/add',
+                icon: <BsRecordFill />,
+            },
+        ],
     },
     {
         name: 'Użytkownicy',
