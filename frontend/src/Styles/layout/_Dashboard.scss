@@ -1,0 +1,40 @@
+.dashboard {
+
+    &__stats {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 1rem;
+    }
+
+    &__stat-box {
+        background-color: rgb(21, 31, 48);
+        width: 100%;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem;
+
+        p {
+            margin: 0;
+            text-align: right;
+        }
+
+        &--30-last {
+            font-weight: 100;
+            font-size: 12px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        @media (min-width: 481px) {
+            width: calc(50% - 0.5rem);
+        }
+
+        @media (min-width: 768px) {
+            width: calc(25% - 1rem);
+        }
+    }
+}
