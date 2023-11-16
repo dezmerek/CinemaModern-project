@@ -1,4 +1,5 @@
 import React from 'react';
+import DashboardStat from './DashboardStat';
 import '../../../Styles/layout/_Dashboard.scss';
 
 const DashboardView = () => {
@@ -8,26 +9,26 @@ const DashboardView = () => {
 
       <div className="dashboard">
         <div className="dashboard__stats">
-          <div className="dashboard__stat-box">
-            <p>Sprzedanych biletów</p>
-            <p className="dashboard__stat-box--30-last">Ostatnie 30 dni</p>
-            <h1>2137</h1>
-          </div>
-          <div className="dashboard__stat-box">
-            <p>Nowych filmów</p>
-            <p className="dashboard__stat-box--30-last">Ostatnie 30 dni</p>
-            <h1>2137</h1>
-          </div>
-          <div className="dashboard__stat-box">
-            <p>Nowych użytkowników</p>
-            <p className="dashboard__stat-box--30-last">Ostatnie 30 dni</p>
-            <h1>2137</h1>
-          </div>
-          <div className="dashboard__stat-box">
-            <p>Napisanych Rezenzji</p>
-            <p className="dashboard__stat-box--30-last">Ostatnie 30 dni</p>
-            <h1>2137</h1>
-          </div>
+          <DashboardStat
+            title="Sprzedanych biletów"
+            subtitle="Ostatnie 30 dni"
+            value={2137}
+          />
+          <DashboardStat
+            title="Nowych filmów"
+            subtitle="Ostatnie 30 dni"
+            value={2137}
+          />
+          <DashboardStat
+            title="Nowych filmów"
+            subtitle="Ostatnie 30 dni"
+            value={2137}
+          />
+          <DashboardStat
+            title="Nowych filmów"
+            subtitle="Ostatnie 30 dni"
+            value={2137}
+          />
         </div>
       </div>
     </>
