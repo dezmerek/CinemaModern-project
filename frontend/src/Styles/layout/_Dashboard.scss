@@ -5,6 +5,7 @@
         flex-wrap: wrap;
         justify-content: space-around;
         gap: 1rem;
+        padding-bottom: 2rem;
     }
 
     &__stat-box {
@@ -35,6 +36,77 @@
 
         @media (min-width: 768px) {
             width: calc(25% - 1rem);
+        }
+    }
+
+    &__cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 1rem;
+    }
+
+    &__card {
+        background-color: rgb(21, 31, 48);
+        width: 100%;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem;
+
+        div {
+            display: flex;
+            justify-content: space-between;
+
+            h4 {
+                font-weight: normal;
+                margin: 0;
+                display: flex;
+                align-items: center;
+            }
+
+            svg {
+                color: rgb(49, 130, 237);
+                height: 14px;
+                width: 14px;
+                margin-right: 0.5rem;
+            }
+
+            button {
+                background-color: rgb(13, 18, 28);
+                border: 0;
+                border-radius: 10px;
+                padding: 0.5rem;
+                cursor: pointer;
+            }
+        }
+
+        hr {
+            width: 100%;
+            border-color: rgb(49, 130, 237);
+            height: 1px;
+        }
+
+        table {
+            width: 100%;
+            text-align: left;
+            border-spacing: 0 0.5rem;
+            border-collapse: separate;
+
+            th {
+                padding-left: 0;
+            }
+
+            svg {
+                color: rgb(49, 130, 237);
+                height: 14px;
+                width: 14px;
+                margin-right: 0.5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            width: calc(50% - 1rem);
         }
     }
 }
