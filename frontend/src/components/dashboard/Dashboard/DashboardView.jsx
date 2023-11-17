@@ -6,6 +6,7 @@ import '../../../Styles/layout/_Dashboard.scss';
 const DashboardView = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [films, setFilms] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const testData = [
     { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
@@ -37,10 +38,10 @@ const DashboardView = () => {
   ];
 
   const lastUserColumns = [
-    { label: 'ID', value: 'movieID' },
-    { label: 'TYTUŁ', value: 'title' },
-    { label: 'JĘZYK', value: 'language' },
-    { label: 'OCENA', value: 'rating' },
+    { label: 'ID', value: 'id' },
+    { label: 'IMIĘ', value: 'firstName' },
+    { label: 'NAZWISKO', value: 'lastName' },
+    { label: 'DATA REJESTRACJI', value: 'createdAt' },
   ];
 
   useEffect(() => {
@@ -57,7 +58,21 @@ const DashboardView = () => {
       }
     }
 
+    async function fetchUsers() {
+      try {
+        const response = await fetch(`${apiUrl}/api/users`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch users');
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error('Error fetching films:', error);
+      }
+    }
+
     fetchFilms();
+    fetchUsers();
   }, [apiUrl]);
 
   const getLatestMovies = (movies, limit = 5) => {
@@ -67,7 +82,19 @@ const DashboardView = () => {
     return sortedMovies.slice(0, limit);
   };
 
+  const getLatestUsers = (users, limit = 5) => {
+    const sortedUsers = users.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+    const formattedUsers = sortedUsers.map((user) => ({
+      ...user,
+      createdAt: new Date(user.createdAt).toLocaleDateString(),
+    }));
+    return formattedUsers.slice(0, limit);
+  };
+
   const latestMovies = getLatestMovies(films);
+  const latestUsers = getLatestUsers(users);
 
   return (
     <>
@@ -108,7 +135,7 @@ const DashboardView = () => {
           <DashboardCard
             title="Najnowszy użytkownik"
             buttonText="Wszystkie"
-            data={testData}
+            data={latestUsers}
             columns={lastUserColumns}
           />
 
