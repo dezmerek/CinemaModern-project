@@ -42,25 +42,25 @@ const DashboardView = () => {
 
         <div className="dashboard__cards">
           <DashboardCard
-            title="Ostatnia recenzja"
+            title="Najnowsze filmy"
             buttonText="Wszystkie"
             data={reviewData}
           />
 
           <DashboardCard
-            title="Ostatnia recenzja"
+            title="Najnowszy użytkownik"
             buttonText="Wszystkie"
             data={reviewData}
           />
 
           <DashboardCard
-            title="Ostatnia recenzja"
+            title="Najnowsze recenzje"
             buttonText="Wszystkie"
             data={reviewData}
           />
 
           <DashboardCard
-            title="Ostatnia recenzja"
+            title="Najlepsze filmy"
             buttonText="Wszystkie"
             data={reviewData}
           />
