@@ -12,7 +12,28 @@ const DashboardView = () => {
     { movieID: 225, title: 'Aftersun', language: 'Polski', rating: 8.4 },
   ];
 
-  const testColumns = [
+  const lastMovieColumns = [
+    { label: 'ID', value: 'movieID' },
+    { label: 'TYTUŁ', value: 'title' },
+    { label: 'JĘZYK', value: 'language' },
+    { label: 'OCENA', value: 'rating' },
+  ];
+
+  const topMovieColumns = [
+    { label: 'ID', value: 'movieID' },
+    { label: 'TYTUŁ', value: 'title' },
+    { label: 'JĘZYK', value: 'language' },
+    { label: 'OCENA', value: 'rating' },
+  ];
+
+  const lastReviewColumns = [
+    { label: 'ID', value: 'movieID' },
+    { label: 'TYTUŁ', value: 'title' },
+    { label: 'JĘZYK', value: 'language' },
+    { label: 'OCENA', value: 'rating' },
+  ];
+
+  const lastUserColumns = [
     { label: 'ID', value: 'movieID' },
     { label: 'TYTUŁ', value: 'title' },
     { label: 'JĘZYK', value: 'language' },
@@ -52,28 +73,28 @@ const DashboardView = () => {
             title="Najnowsze filmy"
             buttonText="Wszystkie"
             data={testData}
-            columns={testColumns}
+            columns={lastMovieColumns}
           />
 
           <DashboardCard
             title="Najnowszy użytkownik"
             buttonText="Wszystkie"
             data={testData}
-            columns={testColumns}
+            columns={lastUserColumns}
           />
 
           <DashboardCard
             title="Najnowsze recenzje"
             buttonText="Wszystkie"
             data={testData}
-            columns={testColumns}
+            columns={lastReviewColumns}
           />
 
           <DashboardCard
             title="Najlepsze filmy"
             buttonText="Wszystkie"
             data={testData}
-            columns={testColumns}
+            columns={topMovieColumns}
           />
         </div>
       </div>
