@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DashboardStat from './DashboardStat';
 import DashboardCard from './DashboardCard';
 import '../../../Styles/layout/_Dashboard.scss';
 
 const DashboardView = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const [films, setFilms] = useState([]);
+
   const testData = [
     { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
     { movieID: 222, title: 'Aftersun', language: 'Polski', rating: 8.4 },
@@ -40,6 +43,32 @@ const DashboardView = () => {
     { label: 'OCENA', value: 'rating' },
   ];
 
+  useEffect(() => {
+    async function fetchFilms() {
+      try {
+        const response = await fetch(`${apiUrl}/api/movies`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch films');
+        }
+        const data = await response.json();
+        setFilms(data);
+      } catch (error) {
+        console.error('Error fetching films:', error);
+      }
+    }
+
+    fetchFilms();
+  }, [apiUrl]);
+
+  const getLatestMovies = (movies, limit = 5) => {
+    const sortedMovies = movies.sort(
+      (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
+    );
+    return sortedMovies.slice(0, limit);
+  };
+
+  const latestMovies = getLatestMovies(films);
+
   return (
     <>
       <h2>Dashboard</h2>
@@ -72,7 +101,7 @@ const DashboardView = () => {
           <DashboardCard
             title="Najnowsze filmy"
             buttonText="Wszystkie"
-            data={testData}
+            data={latestMovies}
             columns={lastMovieColumns}
           />
 
