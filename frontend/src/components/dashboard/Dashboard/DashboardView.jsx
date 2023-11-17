@@ -7,6 +7,8 @@ const DashboardView = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
   const [films, setFilms] = useState([]);
   const [users, setUsers] = useState([]);
+  const [newMoviesCount, setNewMoviesCount] = useState(0);
+  const [newUsersCount, setNewUsersCount] = useState(0);
 
   const testData = [
     { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
@@ -52,7 +54,16 @@ const DashboardView = () => {
           throw new Error('Failed to fetch films');
         }
         const data = await response.json();
+
+        const last30DaysFilms = data.filter((film) => {
+          const filmDate = new Date(film.dateAdded);
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          return filmDate >= thirtyDaysAgo;
+        });
+
         setFilms(data);
+        setNewMoviesCount(last30DaysFilms.length);
       } catch (error) {
         console.error('Error fetching films:', error);
       }
@@ -65,7 +76,16 @@ const DashboardView = () => {
           throw new Error('Failed to fetch users');
         }
         const data = await response.json();
+
+        const last30DaysUsers = data.filter((user) => {
+          const userDate = new Date(user.createdAt);
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          return userDate >= thirtyDaysAgo;
+        });
+
         setUsers(data);
+        setNewUsersCount(last30DaysUsers.length);
       } catch (error) {
         console.error('Error fetching films:', error);
       }
@@ -110,12 +130,12 @@ const DashboardView = () => {
           <DashboardStat
             title="Nowych filmów"
             subtitle="Ostatnie 30 dni"
-            value={2137}
+            value={newMoviesCount}
           />
           <DashboardStat
             title="Nowych użytkowników"
             subtitle="Ostatnie 30 dni"
-            value={2137}
+            value={newUsersCount}
           />
           <DashboardStat
             title="Napisantch recenzji"
