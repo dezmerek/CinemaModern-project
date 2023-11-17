@@ -3,6 +3,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import movieRoutes from './routes/movieRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
 
@@ -18,8 +19,9 @@ mongoose.connect(dbURI, {
 })
     .then(() => {
         console.log('Connected to MongoDB');
-        // Dodanie trasy związanej z filmami
+
         app.use('/api/movies', movieRoutes);
+        app.use('/api/users', userRoutes);
 
         app.listen(port, () => {
             console.log('Server is running on port: ' + port);
