@@ -4,12 +4,19 @@ import DashboardCard from './DashboardCard';
 import '../../../Styles/layout/_Dashboard.scss';
 
 const DashboardView = () => {
-  const reviewData = [
-    { id: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { id: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { id: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { id: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { id: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
+  const testData = [
+    { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
+    { movieID: 222, title: 'Aftersun', language: 'Polski', rating: 8.4 },
+    { movieID: 223, title: 'Aftersun', language: 'Polski', rating: 8.4 },
+    { movieID: 224, title: 'Aftersun', language: 'Polski', rating: 8.4 },
+    { movieID: 225, title: 'Aftersun', language: 'Polski', rating: 8.4 },
+  ];
+
+  const testColumns = [
+    { label: 'ID', value: 'movieID' },
+    { label: 'TYTUŁ', value: 'title' },
+    { label: 'JĘZYK', value: 'language' },
+    { label: 'OCENA', value: 'rating' },
   ];
 
   return (
@@ -44,25 +51,29 @@ const DashboardView = () => {
           <DashboardCard
             title="Najnowsze filmy"
             buttonText="Wszystkie"
-            data={reviewData}
+            data={testData}
+            columns={testColumns}
           />
 
           <DashboardCard
             title="Najnowszy użytkownik"
             buttonText="Wszystkie"
-            data={reviewData}
+            data={testData}
+            columns={testColumns}
           />
 
           <DashboardCard
             title="Najnowsze recenzje"
             buttonText="Wszystkie"
-            data={reviewData}
+            data={testData}
+            columns={testColumns}
           />
 
           <DashboardCard
             title="Najlepsze filmy"
             buttonText="Wszystkie"
-            data={reviewData}
+            data={testData}
+            columns={testColumns}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BsArrowUpRightSquare, BsStar } from 'react-icons/bs';
 
-const DashboardCard = ({ title, buttonText, data }) => {
+const DashboardCard = ({ title, buttonText, data, columns }) => {
   return (
     <div className="dashboard__card">
       <div>
@@ -14,21 +14,27 @@ const DashboardCard = ({ title, buttonText, data }) => {
       <hr />
       <table>
         <thead>
-          <th>ID</th>
-          <th>TYTUŁ</th>
-          <th>JĘZYK</th>
-          <th>OCENA</th>
+          <tr>
+            {columns.map((column, index) => (
+              <th key={index}>{column.label}</th>
+            ))}
+          </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td>{item.id}</td>
-              <td>{item.title}</td>
-              <td>{item.language}</td>
-              <td>
-                <BsStar />
-                {item.rating}
-              </td>
+          {data.map((item) => (
+            <tr key={item._id}>
+              {columns.map((column, index) => (
+                <td key={index}>
+                  {column.value === 'rating' && item.rating ? (
+                    <>
+                      <BsStar />
+                      {item.rating}
+                    </>
+                  ) : (
+                    item[column.value]
+                  )}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
