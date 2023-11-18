@@ -21,7 +21,7 @@ export const HallsAdd = () => {
         <>
             <div style={isFlex ? { display: 'flex', gap: '3rem' } : {}}>
                 <Sidebar />
-                <div style={isFlex ? { flex: 1 } : {}}>
+                <div style={{ overflowX: 'auto', width: '100%' }}>
                     <HallAdd />
                 </div>
             </div>

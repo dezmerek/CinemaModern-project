@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import HallSelector from './HallSelector';
 import '../../../Styles/layout/_HallAdd.scss';
 
 const HallAdd = () => {
@@ -28,7 +29,6 @@ const HallAdd = () => {
   return (
     <div>
       <h2>Dodaj salę kinową</h2>
-
       <form id="hallAddForm" className="hall-add">
         <div className="hall-add__container">
           <div className="hall-add__banner">
@@ -59,6 +59,7 @@ const HallAdd = () => {
             ></textarea>
           </div>
         </div>
+        <HallSelector />
       </form>
     </div>
   );
