@@ -5,6 +5,7 @@ import { Dashboard } from "./routers/Dashboard";
 import { Users } from "./routers/Users";
 import { Films } from './routers/Films';
 import { FilmsAdd } from './routers/FilmsAdd';
+import { HallsAdd } from './routers/HallsAdd';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/dashboard/users" element={<Users />} />
           <Route path="/dashboard/films" element={<Films />} />
           <Route path="/dashboard/films/add" element={<FilmsAdd />} />
+          <Route path="/dashboard/halls/add" element={<HallsAdd />} />
         </Routes>
       </>
     </BrowserRouter>
