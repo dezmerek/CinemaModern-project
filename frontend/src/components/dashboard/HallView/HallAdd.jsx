@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import HallSelector from './HallSelector';
 import '../../../Styles/layout/_HallAdd.scss';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const HallAdd = () => {
   const [selectedBanner, setSelectedBanner] = useState(null);
+  const [seatLayout, setSeatLayout] = useState([]);
+  const [hallName, setHallName] = useState('');
+  const [hallDescription, setHallDescription] = useState('');
 
   const handleBannerChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -23,6 +27,56 @@ const HallAdd = () => {
           event.target.value = '';
         }
       };
+    }
+  };
+
+  const handleSeatSelection = (row, seat) => {
+    const updatedSeatLayout = [...seatLayout];
+    const seatIndex = updatedSeatLayout.findIndex(
+      (s) => s.row === row && s.seat === seat
+    );
+
+    if (seatIndex !== -1) {
+      updatedSeatLayout[seatIndex].isActive =
+        !updatedSeatLayout[seatIndex].isActive;
+      console.log(
+        `Seat at row ${row}, seat ${seat} toggled. Active: ${updatedSeatLayout[seatIndex].isActive}`
+      );
+    } else {
+      updatedSeatLayout.push({ row, seat, isActive: false }); // Dodaj nowe miejsce z isActive: false
+      console.log(`Seat at row ${row}, seat ${seat} added. Active: false`);
+    }
+
+    setSeatLayout(updatedSeatLayout);
+  };
+
+  const handleSaveHall = async () => {
+    const newHallData = {
+      name: hallName,
+      description: hallDescription,
+      seatLayout: seatLayout.map((seat) => ({
+        ...seat,
+        isActive: !seat.isActive, // Odwróć wartość aktywności
+      })),
+    };
+
+    try {
+      const response = await fetch(`${apiUrl}/api/halls`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newHallData),
+      });
+
+      if (response.ok) {
+        console.log('Sala została pomyślnie zapisana!');
+        // Wyczyść stan lub przekieruj użytkownika w razie potrzeby
+      } else {
+        console.error('Błąd podczas zapisywania sali:', response.status);
+      }
+    } catch (error) {
+      console.error('Błąd podczas zapisywania sali:', error.message);
     }
   };
 
@@ -50,16 +104,32 @@ const HallAdd = () => {
           </div>
 
           <div className="hall-add__content">
-            <input type="text" placeholder="Nazwa sali" required />
+            <input
+              type="text"
+              placeholder="Nazwa sali"
+              value={hallName}
+              onChange={(e) => setHallName(e.target.value)}
+              required
+            />
             <textarea
               type="text"
               name="description"
               placeholder="Opis"
+              value={hallDescription}
+              onChange={(e) => setHallDescription(e.target.value)}
               required
             ></textarea>
           </div>
         </div>
-        <HallSelector />
+        <HallSelector
+          seatLayout={seatLayout}
+          setSeatLayout={setSeatLayout}
+          onSelectSeats={handleSeatSelection}
+        />
+
+        <button type="button" onClick={handleSaveHall}>
+          Zapisz salę
+        </button>
       </form>
     </div>
   );

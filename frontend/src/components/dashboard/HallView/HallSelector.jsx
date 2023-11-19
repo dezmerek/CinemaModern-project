@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../../Styles/layout/_HallSelector.scss';
 
-const HallSelector = ({ onSelectSeats }) => {
+const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
   const [rows, setRows] = useState(1);
   const [seatsPerRow, setSeatsPerRow] = useState(1);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  useEffect(() => {
+    const generateDefaultSeatLayout = () => {
+      const defaultSeatLayout = [];
+      for (let row = 1; row <= rows; row++) {
+        for (let seat = 1; seat <= seatsPerRow; seat++) {
+          defaultSeatLayout.push({ row, seat, isActive: true });
+        }
+      }
+      setSeatLayout(defaultSeatLayout);
+    };
+
+    generateDefaultSeatLayout();
+  }, [rows, seatsPerRow, setSeatLayout]);
 
   const handleRowsChange = (event) => {
     setRows(Number(event.target.value));
-    setSelectedSeats([]);
   };
 
   const handleSeatsPerRowChange = (event) => {
     setSeatsPerRow(Number(event.target.value));
-    setSelectedSeats([]);
   };
 
   const handleSeatSelection = (row, seat) => {
-    const seatIdentifier = `${row}-${seat}`;
-    if (selectedSeats.includes(seatIdentifier)) {
-      setSelectedSeats(
-        selectedSeats.filter((selectedSeat) => selectedSeat !== seatIdentifier)
+    const updatedSeatLayout = [...seatLayout];
+
+    const seatIndex = updatedSeatLayout.findIndex(
+      (s) => s.row === row && s.seat === seat
+    );
+
+    if (seatIndex !== -1) {
+      updatedSeatLayout[seatIndex].isActive =
+        !updatedSeatLayout[seatIndex].isActive;
+      console.log(
+        `Seat at row ${row}, seat ${seat} toggled. Active: ${updatedSeatLayout[seatIndex].isActive}`
       );
     } else {
-      setSelectedSeats([...selectedSeats, seatIdentifier]);
+      // Jeśli miejsce nie istnieje, dodaj je z aktywnością false (nieaktywne)
+      updatedSeatLayout.push({ row, seat, isActive: false });
+      console.log(`Seat at row ${row}, seat ${seat} added. Active: false`);
     }
-  };
 
-  const totalSeats = rows * seatsPerRow;
-  const availableSeats = totalSeats - selectedSeats.length;
+    setSeatLayout(updatedSeatLayout);
+  };
 
   return (
     <div className="hall-selector">
@@ -57,30 +76,32 @@ const HallSelector = ({ onSelectSeats }) => {
 
       <div>
         <h4>Wybierz miejsca:</h4>
-        <p>Liczba dostępnych miejsc: {availableSeats}</p>
         <div className="hall-selector__seats-grid">
           {[...Array(rows)].map((_, rowIndex) => (
             <div key={rowIndex} className="hall-selector__seat-row">
-              <div className="hall-selector__seat-number">{rowIndex + 1}</div>
               {[...Array(seatsPerRow)].map((_, seatIndex) => {
                 const seatNumber = seatIndex + 1;
-                const seatIdentifier = `${rowIndex + 1}-${seatNumber}`;
-                const isSeatSelected = selectedSeats.includes(seatIdentifier);
+                const isSeatActive = seatLayout.some(
+                  (s) =>
+                    s.row === rowIndex + 1 &&
+                    s.seat === seatNumber &&
+                    s.isActive
+                );
+
                 return (
                   <div
                     key={seatIndex}
                     className={`hall-selector__seat ${
-                      isSeatSelected ? 'selected' : ''
+                      isSeatActive ? 'active' : 'inactive'
                     }`}
                     onClick={() =>
                       handleSeatSelection(rowIndex + 1, seatNumber)
                     }
                   >
-                    {isSeatSelected ? '' : seatNumber}
+                    {seatNumber}
                   </div>
                 );
               })}
-              <div className="hall-selector__seat-number">{rowIndex + 1}</div>
             </div>
           ))}
         </div>

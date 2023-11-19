@@ -45,6 +45,10 @@
         border-radius: 10px 10px 5px 5px;
     }
 
+    .inactive {
+        background-color: #f44336;
+    }
+
     &__seat-number {
         display: flex;
         width: 25px;
