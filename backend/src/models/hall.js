@@ -1,4 +1,3 @@
-// hall.js
 import mongoose from 'mongoose';
 
 const hallSchema = new mongoose.Schema({
@@ -7,6 +6,10 @@ const hallSchema = new mongoose.Schema({
         required: true,
     },
     description: {
+        type: String,
+        required: true,
+    },
+    bannerName: {
         type: String,
         required: true,
     },

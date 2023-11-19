@@ -1,4 +1,3 @@
-// hallRoutes.js
 import express from 'express';
 import Hall from '../models/hall.js';
 
@@ -14,9 +13,8 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { name, description, seatLayout } = req.body;
+    const { name, description, bannerName, seatLayout } = req.body;
 
-    // Odwróć wartość isActive dla każdego miejsca w seatLayout przed zapisaniem
     const updatedSeatLayout = seatLayout.map((seat) => ({
         ...seat,
         isActive: !seat.isActive,
@@ -25,8 +23,10 @@ router.post('/', async (req, res) => {
     const hall = new Hall({
         name,
         description,
+        bannerName,
         seatLayout: updatedSeatLayout,
     });
+
 
     try {
         const newHall = await hall.save();

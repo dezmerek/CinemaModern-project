@@ -8,6 +8,7 @@ const HallAdd = () => {
   const [seatLayout, setSeatLayout] = useState([]);
   const [hallName, setHallName] = useState('');
   const [hallDescription, setHallDescription] = useState('');
+  const [bannerName, setBannerName] = useState('');
 
   const handleBannerChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -18,6 +19,9 @@ const HallAdd = () => {
       image.src = URL.createObjectURL(selectedFile);
       image.onload = () => {
         if (image.width === 445 && image.height === 333) {
+          const bannerFileName = selectedFile.name;
+          setBannerName(bannerFileName);
+
           reader.onload = (event) => {
             setSelectedBanner(event.target.result);
           };
@@ -43,7 +47,7 @@ const HallAdd = () => {
         `Seat at row ${row}, seat ${seat} toggled. Active: ${updatedSeatLayout[seatIndex].isActive}`
       );
     } else {
-      updatedSeatLayout.push({ row, seat, isActive: false }); // Dodaj nowe miejsce z isActive: false
+      updatedSeatLayout.push({ row, seat, isActive: false });
       console.log(`Seat at row ${row}, seat ${seat} added. Active: false`);
     }
 
@@ -54,9 +58,10 @@ const HallAdd = () => {
     const newHallData = {
       name: hallName,
       description: hallDescription,
+      bannerName: bannerName,
       seatLayout: seatLayout.map((seat) => ({
         ...seat,
-        isActive: !seat.isActive, // Odwróć wartość aktywności
+        isActive: !seat.isActive,
       })),
     };
 
@@ -71,7 +76,6 @@ const HallAdd = () => {
 
       if (response.ok) {
         console.log('Sala została pomyślnie zapisana!');
-        // Wyczyść stan lub przekieruj użytkownika w razie potrzeby
       } else {
         console.error('Błąd podczas zapisywania sali:', response.status);
       }
