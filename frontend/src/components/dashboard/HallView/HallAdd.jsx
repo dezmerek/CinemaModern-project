@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HallSelector from './HallSelector';
 import '../../../Styles/layout/_HallAdd.scss';
 import UniversalAddConfirmation from '../Universal/UniversalAddConfirmation';
@@ -13,6 +13,14 @@ const HallAdd = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [rows, setRows] = useState(1);
   const [seatsPerRow, setSeatsPerRow] = useState(1);
+  const [totalSeats, setTotalSeats] = useState(0);
+
+  useEffect(() => {
+    const numberOfActiveSeats = seatLayout.filter(
+      (seat) => seat.isActive
+    ).length;
+    setTotalSeats(numberOfActiveSeats);
+  }, [seatLayout]);
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
@@ -65,6 +73,13 @@ const HallAdd = () => {
     }
 
     setSeatLayout(updatedSeatLayout);
+
+    setTimeout(() => {
+      const numberOfActiveSeats = updatedSeatLayout.filter(
+        (seat) => seat.isActive
+      ).length;
+      setTotalSeats(numberOfActiveSeats);
+    }, 0);
   };
 
   const handleSaveHall = async (event) => {
@@ -111,6 +126,7 @@ const HallAdd = () => {
       ).length;
 
       newHallData.numberOfSeats = numberOfActiveSeats;
+      setTotalSeats(numberOfActiveSeats);
 
       const saveHallResponse = await fetch(`${apiUrl}/api/halls`, {
         method: 'POST',
@@ -153,7 +169,6 @@ const HallAdd = () => {
               </label>
             )}
           </div>
-
           <div className="hall-add__content">
             <input
               type="text"
@@ -182,6 +197,8 @@ const HallAdd = () => {
           setSeatLayout={setSeatLayout}
           onSelectSeats={handleSeatSelection}
         />
+
+        <div>Liczba miejsc: {totalSeats}</div>
 
         <button className="hall-add__btn-save" type="submit">
           Zapisz sale
