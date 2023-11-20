@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 5px;
     overflow-y: hidden;
+    max-width: 400px;
 
     &__row {
         display: flex;

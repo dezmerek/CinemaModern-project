@@ -1,10 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../../Styles/components/_UniversalEdit.scss';
+import HallLayout from './HallLayout';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const HallEdit = ({ hall, onSave, onCancel }) => {
   const [editedHall, setEditedHall] = useState(hall);
+  const [editedRows, setEditedRows] = useState(hall.rows || 1);
+  const [editedSeatsPerRow, setEditedSeatsPerRow] = useState(
+    hall.seatsPerRow || 1
+  );
+
+  useEffect(() => {
+    setEditedRows(hall.rows || 1);
+  }, [hall.rows]);
+
+  useEffect(() => {
+    setEditedSeatsPerRow(hall.seatsPerRow || 1);
+  }, [hall.seatsPerRow]);
+
+  useEffect(() => {
+    const defaultSeatLayout = [];
+
+    for (let row = 1; row <= editedRows; row++) {
+      for (let seat = 1; seat <= editedSeatsPerRow; seat++) {
+        defaultSeatLayout.push({ row, seat, isActive: true });
+      }
+    }
+
+    setEditedHall((prevHall) => ({
+      ...prevHall,
+      rows: editedRows,
+      seatsPerRow: editedSeatsPerRow,
+      seatLayout: defaultSeatLayout,
+    }));
+  }, [editedRows, editedSeatsPerRow]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +59,25 @@ const HallEdit = ({ hall, onSave, onCancel }) => {
     } catch (error) {
       console.error('Error saving changes:', error);
     }
+  };
+
+  const handleSeatEdit = (row, seat) => {
+    const updatedSeatLayout = editedHall.seatLayout.map((s) => {
+      if (s.row === row && s.seat === seat) {
+        return { ...s, isActive: !s.isActive };
+      }
+      return s;
+    });
+
+    setEditedHall({ ...editedHall, seatLayout: updatedSeatLayout });
+  };
+
+  const handleRowsChange = (event) => {
+    setEditedRows(Number(event.target.value));
+  };
+
+  const handleSeatsPerRowChange = (event) => {
+    setEditedSeatsPerRow(Number(event.target.value));
   };
 
   return (
@@ -62,6 +111,34 @@ const HallEdit = ({ hall, onSave, onCancel }) => {
               name="description"
               value={editedHall.description}
               onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label className="universal-edit__label">Edytuj miejsca:</label>
+            <HallLayout
+              seatLayout={editedHall.seatLayout}
+              onEditSeatLayout={(updatedSeatLayout) =>
+                setEditedHall({ ...editedHall, seatLayout: updatedSeatLayout })
+              }
+              onSeatClick={handleSeatEdit}
+            />
+          </div>
+          <div>
+            <label className="universal-edit__label">Ilość rzędów:</label>
+            <input
+              type="number"
+              min="1"
+              value={editedRows}
+              onChange={handleRowsChange}
+            />
+          </div>
+          <div>
+            <label className="universal-edit__label">Miejsc w rzędzie:</label>
+            <input
+              type="number"
+              min="1"
+              value={editedSeatsPerRow}
+              onChange={handleSeatsPerRowChange}
             />
           </div>
           <div className="universal-edit__buttons">
