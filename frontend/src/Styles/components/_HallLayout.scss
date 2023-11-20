@@ -1,0 +1,39 @@
+.hall-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: hidden;
+
+    &__row {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
+
+    &__seat-row {
+        display: flex;
+        margin-bottom: 5px;
+    }
+
+    &__seat {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+        min-height: 30px;
+        color: #e1ffff;
+        margin: 2px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px 10px 5px 5px;
+
+        &--active {
+            background-color: #152030;
+        }
+
+        &--inactive {
+            background-color: red;
+        }
+    }
+}

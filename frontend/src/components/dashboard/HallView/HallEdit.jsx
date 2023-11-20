@@ -55,6 +55,15 @@ const HallEdit = ({ hall, onSave, onCancel }) => {
               onChange={handleInputChange}
             />
           </div>
+          <div>
+            <label className="universal-edit__label">Opis:</label>
+            <input
+              type="text"
+              name="description"
+              value={editedHall.description}
+              onChange={handleInputChange}
+            />
+          </div>
           <div className="universal-edit__buttons">
             <button type="button" onClick={handleSave}>
               Zapisz
