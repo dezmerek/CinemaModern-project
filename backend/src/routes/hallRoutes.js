@@ -1,3 +1,4 @@
+// hallRoutes.js
 import express from 'express';
 import Hall from '../models/hall.js';
 import multer from 'multer';
@@ -75,6 +76,39 @@ router.post('/', async (req, res) => {
         res.status(201).json(newHall);
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    try {
+        const hallId = req.params.id;
+        const updatedHallData = req.body;
+
+        const updatedHall = await Hall.findByIdAndUpdate(hallId, updatedHallData, { new: true });
+
+        if (!updatedHall) {
+            return res.status(404).json({ error: 'Hall not found' });
+        }
+
+        res.status(200).json(updatedHall);
+    } catch (error) {
+        console.error('Error during hall update:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const hallId = req.params.id;
+        const deletedHall = await Hall.findByIdAndDelete(hallId);
+
+        if (!deletedHall) {
+            return res.status(404).json({ error: 'Hall not found' });
+        }
+
+        res.status(200).json({ message: 'Hall deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
