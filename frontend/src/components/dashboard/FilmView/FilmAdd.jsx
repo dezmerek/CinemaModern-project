@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../../../Styles/layout/_FilmAdd.scss';
-import AddConfirmation from './FilmAddConfirmation';
+import UniversalAddConfirmation from '../Universal/UniversalAddConfirmation';
 
 const FilmAdd = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -293,7 +293,10 @@ const FilmAdd = () => {
         <button className="film-add__btn-save">Dodaj film</button>
       </form>
       {showConfirmation && (
-        <AddConfirmation onClose={handleConfirmationClose} />
+        <UniversalAddConfirmation
+          onClose={handleConfirmationClose}
+          confirmationText="Film został pomyślnie dodany!"
+        />
       )}
     </>
   );

@@ -1,11 +1,11 @@
 import React from 'react';
 import '../../../Styles/components/_UniversalAddConfirmation.scss';
 
-const FilmAddConfirmation = ({ onClose }) => {
+const UniversalAddConfirmation = ({ onClose, confirmationText }) => {
   return (
     <div className="universal-confirmation">
       <div className="universal-confirmation__content">
-        <p>Film został pomyślnie dodany!</p>
+        <p>{confirmationText}</p>
         <button
           className="universal-confirmation__btn--close"
           onClick={onClose}
@@ -17,4 +17,4 @@ const FilmAddConfirmation = ({ onClose }) => {
   );
 };
 
-export default FilmAddConfirmation;
+export default UniversalAddConfirmation;
