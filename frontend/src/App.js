@@ -6,6 +6,7 @@ import { Users } from "./routers/Users";
 import { Films } from './routers/Films';
 import { FilmsAdd } from './routers/FilmsAdd';
 import { HallsAdd } from './routers/HallsAdd';
+import { Halls } from './routers/Halls';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/dashboard/users" element={<Users />} />
           <Route path="/dashboard/films" element={<Films />} />
           <Route path="/dashboard/films/add" element={<FilmsAdd />} />
+          <Route path="/dashboard/halls" element={<Halls />} />
           <Route path="/dashboard/halls/add" element={<HallsAdd />} />
         </Routes>
       </>
