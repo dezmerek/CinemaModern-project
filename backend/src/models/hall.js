@@ -29,6 +29,18 @@ const hallSchema = new mongoose.Schema({
             },
         },
     ],
+    numberOfSeats: {
+        type: Number,
+        required: true,
+    },
+    addedDate: {
+        type: Date,
+        default: Date.now,
+    },
+    hallID: {
+        type: Number,
+        required: true,
+    },
 });
 
 const Hall = mongoose.model('Hall', hallSchema);

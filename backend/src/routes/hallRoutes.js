@@ -59,11 +59,15 @@ router.post('/', async (req, res) => {
         isActive: !seat.isActive,
     }));
 
+    const numberOfActiveSeats = updatedSeatLayout.filter(seat => seat.isActive).length;
+
     const hall = new Hall({
+        hallID: await Hall.countDocuments() + 1,
         name,
         description,
         bannerName,
         seatLayout: updatedSeatLayout,
+        numberOfSeats: numberOfActiveSeats,
     });
 
     try {
