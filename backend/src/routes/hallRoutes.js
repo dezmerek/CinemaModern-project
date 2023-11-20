@@ -92,7 +92,12 @@ router.put('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Hall not found' });
         }
 
-        res.status(200).json(updatedHall);
+        const numberOfActiveSeats = updatedHall.seatLayout.filter(seat => seat.isActive).length;
+        updatedHall.numberOfSeats = numberOfActiveSeats;
+
+        const savedHall = await updatedHall.save();
+
+        res.status(200).json(savedHall);
     } catch (error) {
         console.error('Error during hall update:', error);
         res.status(500).json({ error: 'Internal server error' });

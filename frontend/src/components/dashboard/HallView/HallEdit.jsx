@@ -4,20 +4,13 @@ import HallLayout from './HallLayout';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-const HallEdit = ({ hall, onSave, onCancel }) => {
+const HallEdit = ({ hall, onSave, onCancel, editedSeatsCount }) => {
   const [editedHall, setEditedHall] = useState(hall);
   const [editedRows, setEditedRows] = useState(hall.rows || 1);
   const [editedSeatsPerRow, setEditedSeatsPerRow] = useState(
     hall.seatsPerRow || 1
   );
-
-  useEffect(() => {
-    setEditedRows(hall.rows || 1);
-  }, [hall.rows]);
-
-  useEffect(() => {
-    setEditedSeatsPerRow(hall.seatsPerRow || 1);
-  }, [hall.seatsPerRow]);
+  const [activeSeatsCount, setActiveSeatsCount] = useState(editedSeatsCount);
 
   useEffect(() => {
     setEditedHall((prevHall) => ({
@@ -31,6 +24,13 @@ const HallEdit = ({ hall, onSave, onCancel }) => {
       ),
     }));
   }, [editedRows, editedSeatsPerRow]);
+
+  useEffect(() => {
+    const numberOfActiveSeats = editedHall.seatLayout.filter(
+      (seat) => seat.isActive
+    ).length;
+    setActiveSeatsCount(numberOfActiveSeats);
+  }, [editedHall.seatLayout]);
 
   const generateDefaultSeatLayout = (rows, seatsPerRow, existingSeatLayout) => {
     const seatLayout = [];
@@ -72,6 +72,7 @@ const HallEdit = ({ hall, onSave, onCancel }) => {
       }
 
       onSave(editedHall);
+      window.location.reload();
     } catch (error) {
       console.error('Error saving changes:', error);
     }
@@ -128,6 +129,10 @@ const HallEdit = ({ hall, onSave, onCancel }) => {
               value={editedHall.description}
               onChange={handleInputChange}
             />
+          </div>
+          <div>
+            <label className="universal-edit__label">Ilość miejsc:</label>
+            <span>{activeSeatsCount}</span>
           </div>
           <div>
             <label className="universal-edit__label">Edytuj miejsca:</label>
