@@ -10,10 +10,10 @@ const HallPreview = ({ hall, onClose }) => {
         <p>ID: {hall.hallID}</p>
         <p>Opis: {hall.description}</p>
         <p>Liczba miejsc: {hall.numberOfSeats}</p>
-        <p>
-          Rozmieszczenie:
+        <div>
+          <p>Rozmieszczenie:</p>
           <HallLayout seatLayout={hall.seatLayout} />
-        </p>
+        </div>
         <p>Data dodania: {hall.addedDate}</p>
         <button className="universal-preview__btn--close" onClick={onClose}>
           Zamknij
