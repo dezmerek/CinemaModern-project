@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import UniversalTable from '../TableUniversal/TableUniversal';
 import SearchBar from '../TableUniversal/TableSearch';
 import FilmEdit from './FilmEdit';
 import FilmPreview from './FilmPreview';
 import FilmDelete from './FilmDelete';
-
 import '../../../Styles/layout/_ListUniversal.scss';
 
 const FilmView = () => {
@@ -15,11 +15,6 @@ const FilmView = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedItem, setEditedItem] = useState(null);
   const apiUrl = process.env.REACT_APP_API_URL;
-
-  const formatDate = (dateString) => {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
 
   useEffect(() => {
     async function fetchFilms() {
@@ -37,6 +32,10 @@ const FilmView = () => {
 
     fetchFilms();
   }, [apiUrl]);
+
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'yyyy-MM-dd');
+  };
 
   const filmColumns = ['movieID', 'title', 'genres', 'language', 'dateAdded'];
 
@@ -64,9 +63,9 @@ const FilmView = () => {
     setEditedItem(item);
   };
 
-  const handleSaveEdit = (editedItem) => {
+  const handleSaveEdit = (updatedMovie) => {
     setIsEditing(false);
-    setEditedItem(null);
+    updateMovies(updatedMovie);
   };
 
   const showDeleteConfirmation = (item) => {
@@ -102,15 +101,11 @@ const FilmView = () => {
   };
 
   const updateMovies = (updatedMovie) => {
-    const updatedMovieIndex = films.findIndex(
-      (movie) => movie._id === updatedMovie._id
+    setFilms((prevFilms) =>
+      prevFilms.map((movie) =>
+        movie._id === updatedMovie._id ? updatedMovie : movie
+      )
     );
-
-    if (updatedMovieIndex !== -1) {
-      const updatedMovies = [...films];
-      updatedMovies[updatedMovieIndex] = updatedMovie;
-      setFilms(updatedMovies);
-    }
   };
 
   const handleCancelDelete = () => {
@@ -146,10 +141,7 @@ const FilmView = () => {
         <div>
           <FilmEdit
             film={editedItem}
-            onSave={(updatedMovie) => {
-              handleSaveEdit(updatedMovie);
-              updateMovies(updatedMovie);
-            }}
+            onSave={handleSaveEdit}
             onCancel={() => setIsEditing(false)}
           />
         </div>
