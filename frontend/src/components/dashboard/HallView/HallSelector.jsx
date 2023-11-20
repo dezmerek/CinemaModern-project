@@ -15,6 +15,7 @@ const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
       }
       setSeatLayout(defaultSeatLayout);
     };
+
     generateDefaultSeatLayout();
   }, [rows, seatsPerRow, setSeatLayout]);
 
@@ -28,9 +29,11 @@ const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
 
   const handleSeatSelection = (row, seat) => {
     const updatedSeatLayout = [...seatLayout];
+
     const seatIndex = updatedSeatLayout.findIndex(
       (s) => s.row === row && s.seat === seat
     );
+
     if (seatIndex !== -1) {
       updatedSeatLayout[seatIndex].isActive =
         !updatedSeatLayout[seatIndex].isActive;
@@ -38,9 +41,11 @@ const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
         `Seat at row ${row}, seat ${seat} toggled. Active: ${updatedSeatLayout[seatIndex].isActive}`
       );
     } else {
+      // Jeśli miejsce nie istnieje, dodaj je z aktywnością false (nieaktywne)
       updatedSeatLayout.push({ row, seat, isActive: false });
       console.log(`Seat at row ${row}, seat ${seat} added. Active: false`);
     }
+
     setSeatLayout(updatedSeatLayout);
   };
 
@@ -82,6 +87,7 @@ const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
                     s.seat === seatNumber &&
                     s.isActive
                 );
+
                 return (
                   <div
                     key={seatIndex}

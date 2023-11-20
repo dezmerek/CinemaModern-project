@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import HallSelector from './HallSelector';
 import '../../../Styles/layout/_HallAdd.scss';
+import UniversalAddConfirmation from '../Universal/UniversalAddConfirmation';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const HallAdd = () => {
@@ -9,6 +10,20 @@ const HallAdd = () => {
   const [seatLayout, setSeatLayout] = useState([]);
   const [hallName, setHallName] = useState('');
   const [hallDescription, setHallDescription] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const handleConfirmationClose = () => {
+    setShowConfirmation(false);
+    clearForm();
+    window.location.reload();
+  };
+  const clearForm = () => {
+    setSelectedBanner(null);
+    setBannerName('');
+    setSeatLayout([]);
+    setHallName('');
+    setHallDescription('');
+  };
 
   const handleBannerChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -95,6 +110,7 @@ const HallAdd = () => {
       });
 
       if (saveHallResponse.ok) {
+        setShowConfirmation(true);
         console.log('Hall successfully saved!');
       } else {
         console.error('Error saving the hall:', saveHallResponse.status);
@@ -156,6 +172,12 @@ const HallAdd = () => {
           Zapisz sale
         </button>
       </form>
+      {showConfirmation && (
+        <UniversalAddConfirmation
+          onClose={handleConfirmationClose}
+          confirmationText="Sala kinowa została pomyślnie zapisana!"
+        />
+      )}
     </div>
   );
 };
