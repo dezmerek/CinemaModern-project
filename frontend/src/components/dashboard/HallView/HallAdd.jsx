@@ -5,32 +5,31 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 const HallAdd = () => {
   const [selectedBanner, setSelectedBanner] = useState(null);
+  const [bannerName, setBannerName] = useState('');
   const [seatLayout, setSeatLayout] = useState([]);
   const [hallName, setHallName] = useState('');
   const [hallDescription, setHallDescription] = useState('');
-  const [bannerName, setBannerName] = useState('');
 
   const handleBannerChange = (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const reader = new FileReader();
+      reader.onload = (event) => {
+        const image = new Image();
+        image.src = event.target.result;
 
-      const image = new Image();
-      image.src = URL.createObjectURL(selectedFile);
-      image.onload = () => {
-        if (image.width === 445 && image.height === 333) {
-          const bannerFileName = selectedFile.name;
-          setBannerName(bannerFileName);
-
-          reader.onload = (event) => {
+        image.onload = () => {
+          if (image.width === 445 && image.height === 333) {
             setSelectedBanner(event.target.result);
-          };
-          reader.readAsDataURL(selectedFile);
-        } else {
-          alert('Obraz baneru musi mieć wymiary 445x333 pikseli.');
-          event.target.value = '';
-        }
+            setBannerName(selectedFile);
+          } else {
+            alert('Obraz sali kinowej musi mieć wymiary 445x333 piksele.');
+            setSelectedBanner(null);
+            setBannerName('');
+          }
+        };
       };
+      reader.readAsDataURL(selectedFile);
     }
   };
 
@@ -43,30 +42,51 @@ const HallAdd = () => {
     if (seatIndex !== -1) {
       updatedSeatLayout[seatIndex].isActive =
         !updatedSeatLayout[seatIndex].isActive;
-      console.log(
-        `Seat at row ${row}, seat ${seat} toggled. Active: ${updatedSeatLayout[seatIndex].isActive}`
-      );
     } else {
       updatedSeatLayout.push({ row, seat, isActive: false });
-      console.log(`Seat at row ${row}, seat ${seat} added. Active: false`);
     }
 
     setSeatLayout(updatedSeatLayout);
   };
 
-  const handleSaveHall = async () => {
-    const newHallData = {
-      name: hallName,
-      description: hallDescription,
-      bannerName: bannerName,
-      seatLayout: seatLayout.map((seat) => ({
-        ...seat,
-        isActive: !seat.isActive,
-      })),
-    };
-
+  const handleSaveHall = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch(`${apiUrl}/api/halls`, {
+      if (!hallName || !hallDescription || seatLayout.length === 0) {
+        console.error('Enter all required data.');
+        return;
+      }
+
+      if (!selectedBanner) {
+        console.error('Select a file with a banner.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('bannerImage', bannerName);
+
+      const response = await fetch(`${apiUrl}/api/halls/uploadBanner`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        console.error('Error uploading banner:', await response.text());
+        return;
+      }
+
+      const responseData = await response.json();
+      const newHallData = {
+        name: hallName,
+        description: hallDescription,
+        bannerName: responseData.bannerPath,
+        seatLayout: seatLayout.map((seat) => ({
+          ...seat,
+          isActive: !seat.isActive,
+        })),
+      };
+
+      const saveHallResponse = await fetch(`${apiUrl}/api/halls`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,20 +94,22 @@ const HallAdd = () => {
         body: JSON.stringify(newHallData),
       });
 
-      if (response.ok) {
-        console.log('Sala została pomyślnie zapisana!');
+      if (saveHallResponse.ok) {
+        console.log('Hall successfully saved!');
       } else {
-        console.error('Błąd podczas zapisywania sali:', response.status);
+        console.error('Error saving the hall:', saveHallResponse.status);
+        const errorResponseData = await saveHallResponse.json();
+        console.error('Error details:', errorResponseData);
       }
     } catch (error) {
-      console.error('Błąd podczas zapisywania sali:', error.message);
+      console.error('Error during hall creation:', error.message);
     }
   };
 
   return (
     <div>
       <h2>Dodaj salę kinową</h2>
-      <form id="hallAddForm" className="hall-add">
+      <form id="hallAddForm" className="hall-add" onSubmit={handleSaveHall}>
         <div className="hall-add__container">
           <div className="hall-add__banner">
             <input
@@ -97,9 +119,7 @@ const HallAdd = () => {
               onChange={handleBannerChange}
               required
             />
-            {selectedBanner && (
-              <img src={selectedBanner} alt="Podgląd obrazu" />
-            )}
+            {selectedBanner && <img src={selectedBanner} alt="Preview" />}
             {!selectedBanner && (
               <label>
                 Dodaj baner<br></br>(445 x 333)
@@ -125,14 +145,15 @@ const HallAdd = () => {
             ></textarea>
           </div>
         </div>
+
         <HallSelector
           seatLayout={seatLayout}
           setSeatLayout={setSeatLayout}
           onSelectSeats={handleSeatSelection}
         />
 
-        <button type="button" onClick={handleSaveHall}>
-          Zapisz salę
+        <button className="hall-add__btn-save" type="submit">
+          Zapisz sale
         </button>
       </form>
     </div>
