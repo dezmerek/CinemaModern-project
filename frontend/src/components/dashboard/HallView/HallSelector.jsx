@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import '../../../Styles/layout/_HallSelector.scss';
 
-const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
-  const [rows, setRows] = useState(1);
-  const [seatsPerRow, setSeatsPerRow] = useState(1);
-
+const HallSelector = ({
+  onSelectSeats,
+  seatLayout,
+  setSeatLayout,
+  rows,
+  seatsPerRow,
+  setRows,
+  setSeatsPerRow,
+}) => {
   useEffect(() => {
     const generateDefaultSeatLayout = () => {
       const defaultSeatLayout = [];
@@ -20,16 +25,17 @@ const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
   }, [rows, seatsPerRow, setSeatLayout]);
 
   const handleRowsChange = (event) => {
-    setRows(Number(event.target.value));
+    const newRows = Number(event.target.value);
+    setRows(newRows);
   };
 
   const handleSeatsPerRowChange = (event) => {
-    setSeatsPerRow(Number(event.target.value));
+    const newSeatsPerRow = Number(event.target.value);
+    setSeatsPerRow(newSeatsPerRow);
   };
 
   const handleSeatSelection = (row, seat) => {
     const updatedSeatLayout = [...seatLayout];
-
     const seatIndex = updatedSeatLayout.findIndex(
       (s) => s.row === row && s.seat === seat
     );
@@ -37,13 +43,8 @@ const HallSelector = ({ onSelectSeats, seatLayout, setSeatLayout }) => {
     if (seatIndex !== -1) {
       updatedSeatLayout[seatIndex].isActive =
         !updatedSeatLayout[seatIndex].isActive;
-      console.log(
-        `Seat at row ${row}, seat ${seat} toggled. Active: ${updatedSeatLayout[seatIndex].isActive}`
-      );
     } else {
-      // Jeśli miejsce nie istnieje, dodaj je z aktywnością false (nieaktywne)
       updatedSeatLayout.push({ row, seat, isActive: false });
-      console.log(`Seat at row ${row}, seat ${seat} added. Active: false`);
     }
 
     setSeatLayout(updatedSeatLayout);

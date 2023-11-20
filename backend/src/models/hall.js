@@ -33,6 +33,14 @@ const hallSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    rows: {
+        type: Number,
+        required: true,
+    },
+    seatsPerRow: {
+        type: Number,
+        required: true,
+    },
     addedDate: {
         type: Date,
         default: Date.now,

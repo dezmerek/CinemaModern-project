@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const { name, description, bannerName, seatLayout } = req.body;
+    const { name, description, bannerName, seatLayout, rows, seatsPerRow } = req.body;
 
     const updatedSeatLayout = seatLayout.map((seat) => ({
         ...seat,
@@ -69,6 +69,8 @@ router.post('/', async (req, res) => {
         bannerName,
         seatLayout: updatedSeatLayout,
         numberOfSeats: numberOfActiveSeats,
+        rows,
+        seatsPerRow,
     });
 
     try {

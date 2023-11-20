@@ -11,12 +11,15 @@ const HallAdd = () => {
   const [hallName, setHallName] = useState('');
   const [hallDescription, setHallDescription] = useState('');
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [rows, setRows] = useState(1);
+  const [seatsPerRow, setSeatsPerRow] = useState(1);
 
   const handleConfirmationClose = () => {
     setShowConfirmation(false);
     clearForm();
     window.location.reload();
   };
+
   const clearForm = () => {
     setSelectedBanner(null);
     setBannerName('');
@@ -99,7 +102,15 @@ const HallAdd = () => {
           ...seat,
           isActive: !seat.isActive,
         })),
+        rows,
+        seatsPerRow,
       };
+
+      const numberOfActiveSeats = newHallData.seatLayout.filter(
+        (seat) => seat.isActive
+      ).length;
+
+      newHallData.numberOfSeats = numberOfActiveSeats;
 
       const saveHallResponse = await fetch(`${apiUrl}/api/halls`, {
         method: 'POST',
@@ -163,6 +174,10 @@ const HallAdd = () => {
         </div>
 
         <HallSelector
+          rows={rows}
+          seatsPerRow={seatsPerRow}
+          setRows={setRows}
+          setSeatsPerRow={setSeatsPerRow}
           seatLayout={seatLayout}
           setSeatLayout={setSeatLayout}
           onSelectSeats={handleSeatSelection}
