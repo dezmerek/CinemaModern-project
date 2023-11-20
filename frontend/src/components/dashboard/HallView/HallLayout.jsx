@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../../Styles/components/_HallLayout.scss';
 
-const HallLayout = ({ seatLayout }) => {
+const HallLayout = ({ seatLayout, onSeatClick }) => {
   const maxRow = Math.max(...seatLayout.map((seat) => seat.row));
   const maxSeat = Math.max(...seatLayout.map((seat) => seat.seat));
 
@@ -13,6 +13,10 @@ const HallLayout = ({ seatLayout }) => {
       : 'inactive';
   });
 
+  const handleSeatClick = (row, seat) => {
+    onSeatClick(row, seat);
+  };
+
   return (
     <div className="hall-layout">
       {seatsArray.map((row, rowIndex) => (
@@ -23,6 +27,7 @@ const HallLayout = ({ seatLayout }) => {
             <div
               key={seatIndex}
               className={`hall-layout__seat hall-layout__seat--${seatStatus}`}
+              onClick={() => handleSeatClick(rowIndex + 1, seatIndex + 1)}
             >
               {seatIndex + 1}
             </div>

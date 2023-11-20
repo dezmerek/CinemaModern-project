@@ -20,21 +20,37 @@ const HallEdit = ({ hall, onSave, onCancel }) => {
   }, [hall.seatsPerRow]);
 
   useEffect(() => {
-    const defaultSeatLayout = [];
-
-    for (let row = 1; row <= editedRows; row++) {
-      for (let seat = 1; seat <= editedSeatsPerRow; seat++) {
-        defaultSeatLayout.push({ row, seat, isActive: true });
-      }
-    }
-
     setEditedHall((prevHall) => ({
       ...prevHall,
       rows: editedRows,
       seatsPerRow: editedSeatsPerRow,
-      seatLayout: defaultSeatLayout,
+      seatLayout: generateDefaultSeatLayout(
+        editedRows,
+        editedSeatsPerRow,
+        prevHall.seatLayout
+      ),
     }));
   }, [editedRows, editedSeatsPerRow]);
+
+  const generateDefaultSeatLayout = (rows, seatsPerRow, existingSeatLayout) => {
+    const seatLayout = [];
+
+    for (let row = 1; row <= rows; row++) {
+      for (let seat = 1; seat <= seatsPerRow; seat++) {
+        const existingSeat = existingSeatLayout.find(
+          (s) => s.row === row && s.seat === seat
+        );
+
+        if (existingSeat) {
+          seatLayout.push(existingSeat);
+        } else {
+          seatLayout.push({ row, seat, isActive: true });
+        }
+      }
+    }
+
+    return seatLayout;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
