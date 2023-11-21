@@ -1,24 +1,31 @@
 .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background-color: rgb(0, 0, 0);
+    padding: 1rem;
 
-    div {
+    &__container {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 1rem;
+        width: 1100px;
+        margin: 0 auto;
 
-        button {
-            border: 1px solid rgb(31, 128, 224);
-            border-radius: 5px;
-            width: 2rem;
-            height: 2rem;
-            color: white;
-            background-color: transparent;
+        div {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
 
-            svg {
-                width: 1rem;
-                height: 1rem;
+            button {
+                border: 1px solid rgb(31, 128, 224);
+                border-radius: 5px;
+                width: 2rem;
+                height: 2rem;
+                color: white;
+                background-color: transparent;
+
+                svg {
+                    width: 1rem;
+                    height: 1rem;
+                }
             }
         }
     }

@@ -6,8 +6,8 @@ import { BsArrowUp } from 'react-icons/bs';
 
 const Footer = () => {
   return (
-    <>
-      <div className="footer">
+    <div className="footer">
+      <div className="footer__container">
         <img src={logo} alt="logo" />
         <div>
           <Link to="/regulamin">Regulamin</Link>
@@ -17,7 +17,7 @@ const Footer = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
