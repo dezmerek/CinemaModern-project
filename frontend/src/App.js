@@ -9,6 +9,8 @@ import { HallsAdd } from './routers/HallsAdd';
 import { Halls } from './routers/Halls';
 import { SchedulesAdd } from './routers/SchedulesAdd';
 
+import Home from './routers/Home';
+
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +23,7 @@ function App() {
           <Route path="/dashboard/halls" element={<Halls />} />
           <Route path="/dashboard/halls/add" element={<HallsAdd />} />
           <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
+          <Route path="/" element={<Home />} />
         </Routes>
       </>
     </BrowserRouter>
