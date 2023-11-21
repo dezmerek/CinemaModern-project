@@ -1,0 +1,25 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        button {
+            border: 1px solid rgb(31, 128, 224);
+            border-radius: 5px;
+            width: 2rem;
+            height: 2rem;
+            color: white;
+            background-color: transparent;
+
+            svg {
+                width: 1rem;
+                height: 1rem;
+            }
+        }
+    }
+}
