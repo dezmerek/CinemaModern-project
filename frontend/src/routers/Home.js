@@ -4,6 +4,7 @@ import Banner from "../components/Banner/Banner";
 import RecommendedVideos from "../components/RecommendedVideos/RecommendedVideos";
 import Footer from "../components/Footer/Footer";
 import PreviewsVideo from "../components/PreviewsVideo/PreviewsVideo";
+import Contact from "../components/Contact/Contact";
 
 const Home = () => {
     return (
@@ -12,6 +13,7 @@ const Home = () => {
             <Banner />
             <RecommendedVideos />
             <PreviewsVideo />
+            <Contact />
             <Footer />
         </div>
     );
