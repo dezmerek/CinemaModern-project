@@ -1,0 +1,33 @@
+.contact {
+    background-color: rgb(10, 14, 23);
+    padding: 1rem;
+    width: 100%;
+
+    &__container {
+        max-width: 1110px;
+        margin: 0 auto;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        h3 {
+            margin: 0;
+        }
+    }
+
+    &__social {
+        display: flex;
+        gap: 1rem;
+
+        svg {
+            background-color: rgb(31, 128, 224);
+            border-radius: 5px;
+            width: 2rem;
+            height: 2rem;
+            padding: 0.3rem;
+        }
+    }
+}
