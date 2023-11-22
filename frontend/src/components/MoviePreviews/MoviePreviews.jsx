@@ -1,11 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
-import { BsArrowRight, BsPlayCircle } from 'react-icons/bs';
+import { BsArrowRight } from 'react-icons/bs';
+import { format } from 'date-fns';
 import '../../Styles/components/_MoviePreviews.scss';
-import MoviePreviewsIMG from '../../assets/images/temporary/MoviePreviews.png';
+import PreviewCard from './PreviewCard';
 
 const MoviePreviews = () => {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    async function fetchMovies() {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/movies`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch movies');
+        }
+        const data = await response.json();
+
+        const filteredMovies = data.filter((movie) => movie.releaseDatePoland);
+
+        const sortedMovies = filteredMovies.sort((a, b) => {
+          const dateA = new Date(a.releaseDatePoland);
+          const dateB = new Date(b.releaseDatePoland);
+
+          return dateA
+            .toLocaleDateString()
+            .localeCompare(dateB.toLocaleDateString());
+        });
+
+        const topFourMovies = sortedMovies.slice(0, 4);
+        setMovies(topFourMovies);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      }
+    }
+
+    fetchMovies();
+  }, []);
+
   return (
     <div className="movie-previews">
       <div className="movie-previews__container">
@@ -18,49 +52,14 @@ const MoviePreviews = () => {
         </div>
 
         <div className="movie-previews__movies">
-          <div className="movie-previews__movie">
-            <Link to="/" className="movie-previews__image">
-              <img src={MoviePreviewsIMG} alt="previews" />
-              <BsPlayCircle />
-            </Link>
-            <div className="movie-previews__info">
-              <p>05.04</p>
-              <h4>Air</h4>
-            </div>
-          </div>
-
-          <div className="movie-previews__movie">
-            <Link to="/" className="movie-previews__image">
-              <img src={MoviePreviewsIMG} alt="previews" />
-              <BsPlayCircle />
-            </Link>
-            <div className="movie-previews__info">
-              <p>05.04</p>
-              <h4>Air</h4>
-            </div>
-          </div>
-
-          <div className="movie-previews__movie">
-            <Link to="/" className="movie-previews__image">
-              <img src={MoviePreviewsIMG} alt="previews" />
-              <BsPlayCircle />
-            </Link>
-            <div className="movie-previews__info">
-              <p>05.04</p>
-              <h4>Air</h4>
-            </div>
-          </div>
-
-          <div className="movie-previews__movie">
-            <Link to="/" className="movie-previews__image">
-              <img src={MoviePreviewsIMG} alt="previews" />
-              <BsPlayCircle />
-            </Link>
-            <div className="movie-previews__info">
-              <p>05.04</p>
-              <h4>Air</h4>
-            </div>
-          </div>
+          {movies.map((movie) => (
+            <PreviewCard
+              key={movie._id}
+              date={format(new Date(movie.releaseDatePoland), 'dd.MM')}
+              title={movie.title}
+              imagePath={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movie.trailerBannerImage}`}
+            />
+          ))}
         </div>
       </div>
     </div>
