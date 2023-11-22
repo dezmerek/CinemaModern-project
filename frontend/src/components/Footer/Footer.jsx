@@ -5,6 +5,11 @@ import '../../Styles/components/_Footer.scss';
 import { BsArrowUp } from 'react-icons/bs';
 
 const Footer = () => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0 });
+    console.log('test');
+  };
+
   return (
     <div className="footer">
       <div className="footer__container">
@@ -13,7 +18,7 @@ const Footer = () => {
           <Link to="/regulamin">Regulamin</Link>
           <Link to="/polityka-prywatnosci">Polityka Prywatności</Link>
           <button>
-            <BsArrowUp />
+            <BsArrowUp onClick={scrollToTop} />
           </button>
         </div>
       </div>
