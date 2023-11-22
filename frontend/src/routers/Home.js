@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Banner from "../components/Banner/Banner";
 import RecommendedVideos from "../components/RecommendedVideos/RecommendedVideos";
 import Footer from "../components/Footer/Footer";
-import PreviewsVideo from "../components/PreviewsVideo/PreviewsVideo";
+import MoviePreviews from "../components/MoviePreviews/MoviePreviews";
 import Contact from "../components/Contact/Contact";
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
             <Navbar />
             <Banner />
             <RecommendedVideos />
-            <PreviewsVideo />
+            <MoviePreviews />
             <Contact />
             <Footer />
         </div>
