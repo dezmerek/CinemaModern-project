@@ -20,7 +20,11 @@ const movieSchema = new mongoose.Schema({
     dateAdded: {
         type: Date,
         default: Date.now
-    }
+    },
+    isPreview: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const Movie = mongoose.model('Movie', movieSchema);

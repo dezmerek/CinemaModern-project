@@ -8,6 +8,7 @@ import { FilmsAdd } from './routers/FilmsAdd';
 import { HallsAdd } from './routers/HallsAdd';
 import { Halls } from './routers/Halls';
 import { SchedulesAdd } from './routers/SchedulesAdd';
+import { MoviesPreview } from './routers/MoviesPreview';
 
 import Home from './routers/Home';
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/users" element={<Users />} />
           <Route path="/dashboard/films" element={<Films />} />
+          <Route path="/dashboard/films/preview" element={<MoviesPreview />} />
           <Route path="/dashboard/films/add" element={<FilmsAdd />} />
           <Route path="/dashboard/halls" element={<Halls />} />
           <Route path="/dashboard/halls/add" element={<HallsAdd />} />
