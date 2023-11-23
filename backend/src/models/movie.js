@@ -25,6 +25,10 @@ const movieSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    isRecommended: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
