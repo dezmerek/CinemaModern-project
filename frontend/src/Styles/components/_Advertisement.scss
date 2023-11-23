@@ -9,21 +9,44 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 1rem;
 
         div {
+            font-size: 1em;
+
             h1 {
                 font-weight: 200;
                 margin-bottom: 0;
+
+                @media (max-width:768px) {
+                    font-size: 80%;
+                }
             }
 
             h2 {
                 font-weight: 300;
                 margin-top: 0;
+
+                @media (max-width:480px) {
+                    font-size: 80%;
+                }
+
+                @media (max-width:768px) {
+                    font-size: 90%;
+                }
             }
 
             h3 {
                 margin: 0;
                 padding: 0;
+
+                @media (max-width:480px) {
+                    font-size: 90%;
+                }
+
+                @media (max-width:768px) {
+                    font-size: 90%;
+                }
             }
         }
 
@@ -32,11 +55,20 @@
             padding: 0.5rem;
             border: 1px solid rgb(31, 128, 224);
             border-radius: 5px;
+            margin-top: 0.5rem;
         }
 
         img {
             max-width: 100%;
             height: auto;
+
+            @media (max-width: 480px) {
+                max-width: 25%;
+            }
+
+            @media (max-width: 768px) {
+                max-width: 25%;
+            }
         }
     }
 }
