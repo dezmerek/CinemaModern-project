@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import '../../Styles/components/_MoviePreviews.scss';
 import PreviewCard from './PreviewCard';
 
+// ...
 const MoviePreviews = () => {
   const [movies, setMovies] = useState([]);
 
@@ -19,15 +20,12 @@ const MoviePreviews = () => {
         }
         const data = await response.json();
 
-        const filteredMovies = data.filter((movie) => movie.releaseDatePoland);
+        const previewMovies = data.filter((movie) => movie.isPreview);
 
-        const sortedMovies = filteredMovies.sort((a, b) => {
+        const sortedMovies = previewMovies.sort((a, b) => {
           const dateA = new Date(a.releaseDatePoland);
           const dateB = new Date(b.releaseDatePoland);
-
-          return dateA
-            .toLocaleDateString()
-            .localeCompare(dateB.toLocaleDateString());
+          return dateA - dateB;
         });
 
         const topFourMovies = sortedMovies.slice(0, 4);
