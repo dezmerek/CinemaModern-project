@@ -1,14 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import '../../Styles/components/_Navbar.scss';
-import logo from '../../assets/images/logo.png';
 import { BsSearch, BsBoxArrowInLeft } from 'react-icons/bs';
+import '../../Styles/components/_Navbar.scss';
+import NavbarSearch from './NavbarSearch';
+import Sidebar from './Sidebar';
+import logo from '../../assets/images/logo.png';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const searchContainerRef = useRef(null);
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleSearch = () => {
+    setIsSearchVisible(!isSearchVisible);
+
+    if (isSearchVisible) {
+      setSearchTerm('');
+    }
+  };
+
+  const handleSearchChange = async (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    try {
+      const response = await fetch(
+        `${apiUrl}/api/movies/search/?title=${term}`
+      );
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      console.error('Błąd pobierania wyników wyszukiwania:', error);
+    }
   };
 
   const menuData = [
@@ -24,6 +55,46 @@ const Navbar = () => {
     </Link>
   ));
 
+  const searchResultItems = searchResults.map((item) => (
+    <Link key={item._id} to={`/movie/${item._id}`}>
+      {item.title}
+    </Link>
+  ));
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(event.target)
+      ) {
+        setSearchTerm('');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const closeSearch = () => {
+    setIsSearchVisible(false);
+    setSearchTerm('');
+  };
+
   return (
     <div className="navbar-home">
       <div className="navbar-home__container">
@@ -31,15 +102,23 @@ const Navbar = () => {
           <img src={logo} alt="logo" />
           <div className="navbar-home__menu">{menuItems}</div>
         </div>
-        <div className="search-container">
+        <div className="search-container" ref={searchContainerRef}>
           <div className="search-content">
             <input
               type="text"
               placeholder="Szukaj..."
               className="search-input"
+              value={searchTerm}
+              onChange={handleSearchChange}
             />
-            <BsSearch />
+            <BsSearch onClick={toggleSearch} />
+            {searchTerm && windowWidth <= 1024 && (
+              <div className="navbar-home__search-results">
+                {searchResultItems}
+              </div>
+            )}
           </div>
+
           <div
             className={`navbar-home__hamburger ${isOpen ? 'is-active' : ''}`}
             onClick={toggleMenu}
@@ -54,7 +133,11 @@ const Navbar = () => {
             <BsBoxArrowInLeft className="arrow-icon" />
           </Link>
         </div>
+        <Sidebar isOpen={isOpen} menuItems={menuData} />
       </div>
+      {isSearchVisible && windowWidth <= 1024 && (
+        <NavbarSearch apiUrl={apiUrl} onCloseSearch={closeSearch} />
+      )}
     </div>
   );
 };

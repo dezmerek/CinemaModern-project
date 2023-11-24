@@ -127,5 +127,18 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.get('/search', async (req, res) => {
+    try {
+        const { title } = req.query;
+        const query = title ? { title: { $regex: new RegExp(title, 'i') } } : {};
+
+        const movies = await Movie.find(query);
+
+        res.status(200).json(movies);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 export default router;
