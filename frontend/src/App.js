@@ -12,6 +12,7 @@ import { MoviesPreview } from './routers/MoviesPreview';
 import { MoviesRecommended } from './routers/MoviesRecommended';
 import Home from './routers/Home';
 import { BannersAdd } from './routers/BannersAdd';
+import PrivacyPolicy from './routers/PrivacyPolicy';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/dashboard/halls/add" element={<HallsAdd />} />
           <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
           <Route path="/" element={<Home />} />
+          <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
         </Routes>
       </>
     </BrowserRouter>
