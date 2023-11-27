@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { BsArrowRight } from 'react-icons/bs';
 import { format } from 'date-fns';
-import '../../Styles/components/_MoviePreviews.scss';
+import '../../../Styles/components/_MoviePreviews.scss';
 import PreviewCard from './PreviewCard';
 
 // ...

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import '../../Styles/components/__NavbarSearch.scss';
+import '../../../Styles/components/__NavbarSearch.scss';
 
 const NavbarSearch = ({ apiUrl, onCloseSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');

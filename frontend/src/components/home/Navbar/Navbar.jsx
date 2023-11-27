@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BsSearch, BsBoxArrowInLeft } from 'react-icons/bs';
-import '../../Styles/components/_Navbar.scss';
+import '../../../Styles/components/_Navbar.scss';
 import NavbarSearch from './NavbarSearch';
 import Sidebar from './Sidebar';
-import logo from '../../assets/images/logo.png';
+import logo from '../../../assets/images/logo.png';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const Navbar = () => {

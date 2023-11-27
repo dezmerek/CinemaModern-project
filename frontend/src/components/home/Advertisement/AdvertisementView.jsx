@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import '../../Styles/components/_Advertisement.scss';
-import AdvertisementImage from '../../assets/images/advertisement-image.png';
+import '../../../Styles/components/_Advertisement.scss';
+import AdvertisementImage from '../../../assets/images/advertisement-image.png';
 
 const AdvertisementView = () => {
   return (

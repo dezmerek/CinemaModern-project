@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../Styles/components/_Banner.scss';
+import '../../../Styles/components/_Banner.scss';
 import BannerContent from './BannerContent';
 const apiUrl = process.env.REACT_APP_API_URL;
 const Banner = () => {

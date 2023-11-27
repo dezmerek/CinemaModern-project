@@ -1,11 +1,11 @@
 import React from "react";
-import Navbar from "../components/Navbar/Navbar";
-import Banner from "../components/Banner/Banner";
-import MovieRecommended from "../components/MovieRecommended/MovieRecommended";
-import Footer from "../components/Footer/Footer";
-import MoviePreviews from "../components/MoviePreviews/MoviePreviews";
-import Contact from "../components/Contact/Contact";
-import AdvertisementView from "../components/Advertisement/AdvertisementView";
+import Navbar from "../components/home/Navbar/Navbar";
+import Banner from "../components/home/Banner/Banner";
+import MovieRecommended from "../components/home/MovieRecommended/MovieRecommended";
+import Footer from "../components/home/Footer/Footer";
+import MoviePreviews from "../components/home/MoviePreviews/MoviePreviews";
+import Contact from "../components/home/Contact/Contact";
+import AdvertisementView from "../components/home/Advertisement/AdvertisementView";
 
 const Home = () => {
     return (
