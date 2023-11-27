@@ -13,6 +13,7 @@ import { MoviesRecommended } from './routers/MoviesRecommended';
 import Home from './routers/Home';
 import { BannersAdd } from './routers/BannersAdd';
 import PrivacyPolicy from './routers/PrivacyPolicy';
+import Terms from './routers/Terms';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
           <Route path="/" element={<Home />} />
           <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
+          <Route path="/regulamin" element={<Terms />} />
         </Routes>
       </>
     </BrowserRouter>
