@@ -172,5 +172,14 @@ router.post('/ad-banners', upload.single('adBannerImage'), async (req, res) => {
     }
 });
 
+router.get('/ad-banners', async (req, res) => {
+    try {
+        const adBanners = await Movie.find({ isAdBanner: true });
+        res.status(200).json(adBanners);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 export default router;

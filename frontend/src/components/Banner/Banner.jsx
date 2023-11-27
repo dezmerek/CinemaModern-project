@@ -1,42 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../Styles/components/_Banner.scss';
-import { BsStar, BsPlay } from 'react-icons/bs';
-
+import BannerContent from './BannerContent';
+const apiUrl = process.env.REACT_APP_API_URL;
 const Banner = () => {
+  const [adBanners, setAdBanners] = useState([]);
+  const [currentBanner, setCurrentBanner] = useState(0);
+
+  useEffect(() => {
+    // Pobierz banery z bazy danych, które mają ustawione isAdBanner na true
+    const fetchAdBanners = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/api/movies/ad-banners`);
+        const data = await response.json();
+        setAdBanners(data);
+      } catch (error) {
+        console.error('Error fetching ad banners:', error);
+      }
+    };
+
+    fetchAdBanners();
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentBanner((currentBanner + 1) % adBanners.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [currentBanner, adBanners]);
+
   return (
     <div className="banner">
       <div className="banner__container">
-        <img
-          src={`${process.env.REACT_APP_API_URL}/images/adsBanners/banner-cat.png`}
-          alt="banners"
-        />
-        <div className="banner__content">
-          <div className="banner__genre">
-            <div>Animacja</div>
-            <div>Komedia</div>
-            <div>Przygodowy</div>
-          </div>
-          <h1>Kot w butach: Ostatnie życzenie</h1>
-          <p>
-            Kot w Butach wyrusza w podróż, aby odnaleźć mityczne "ostatnie
-            życzenie", dzięki któremu odzyska swoje dziewięć żyć.
-          </p>
-          <div className="banner__info">
-            <h4>
-              <BsStar />
-              7.8
-            </h4>
-            <h4>2023</h4>
-            <h4>100 min</h4>
-          </div>
-          <div className="banner__buttons">
-            <button>Szczegóły</button>
-            <button>
-              <BsPlay />
-              Zwiastun
-            </button>
-          </div>
-        </div>
+        {adBanners.length > 0 && (
+          <>
+            <img
+              src={`${process.env.REACT_APP_API_URL}/images/adBanners/${adBanners[currentBanner].adBannerImage}`}
+              alt="banners"
+            />
+            <BannerContent {...adBanners[currentBanner]} />
+            <div className="banner__dots">
+              {adBanners.map((_, index) => (
+                <span
+                  key={index}
+                  className={`banner__dot ${
+                    index === currentBanner ? 'active' : ''
+                  }`}
+                  onClick={() => setCurrentBanner(index)}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
