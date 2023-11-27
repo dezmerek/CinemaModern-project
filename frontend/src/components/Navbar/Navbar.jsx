@@ -112,7 +112,7 @@ const Navbar = () => {
               onChange={handleSearchChange}
             />
             <BsSearch onClick={toggleSearch} />
-            {searchTerm && windowWidth <= 1024 && (
+            {searchTerm && windowWidth >= 1024 && (
               <div className="navbar-home__search-results">
                 {searchResultItems}
               </div>
