@@ -1,0 +1,29 @@
+.film-add__banner {
+    background-color: rgb(21, 31, 48);
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 1110px;
+    max-width: 1110px;
+    height: 600px;
+
+    input[type="file"] {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+    img {
+        width: 100%;
+        border-radius: 10px;
+        display: block;
+    }
+}

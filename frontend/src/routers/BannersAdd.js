@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from '../components/dashboard/Sidebar/Sidebar';
-import BannerAdd from "../components/dashboard/Dashboard/Banner/BannerAdd";
+import BannerAdd from "../components/dashboard/Banner/BannerAdd";
 
 export const BannersAdd = () => {
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
