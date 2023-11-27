@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
       <div className="terms__container">
         <div className="terms__header">
           <img src={header} alt="polityka prywatnosci" />
-          <h2>Polityka Prywatności</h2>
+          <h2>Regulamin</h2>
         </div>
         <div className="terms__text">
           <ol>
