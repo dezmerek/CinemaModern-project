@@ -6,9 +6,10 @@ import Movie from '../models/movie.js';
 const router = express.Router();
 const uploadFolder = 'public/images/movieBanners';
 const trailerUploadFolder = 'public/images/trailerBanners';
+const adBannerUploadFolder = 'public/images/adBanners';
 
 const createUploadFolders = () => {
-    [uploadFolder, trailerUploadFolder].forEach(folder => {
+    [uploadFolder, trailerUploadFolder, adBannerUploadFolder].forEach(folder => {
         if (!fs.existsSync(folder)) {
             fs.mkdirSync(folder, { recursive: true });
         }
@@ -137,6 +138,37 @@ router.get('/search', async (req, res) => {
         res.status(200).json(movies);
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+});
+
+router.post('/ad-banners', upload.single('adBannerImage'), async (req, res) => {
+    try {
+        const { movieId, adDescription, isAdBanner } = req.body;
+
+        if (!movieId || !adDescription) {
+            return res.status(400).json({ error: 'Invalid input parameters' });
+        }
+
+        const movie = await Movie.findById(movieId);
+
+        if (!movie) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+
+        movie.adDescription = adDescription;
+        movie.isAdBanner = isAdBanner;
+
+        if (req.file) {
+            const adBannerImageFileName = await moveFile(req.file, adBannerUploadFolder);
+            movie.adBannerImage = adBannerImageFileName;
+        }
+
+        const updatedMovie = await movie.save();
+
+        res.status(201).json(updatedMovie);
+    } catch (err) {
+        console.error('Error adding ad banner:', err);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 

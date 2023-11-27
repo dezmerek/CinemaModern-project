@@ -29,6 +29,14 @@ const movieSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    adDescription: {
+        type: String,
+    },
+    adBannerImage: String,
+    isAdBanner: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
