@@ -13,7 +13,7 @@ const AdvertisementView = () => {
           <h3>Zyskaj więcej dzięki karcie Cinema Club</h3>
           <h2>Dołącz do naszego programu lojalnościowego</h2>
 
-          <Link to="/">
+          <Link to="/program-lojalnosciowy">
             <button type="button">Czytaj więcej</button>
           </Link>
         </div>
