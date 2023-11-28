@@ -16,6 +16,7 @@ import PrivacyPolicy from './routers/PrivacyPolicy';
 import Terms from './routers/Terms';
 import Abouts from './routers/Abouts';
 import Prices from './routers/Prices';
+import LoyaltyPrograms from './routers/LoyaltyPrograms';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
           <Route path="/regulamin" element={<Terms />} />
           <Route path="/o-nas" element={<Abouts />} />
           <Route path="/cennik" element={<Prices />} />
+          <Route path="/program-lojalnosciowy" element={<LoyaltyPrograms />} />
         </Routes>
       </>
     </BrowserRouter>
