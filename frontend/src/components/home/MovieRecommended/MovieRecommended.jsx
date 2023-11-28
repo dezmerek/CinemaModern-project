@@ -49,7 +49,7 @@ const MovieRecommended = () => {
       <div className="movie-recommended__container">
         <div className="movie-recommended__head">
           <h2>Polecane</h2>
-          <Link to="/" className="movie-recommended__head--link">
+          <Link to="/polecane" className="movie-recommended__head--link">
             Zobacz więcej
             <BsArrowRight />
           </Link>

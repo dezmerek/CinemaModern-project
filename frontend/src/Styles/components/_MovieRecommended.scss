@@ -31,7 +31,7 @@
     &__movie {
         display: flex;
         flex-direction: column;
-        width: calc(32.4% - 0.5rem);
+        width: calc(32.6% - 0.5rem);
 
         @media (min-width: 768px) {
             width: calc(16.66% - 1rem);

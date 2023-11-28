@@ -1,0 +1,39 @@
+.movie-recommend-list {
+    padding: 1rem;
+    width: 100%;
+
+    &__container {
+        max-width: 1110px;
+        margin: 0 auto;
+    }
+
+    &__header {
+        position: relative;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+
+        h2 {
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+            font-size: 24px;
+            margin: 0;
+            padding-left: 2rem;
+
+            @media (max-width: 767px) {
+                font-size: 1rem;
+            }
+        }
+    }
+
+    &__content {
+        justify-content: space-around;
+        padding-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+}

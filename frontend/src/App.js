@@ -18,6 +18,7 @@ import Abouts from './routers/Abouts';
 import Prices from './routers/Prices';
 import LoyaltyPrograms from './routers/LoyaltyPrograms';
 import MoviePreviewsLists from './routers/MoviePreviewsList';
+import MovieRecommendsList from './routers/MovieRecommendsList';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/cennik" element={<Prices />} />
           <Route path="/program-lojalnosciowy" element={<LoyaltyPrograms />} />
           <Route path="/zapowiedz" element={<MoviePreviewsLists />} />
+          <Route path="/polecane" element={<MovieRecommendsList />} />
         </Routes>
       </>
     </BrowserRouter>
