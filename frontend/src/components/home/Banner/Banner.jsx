@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../../../Styles/components/_Banner.scss';
 import BannerContent from './BannerContent';
 const apiUrl = process.env.REACT_APP_API_URL;
+
 const Banner = () => {
   const [adBanners, setAdBanners] = useState([]);
   const [currentBanner, setCurrentBanner] = useState(0);
 
   useEffect(() => {
-    // Pobierz banery z bazy danych, które mają ustawione isAdBanner na true
     const fetchAdBanners = async () => {
       try {
         const response = await fetch(`${apiUrl}/api/movies/ad-banners`);

@@ -1,8 +1,10 @@
 import React from 'react';
 import { BsStar, BsPlay } from 'react-icons/bs';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 const BannerContent = ({
+  _id,
   genres,
   title,
   description,
@@ -34,7 +36,9 @@ const BannerContent = ({
         <h4>{duration} min</h4>
       </div>
       <div className="banner__buttons">
-        <button>Szczegóły</button>
+        <button>
+          <Link to={`/polecane/${_id}`}>Szczegóły</Link>
+        </button>
         <button>
           <BsPlay />
           Zwiastun
