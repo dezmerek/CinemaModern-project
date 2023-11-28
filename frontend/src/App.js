@@ -20,6 +20,7 @@ import LoyaltyPrograms from './routers/LoyaltyPrograms';
 import MoviePreviewsLists from './routers/MoviePreviewsList';
 import MovieRecommendsList from './routers/MovieRecommendsList';
 import MoviePreviewsDetails from './routers/MoviePreviewsDetails';
+import MovieRecommendsDetails from './routers/MovieRecommendsDetails';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/zapowiedz" element={<MoviePreviewsLists />} />
           <Route path="/zapowiedz/:id" element={<MoviePreviewsDetails />} />
           <Route path="/polecane" element={<MovieRecommendsList />} />
+          <Route path="/polecane/:id" element={<MovieRecommendsDetails />} />
         </Routes>
       </>
     </BrowserRouter>
