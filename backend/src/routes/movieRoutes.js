@@ -181,5 +181,21 @@ router.get('/ad-banners', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const movie = await Movie.findById(movieId);
+
+        if (!movie) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+
+        res.status(200).json(movie);
+    } catch (error) {
+        console.error('Error fetching movie details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 export default router;
