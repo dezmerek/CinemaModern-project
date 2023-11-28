@@ -25,7 +25,7 @@ const NavbarSearch = ({ apiUrl, onCloseSearch }) => {
   const searchResultItems = searchResults.map((item) => (
     <Link
       key={item._id}
-      to={`/movie/${item._id}`}
+      to={`/film/${item._id}`}
       className="search-result-item"
     >
       {item.title}

@@ -56,7 +56,7 @@ const Navbar = () => {
   ));
 
   const searchResultItems = searchResults.map((item) => (
-    <Link key={item._id} to={`/movie/${item._id}`}>
+    <Link key={item._id} to={`/film/${item._id}`}>
       {item.title}
     </Link>
   ));

@@ -39,7 +39,7 @@ const BannerContent = ({
       </div>
       <div className="banner__buttons">
         <button>
-          <Link to={`/polecane/${_id}`}>Szczegóły</Link>
+          <Link to={`/film/${_id}`}>Szczegóły</Link>
         </button>
         <button>
           <BsPlay />
