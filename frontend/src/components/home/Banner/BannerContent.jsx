@@ -12,8 +12,6 @@ const BannerContent = ({
   duration,
   averageRating,
 }) => {
-  console.log('Average Rating:', averageRating);
-
   const formattedReleaseDate = releaseDatePoland
     ? format(new Date(releaseDatePoland), 'yyyy')
     : '';
