@@ -43,7 +43,7 @@ const MoviePreviews = () => {
       <div className="movie-previews__container">
         <div className="movie-previews__head">
           <h2>Zapowiedzi</h2>
-          <Link to="/" className="movie-previews__head--link">
+          <Link to="/zapowiedz" className="movie-previews__head--link">
             Zobacz więcej
             <BsArrowRight />
           </Link>

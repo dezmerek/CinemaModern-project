@@ -40,7 +40,7 @@ function App() {
           <Route path="/o-nas" element={<Abouts />} />
           <Route path="/cennik" element={<Prices />} />
           <Route path="/program-lojalnosciowy" element={<LoyaltyPrograms />} />
-          <Route path="/previews" element={<MoviePreviewsLists />} />
+          <Route path="/zapowiedz" element={<MoviePreviewsLists />} />
         </Routes>
       </>
     </BrowserRouter>
