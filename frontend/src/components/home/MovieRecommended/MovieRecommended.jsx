@@ -62,6 +62,7 @@ const MovieRecommended = () => {
               date={format(new Date(movie.releaseDatePoland), 'dd.MM')}
               title={movie.title}
               imagePath={`${process.env.REACT_APP_API_URL}/images/movieBanners/${movie.mainBannerImage}`}
+              movieId={movie._id}
             />
           ))}
         </div>
