@@ -6,27 +6,73 @@ import '../../../Styles/components/_MovieRecommended.scss';
 
 const MovieRecommendDetail = () => {
   const [movieDetails, setMovieDetails] = useState(null);
+  const [averageRating, setAverageRating] = useState(null);
 
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchMovieData = async () => {
       try {
-        const response = await fetch(
+        const movieResponse = await fetch(
           `${process.env.REACT_APP_API_URL}/api/movies/${id}`
         );
-        if (!response.ok) {
+
+        if (!movieResponse.ok) {
           throw new Error('Failed to fetch movie details');
         }
-        const data = await response.json();
-        setMovieDetails(data);
+
+        const movieData = await movieResponse.json();
+        setMovieDetails(movieData);
+
+        const averageRatingResponse = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/movies/${id}/average-rating`
+        );
+
+        if (!averageRatingResponse.ok) {
+          throw new Error('Failed to fetch average rating');
+        }
+
+        const averageRatingData = await averageRatingResponse.json();
+        setAverageRating(averageRatingData.averageRating);
       } catch (error) {
-        console.error('Error fetching movie details:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchMovieDetails();
+    fetchMovieData();
   }, [id]);
+
+  const handleRatingClick = async (rating) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/movies/${id}/rate`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ rating }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to submit rating');
+      }
+
+      const updatedResponse = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/movies/${id}`
+      );
+
+      if (!updatedResponse.ok) {
+        throw new Error('Failed to fetch updated movie details');
+      }
+
+      const updatedData = await updatedResponse.json();
+      setMovieDetails(updatedData);
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+    }
+  };
 
   return (
     <div className="movie-previews-detail">
@@ -39,6 +85,10 @@ const MovieRecommendDetail = () => {
               src={`${process.env.REACT_APP_API_URL}/images/movieBanners/${movieDetails.mainBannerImage}`}
               alt="Main Banner"
             />
+
+            {averageRating !== null && (
+              <p>Średnia: {averageRating.toFixed(1)}</p>
+            )}
 
             <p>
               {format(
@@ -82,6 +132,18 @@ const MovieRecommendDetail = () => {
               src={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movieDetails.trailerBannerImage}`}
               alt="Trailer Banner"
             />
+
+            <div className="rating-buttons">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
+                <div
+                  key={rating}
+                  onClick={() => handleRatingClick(rating)}
+                  className={`rating-button`}
+                >
+                  {rating}
+                </div>
+              ))}
+            </div>
           </>
         )}
       </div>

@@ -2,6 +2,7 @@ import express from 'express';
 import fs from 'fs';
 import multer from 'multer';
 import Movie from '../models/movie.js';
+import Rating from '../models/rating.js';
 
 const router = express.Router();
 const uploadFolder = 'public/images/movieBanners';
@@ -193,6 +194,65 @@ router.get('/:id', async (req, res) => {
         res.status(200).json(movie);
     } catch (error) {
         console.error('Error fetching movie details:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.post('/:id/rate', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const { rating } = req.body;
+
+        // Sprawdź, czy film istnieje
+        const movie = await Movie.findById(movieId);
+
+        if (!movie) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+
+        // Sprawdź, czy ocena mieści się w zakresie od 1 do 10
+        if (rating < 1 || rating > 10) {
+            return res.status(400).json({ error: 'Invalid rating value' });
+        }
+
+        // Dodaj nową ocenę do bazy danych
+        const newRating = new Rating({
+            movie: movieId,
+            rating
+        });
+
+        await newRating.save();
+
+        // Aktualizuj średnią ocenę filmu (jeśli to potrzebne)
+        const ratings = await Rating.find({ movie: movieId });
+        const totalRating = ratings.reduce((sum, r) => sum + r.rating, 0);
+        const averageRating = totalRating / ratings.length;
+
+        movie.rating = averageRating;
+        await movie.save();
+
+        res.status(200).json({ message: 'Rating added successfully' });
+    } catch (error) {
+        console.error('Error adding rating:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.get('/:id/average-rating', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+
+        const ratings = await Rating.find({ movie: movieId });
+
+        if (ratings.length > 0) {
+            const totalRating = ratings.reduce((sum, r) => sum + r.rating, 0);
+            const averageRating = totalRating / ratings.length;
+            res.status(200).json({ averageRating });
+        } else {
+            res.status(200).json({ averageRating: 0 });
+        }
+    } catch (error) {
+        console.error('Error calculating average rating:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
