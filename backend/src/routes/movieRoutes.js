@@ -3,6 +3,7 @@ import fs from 'fs';
 import multer from 'multer';
 import Movie from '../models/movie.js';
 import Rating from '../models/rating.js';
+import Review from '../models/review.js';
 
 const router = express.Router();
 const uploadFolder = 'public/images/movieBanners';
@@ -284,5 +285,43 @@ router.get('/:id/average-rating', async (req, res) => {
     }
 });
 
+
+router.get('/:id/reviews', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const reviews = await Review.find({ movie: movieId });
+        res.status(200).json(reviews);
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
+
+router.post('/:id/reviews', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const { comment } = req.body;
+
+        // Tutaj dodaj kod do dodawania recenzji dla danego filmu (możesz użyć modelu recenzji)
+        const movie = await Movie.findById(movieId);
+
+        if (!movie) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+
+        const newReview = new Review({
+            movie: movieId,
+            comment,
+        });
+
+        await newReview.save();
+
+        res.status(201).json(newReview);
+    } catch (error) {
+        console.error('Error adding review:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 export default router;

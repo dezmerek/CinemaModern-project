@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import '../../../Styles/components/_MovieRecommended.scss';
+import MovieRecommendReview from './MovieRecommendReview';
 
 const MovieRecommendDetail = () => {
   const [movieDetails, setMovieDetails] = useState(null);
@@ -146,6 +147,7 @@ const MovieRecommendDetail = () => {
             </div>
           </>
         )}
+        <MovieRecommendReview />
       </div>
     </div>
   );
