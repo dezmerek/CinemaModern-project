@@ -15,6 +15,7 @@ import { BannersAdd } from './routers/BannersAdd';
 import PrivacyPolicy from './routers/PrivacyPolicy';
 import Terms from './routers/Terms';
 import Abouts from './routers/Abouts';
+import Prices from './routers/Prices';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
           <Route path="/regulamin" element={<Terms />} />
           <Route path="/o-nas" element={<Abouts />} />
+          <Route path="/cennik" element={<Prices />} />
         </Routes>
       </>
     </BrowserRouter>
