@@ -14,6 +14,7 @@ import Home from './routers/Home';
 import { BannersAdd } from './routers/BannersAdd';
 import PrivacyPolicy from './routers/PrivacyPolicy';
 import Terms from './routers/Terms';
+import Abouts from './routers/Abouts';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
           <Route path="/regulamin" element={<Terms />} />
+          <Route path="/o-nas" element={<Abouts />} />
         </Routes>
       </>
     </BrowserRouter>
