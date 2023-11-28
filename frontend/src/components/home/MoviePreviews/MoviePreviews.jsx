@@ -56,6 +56,7 @@ const MoviePreviews = () => {
               date={format(new Date(movie.releaseDatePoland), 'dd.MM')}
               title={movie.title}
               imagePath={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movie.trailerBannerImage}`}
+              movieId={movie._id}
             />
           ))}
         </div>
