@@ -8,10 +8,12 @@ const BannerContent = ({
   genres,
   title,
   description,
-  rating,
   releaseDatePoland,
   duration,
+  averageRating,
 }) => {
+  console.log('Average Rating:', averageRating);
+
   const formattedReleaseDate = releaseDatePoland
     ? format(new Date(releaseDatePoland), 'yyyy')
     : '';
@@ -28,10 +30,12 @@ const BannerContent = ({
       <h1>{title}</h1>
       <p>{description}</p>
       <div className="banner__info">
-        <h4>
-          <BsStar />
-          {rating}
-        </h4>
+        {typeof averageRating === 'number' && (
+          <h4>
+            <BsStar /> {averageRating.toFixed(1)}{' '}
+          </h4>
+        )}
+
         <h4>{formattedReleaseDate}</h4>
         <h4>{duration} min</h4>
       </div>

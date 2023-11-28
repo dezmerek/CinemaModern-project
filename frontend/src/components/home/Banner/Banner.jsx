@@ -12,7 +12,17 @@ const Banner = () => {
       try {
         const response = await fetch(`${apiUrl}/api/movies/ad-banners`);
         const data = await response.json();
-        setAdBanners(data);
+
+        const adBannersWithDefaultRating = data.map((adBanner) => ({
+          ...adBanner,
+          averageRating:
+            adBanner.averageRating !== null &&
+            adBanner.averageRating !== undefined
+              ? adBanner.averageRating
+              : 0,
+        }));
+
+        setAdBanners(adBannersWithDefaultRating);
       } catch (error) {
         console.error('Error fetching ad banners:', error);
       }
@@ -38,7 +48,10 @@ const Banner = () => {
               src={`${process.env.REACT_APP_API_URL}/images/adBanners/${adBanners[currentBanner].adBannerImage}`}
               alt="banners"
             />
-            <BannerContent {...adBanners[currentBanner]} />
+            <BannerContent
+              {...adBanners[currentBanner]}
+              averageRating={adBanners[currentBanner].averageRating}
+            />
             <div className="banner__dots">
               {adBanners.map((_, index) => (
                 <span

@@ -176,11 +176,38 @@ router.post('/ad-banners', upload.single('adBannerImage'), async (req, res) => {
 router.get('/ad-banners', async (req, res) => {
     try {
         const adBanners = await Movie.find({ isAdBanner: true });
-        res.status(200).json(adBanners);
+
+        const adBannersWithRatings = await Promise.all(
+            adBanners.map(async (adBanner) => {
+                const averageRatingInfo = await Rating.aggregate([
+                    {
+                        $match: {
+                            movie: adBanner._id,
+                        },
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            averageRating: { $avg: '$rating' },
+                        },
+                    },
+                ]);
+
+                const averageRating = averageRatingInfo.length > 0 ? averageRatingInfo[0].averageRating : 0;
+
+                return {
+                    ...adBanner.toObject(),
+                    averageRating,
+                };
+            })
+        );
+
+        res.status(200).json(adBannersWithRatings);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 router.get('/:id', async (req, res) => {
     try {
