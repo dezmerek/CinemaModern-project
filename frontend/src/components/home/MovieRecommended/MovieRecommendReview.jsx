@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
+import '../../../Styles/components/_MovieRecommendReview.scss';
+import avatar from '../../../assets/images/avatar.png';
 
 const fetchReviews = async (id, setReviews) => {
   try {
@@ -64,31 +66,51 @@ const MovieReviewForm = () => {
     }
   };
 
+  const handleReset = () => {
+    setUserReview('');
+  };
+
   return (
-    <div className="movie-review-form">
+    <div className="review">
       <h2>Recenzje</h2>
-      <form onSubmit={handleReviewSubmit}>
-        <textarea
-          value={userReview}
-          onChange={(e) => setUserReview(e.target.value)}
-          placeholder="Dodaj recenzję..."
-        />
-        <button type="submit">Dodaj recenzję</button>
-      </form>
 
       {reviews.length > 0 && (
-        <div className="reviews-list">
-          <h3>Wszystkie recenzje:</h3>
+        <div className="review__container">
           <ul>
             {reviews.map((review) => (
               <li key={review._id || review.comment}>
-                <p>{format(new Date(review.dateAdded), 'dd.MM.yyyy, HH:mm')}</p>
-                <p>{review.comment}</p>
+                <div className="review__content">
+                  <div>
+                    <img src={avatar} alt="profilowe zdjecie" />
+                  </div>
+                  <div>
+                    <h4>Jan Kowalski</h4>
+                    <p>
+                      {format(new Date(review.dateAdded), 'dd.MM.yyyy, HH:mm')}
+                    </p>
+                  </div>
+                </div>
+                <hr />
+                <p className="review__container--comment">{review.comment}</p>
               </li>
             ))}
           </ul>
         </div>
       )}
+
+      <form className="review__form" onSubmit={handleReviewSubmit}>
+        <textarea
+          value={userReview}
+          onChange={(e) => setUserReview(e.target.value)}
+          placeholder="Dodaj recenzję..."
+        />
+        <div>
+          <button type="submit">Dodaj</button>
+          <button type="button" onClick={handleReset}>
+            Wyczyść
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

@@ -1,0 +1,73 @@
+.review {
+    width: 100%;
+
+    &__container {
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #151F30;
+            border-radius: 5px;
+
+            img {
+                max-width: 40px;
+                height: auto;
+            }
+        }
+
+        &--comment {
+            padding: 1rem;
+        }
+    }
+
+    &__content {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+
+        h4 {
+            margin: 0;
+        }
+
+        p {
+            margin: 0;
+        }
+    }
+
+    &__form {
+        background-color: #131720;
+        padding: 1rem;
+
+        textarea {
+            background-color: #151F30;
+            border: 0;
+            border-radius: 5px;
+            width: 100%;
+            padding: 0.5rem;
+            min-height: 8rem
+        }
+
+        ;
+
+        div {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            padding-top: 1rem;
+        }
+
+        button {
+            display: flex;
+            gap: 1rem;
+            border: 0;
+            background-color: #2F80ED;
+            border-radius: 5px;
+            padding: 0.7rem 1.2rem;
+            cursor: pointer;
+        }
+    }
+}
