@@ -18,11 +18,11 @@ export const Dashboard = () => {
     }, []);
 
     return (
-        <> <div style={isFlex ? { display: 'flex', gap: '3rem' } : {}}>
+        <div style={isFlex ? { display: 'flex', gap: '3rem', maxWidth: '1110px', margin: '1rem auto' } : {}}>
             <Sidebar />
             <div style={isFlex ? { flex: 1 } : {}}>
                 <DashboardView />
-            </div></div>
-        </>
+            </div>
+        </div>
     );
 };

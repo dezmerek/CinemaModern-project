@@ -19,7 +19,7 @@ export const HallsAdd = () => {
 
     return (
         <>
-            <div style={isFlex ? { display: 'flex', gap: '3rem' } : {}}>
+            <div style={isFlex ? { display: 'flex', gap: '3rem', maxWidth: '1110px', margin: '1rem auto' } : {}}>
                 <Sidebar />
                 <div style={{ overflowX: 'auto', width: '100%' }}>
                     <HallAdd />
