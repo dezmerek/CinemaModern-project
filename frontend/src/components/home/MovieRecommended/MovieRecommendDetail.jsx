@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
-import '../../../Styles/components/_MovieRecommended.scss';
+import '../../../Styles/components/_MovieRecommendedDetail.scss';
 import MovieRecommendReview from './MovieRecommendReview';
+import { BsStar } from 'react-icons/bs';
 
 const MovieRecommendDetail = () => {
   const [movieDetails, setMovieDetails] = useState(null);
@@ -76,30 +77,48 @@ const MovieRecommendDetail = () => {
   };
 
   return (
-    <div className="movie-previews-detail">
-      <div className="movie-previews-detail__container">
+    <div className="movie-recomended-detail">
+      <div className="movie-recomended-detail__container">
         {movieDetails && (
           <>
             <h1>{movieDetails.title}</h1>
 
-            <img
-              src={`${process.env.REACT_APP_API_URL}/images/movieBanners/${movieDetails.mainBannerImage}`}
-              alt="Main Banner"
-            />
+            <div className="movie-recomended-detail__info-first">
+              <img
+                src={`${process.env.REACT_APP_API_URL}/images/movieBanners/${movieDetails.mainBannerImage}`}
+                alt="Main Banner"
+              />
+              <div>
+                <div className="movie-recomended-detail__info-short">
+                  {averageRating !== null && (
+                    <h4>
+                      <BsStar /> {averageRating.toFixed(1)}
+                    </h4>
+                  )}
+                  <h4>
+                    {format(new Date(movieDetails.releaseDatePoland), 'yyyy', {
+                      locale: pl,
+                    })}
+                  </h4>
+                  <h4>{movieDetails.duration} min</h4>
+                </div>
+                <div className="movie-recomended-detail__description">
+                  <p> {movieDetails.description}</p>
+                </div>
+              </div>
+            </div>
 
-            {averageRating !== null && (
-              <p>Średnia: {averageRating.toFixed(1)}</p>
-            )}
-
-            <p>
-              {format(
-                new Date(movieDetails.releaseDatePoland),
-                'dd MMMM yyyy',
-                { locale: pl }
-              )}
-            </p>
-            <p>{movieDetails.duration} min</p>
-            <p>{movieDetails.description}</p>
+            <div className="movie-recomended-detail__rating-buttons">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
+                <div
+                  key={rating}
+                  onClick={() => handleRatingClick(rating)}
+                  className={`rating-button`}
+                >
+                  {rating}
+                </div>
+              ))}
+            </div>
 
             <table>
               <tbody>
@@ -133,18 +152,6 @@ const MovieRecommendDetail = () => {
               src={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movieDetails.trailerBannerImage}`}
               alt="Trailer Banner"
             />
-
-            <div className="rating-buttons">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
-                <div
-                  key={rating}
-                  onClick={() => handleRatingClick(rating)}
-                  className={`rating-button`}
-                >
-                  {rating}
-                </div>
-              ))}
-            </div>
           </>
         )}
         <MovieRecommendReview />
