@@ -1,0 +1,13 @@
+.repertoire-view {
+    width: 100%;
+    padding: 1rem;
+
+    &__container {
+        max-width: 1110px;
+        margin: 0 auto;
+
+        h2 {
+            margin: 0;
+        }
+    }
+}
