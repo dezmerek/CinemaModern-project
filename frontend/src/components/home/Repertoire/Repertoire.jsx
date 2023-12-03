@@ -6,7 +6,7 @@ const Repertoire = () => {
   return (
     <div className="repertoire-view">
       <div className="repertoire-view__container">
-        <h2>Repertuar</h2>
+        <h2>Repertoire</h2>
       </div>
     </div>
   );

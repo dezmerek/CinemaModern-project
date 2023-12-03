@@ -49,6 +49,10 @@ const hallSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    schedules: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Schedule',
+    }],
 });
 
 const Hall = mongoose.model('Hall', hallSchema);

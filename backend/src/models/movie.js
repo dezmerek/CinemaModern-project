@@ -37,6 +37,10 @@ const movieSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    schedules: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Schedule',
+    }],
 });
 const Movie = mongoose.model('Movie', movieSchema);
 
