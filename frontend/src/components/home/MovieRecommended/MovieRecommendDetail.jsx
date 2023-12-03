@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import '../../../Styles/components/_MovieRecommendedDetail.scss';
 import MovieRecommendReview from './MovieRecommendReview';
-import { BsStar } from 'react-icons/bs';
+import { BsStar, BsPlayCircle } from 'react-icons/bs';
 
 const MovieRecommendDetail = () => {
   const [movieDetails, setMovieDetails] = useState(null);
@@ -91,67 +91,137 @@ const MovieRecommendDetail = () => {
               <div>
                 <div className="movie-recomended-detail__info-short">
                   {averageRating !== null && (
-                    <h4>
+                    <h3>
                       <BsStar /> {averageRating.toFixed(1)}
-                    </h4>
+                    </h3>
                   )}
-                  <h4>
+                  <h3>
                     {format(new Date(movieDetails.releaseDatePoland), 'yyyy', {
                       locale: pl,
                     })}
-                  </h4>
-                  <h4>{movieDetails.duration} min</h4>
+                  </h3>
+                  <h3>{movieDetails.duration} min</h3>
                 </div>
-                <div className="movie-recomended-detail__description">
+                <div className="movie-recomended-detail__description1">
                   <p> {movieDetails.description}</p>
+                </div>
+                <div className="movie-recomended-detail__long-info1">
+                  <div className="movie-recomended-detail__rating-buttons">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
+                      <div
+                        key={rating}
+                        onClick={() => handleRatingClick(rating)}
+                        className={`rating-button`}
+                      >
+                        {rating}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="movie-recomended-detail__description">
+                    <p> {movieDetails.description}</p>
+                  </div>
+                  <div className="movie-recomended-detail__table">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th>reżyseria</th>
+                          <td>{movieDetails.director}</td>
+                        </tr>
+                        <tr>
+                          <th>scenariusz</th>
+                          <td>{movieDetails.writer}</td>
+                        </tr>
+                        <tr>
+                          <th>gatunek</th>
+                          <td>{movieDetails.genres.join(', ')}</td>
+                        </tr>
+                        <tr>
+                          <th>premiera</th>
+                          <td>
+                            {new Date(
+                              movieDetails.releaseDateWorld
+                            ).toLocaleDateString()}{' '}
+                            (Światowa premiera)
+                          </td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>
+                            {new Date(
+                              movieDetails.releaseDatePoland
+                            ).toLocaleDateString()}{' '}
+                            (Polska premiera kinowa)
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="movie-recomended-detail__trailer">
+                      <img
+                        src={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movieDetails.trailerBannerImage}`}
+                        alt="Trailer Banner"
+                      />
+                      <BsPlayCircle />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="movie-recomended-detail__rating-buttons">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
-                <div
-                  key={rating}
-                  onClick={() => handleRatingClick(rating)}
-                  className={`rating-button`}
-                >
-                  {rating}
+            <div className="movie-recomended-detail__long-info2">
+              <div className="movie-recomended-detail__rating-buttons">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((rating) => (
+                  <div
+                    key={rating}
+                    onClick={() => handleRatingClick(rating)}
+                    className={`rating-button`}
+                  >
+                    {rating}
+                  </div>
+                ))}
+              </div>
+              <div className="movie-recomended-detail__table">
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>reżyseria</th>
+                      <td>{movieDetails.director}</td>
+                    </tr>
+                    <tr>
+                      <th>scenariusz</th>
+                      <td>{movieDetails.writer}</td>
+                    </tr>
+                    <tr>
+                      <th>gatunek</th>
+                      <td>{movieDetails.genres.join(', ')}</td>
+                    </tr>
+                    <tr>
+                      <th>premiera</th>
+                      <td>
+                        {new Date(
+                          movieDetails.releaseDateWorld
+                        ).toLocaleDateString()}{' '}
+                        (Światowa premiera)
+                      </td>
+                    </tr>
+                    <tr>
+                      <th></th>
+                      <td>
+                        {new Date(
+                          movieDetails.releaseDatePoland
+                        ).toLocaleDateString()}{' '}
+                        (Polska premiera kinowa)
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className="movie-recomended-detail__trailer">
+                  <img
+                    src={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movieDetails.trailerBannerImage}`}
+                    alt="Trailer Banner"
+                  />
+                  <BsPlayCircle />
                 </div>
-              ))}
+              </div>
             </div>
-
-            <table>
-              <tbody>
-                <tr>
-                  <th>reżyseria</th>
-                  <td>{movieDetails.director}</td>
-                </tr>
-                <tr>
-                  <th>scenariusz</th>
-                  <td>{movieDetails.writer}</td>
-                </tr>
-                <tr>
-                  <th>premiera</th>
-                  <td>
-                    {new Date(
-                      movieDetails.releaseDateWorld
-                    ).toLocaleDateString()}{' '}
-                    (Światowa premiera)
-                  </td>
-                  <td>
-                    {new Date(
-                      movieDetails.releaseDatePoland
-                    ).toLocaleDateString()}{' '}
-                    (Polska premiera kinowa)
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <img
-              src={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movieDetails.trailerBannerImage}`}
-              alt="Trailer Banner"
-            />
           </>
         )}
         <MovieRecommendReview />

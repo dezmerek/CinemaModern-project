@@ -6,15 +6,31 @@
         max-width: 1110px;
         margin: 0 auto;
 
-        h4 {
+        h3 {
             margin: 0;
             padding: 0;
+        }
+
+        table {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            text-align: left;
+            width: 100%;
+
+            th {
+                padding-left: 0;
+            }
+
+            td {
+                padding-right: 0;
+            }
         }
     }
 
     &__info-first {
         display: flex;
         gap: 1rem;
+
 
         img {
             max-width: 20%;
@@ -38,6 +54,7 @@
     &__rating-buttons {
         display: flex;
         gap: 1rem;
+        padding-top: 1rem;
 
         div {
             border: 1px solid rgb(255, 255, 255);
@@ -54,4 +71,59 @@
             background-color: rgba(255, 255, 255, 0.245);
         }
     }
+
+    &__description1 {
+        @media (min-width:767px) {
+            display: none;
+        }
+    }
+
+    &__table {
+
+        @media (min-width: 767px) {
+            display: flex;
+        }
+    }
+
+    &__trailer {
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+            filter: brightness(1.3);
+        }
+
+        img {
+
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            min-width: 100%;
+            height: auto;
+        }
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: white;
+            opacity: 0.8;
+        }
+    }
+
+    &__long-info2 {
+        @media (min-width:767px) {
+            display: none;
+        }
+    }
+
+    &__long-info1 {
+        @media (max-width:767px) {
+            display: none;
+        }
+    }
+
+
 }
