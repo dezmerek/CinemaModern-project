@@ -3,11 +3,13 @@ import header from '../../../assets/images/header_4.png';
 import '../../../Styles/layout/_RepertoireList.scss';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { pl } from 'date-fns/locale';
+import { BsStar } from 'react-icons/bs';
 
 const RepertoireList = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedMovies, setSelectedMovies] = useState([]);
 
-  const handleDateClick = (dayIndex) => {
+  const handleDateClick = async (dayIndex) => {
     const clickedDate = new Date(
       startOfWeek(selectedDate, { weekStartsOn: 1 })
     );
@@ -15,8 +17,61 @@ const RepertoireList = () => {
     clickedDate.setHours(0, 0, 0, 0);
     setSelectedDate(clickedDate);
 
-    // Implement your logic for handling date clicks here
-    // This could include fetching data for the selected date, etc.
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/schedules?date=${format(
+          clickedDate,
+          'yyyy-MM-dd'
+        )}`
+      );
+
+      const data = await response.json();
+
+      const uniqueMovies = [];
+      for (const entry of data) {
+        const existingMovie = uniqueMovies.find(
+          (movie) => movie.title === entry.movie.title
+        );
+
+        if (!existingMovie) {
+          const movieDetailsResponse = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/movies/${entry.movie._id}`
+          );
+          const movieDetails = await movieDetailsResponse.json();
+
+          const ratingsResponse = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/movies/${entry.movie._id}/average-rating`
+          );
+          const averageRating = await ratingsResponse.json();
+
+          const reviewsResponse = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/movies/${entry.movie._id}/reviews`
+          );
+          const reviews = await reviewsResponse.json();
+          const formattedRating = averageRating.averageRating.toFixed(2);
+
+          uniqueMovies.push({
+            title: movieDetails.title,
+            genre: movieDetails.genres.join(', '),
+            duration: movieDetails.duration,
+            language: movieDetails.language,
+            rating: formattedRating,
+            startTimes: [format(new Date(entry.startTime), 'HH:mm')],
+            isPremiere: movieDetails.isPremiere,
+            reviews,
+            mainBannerImage: `${process.env.REACT_APP_API_URL}/images/movieBanners/${movieDetails.mainBannerImage}`,
+          });
+        } else {
+          existingMovie.startTimes.push(
+            format(new Date(entry.startTime), 'HH:mm')
+          );
+        }
+      }
+
+      setSelectedMovies(uniqueMovies);
+    } catch (error) {
+      console.error('Error fetching schedule:', error);
+    }
   };
 
   const currentDate = new Date();
@@ -64,7 +119,53 @@ const RepertoireList = () => {
           <h2>Repertuar</h2>
         </div>
         <div className="day-buttons">{renderDayButtons()}</div>
-        {/* Add the rest of your content here */}
+        <div>
+          {selectedMovies.length > 0 ? (
+            <>
+              {selectedMovies.map((movie, index) => (
+                <div key={movie.id || index}>
+                  <div className="repertoire-list__info1">
+                    <div className="repertoire-list__banner">
+                      <img
+                        src={movie.mainBannerImage}
+                        alt={`Banner for ${movie.title}`}
+                      />
+                    </div>
+                    <div className="repertoire-list__info">
+                      <div className="repertoire-list__title-rate">
+                        <span>
+                          <h2>{movie.title}</h2>
+                        </span>
+                        <h2>
+                          <BsStar />
+                          {movie.rating}
+                        </h2>
+                      </div>
+                      <div className="repertoire-list__title-rate">
+                        {movie.genre}
+                        <h3>{movie.duration} min</h3>
+                      </div>
+
+                      <div className="repertoire-list__btn">
+                        {movie.startTimes.map((startTime, timeIndex) => (
+                          <div key={timeIndex}>
+                            <p className="repertoire-list__btn--hour">
+                              {startTime}
+                            </p>
+                            <p>{movie.language}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
+                </div>
+              ))}
+            </>
+          ) : (
+            <p>Brak filmów na wybrany dzień.</p>
+          )}
+        </div>
       </div>
     </div>
   );
