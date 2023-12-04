@@ -21,6 +21,10 @@ const scheduleSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
+    isPremiere: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 

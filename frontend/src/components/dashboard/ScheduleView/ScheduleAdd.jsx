@@ -10,6 +10,7 @@ const ScheduleAdd = () => {
   const [selectedHall, setSelectedHall] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [isPremiere, setIsPremiere] = useState(false); // Nowy stan dla informacji o premierze
 
   useEffect(() => {
     // Fetch the list of movies from the server
@@ -47,6 +48,7 @@ const ScheduleAdd = () => {
             startTime: new Date(date + 'T' + startTime),
             endTime: new Date(date + 'T' + endTime),
             hall: selectedHall,
+            isPremiere, // Dodaj informację o premierze
           }),
         }
       );
@@ -141,6 +143,14 @@ const ScheduleAdd = () => {
             onChange={handleEndTimeChange}
             isSearchable
             placeholder="---"
+          />
+        </div>
+        <div>
+          <label>Premiera:</label>
+          <input
+            type="checkbox"
+            checked={isPremiere}
+            onChange={() => setIsPremiere(!isPremiere)}
           />
         </div>
         <div>
