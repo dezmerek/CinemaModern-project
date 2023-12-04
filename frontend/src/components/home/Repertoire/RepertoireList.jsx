@@ -148,12 +148,12 @@ const RepertoireList = () => {
 
                       <div className="repertoire-list__btn">
                         {movie.startTimes.map((startTime, timeIndex) => (
-                          <div key={timeIndex}>
+                          <button key={timeIndex}>
                             <p className="repertoire-list__btn--hour">
                               {startTime}
                             </p>
                             <p>{movie.language}</p>
-                          </div>
+                          </button>
                         ))}
                       </div>
                     </div>
