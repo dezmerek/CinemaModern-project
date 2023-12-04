@@ -44,7 +44,7 @@ const Navbar = () => {
 
   const menuData = [
     { name: 'Strona Główna', link: '/' },
-    { name: 'Kup Bilet', link: '/kup-bilet' },
+    { name: 'Kup Bilet', link: '/repertuar' },
     { name: 'Cennik', link: '/cennik' },
     { name: 'O nas', link: '/o-nas' },
   ];
