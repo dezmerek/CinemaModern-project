@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../../../Styles/layout/_Repertoire.scss';
 import { format, addDays, startOfWeek } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 const Repertoire = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -81,10 +82,12 @@ const Repertoire = () => {
                       {selectedMovies
                         .filter((s) => s.movie === schedule.movie)
                         .map((timeSlot, timeIndex) => (
-                          <span key={timeIndex}>
-                            {timeSlot.startTime}{' '}
-                            {timeIndex !== selectedMovies.length}
-                          </span>
+                          <Link key={timeIndex} to={`/`}>
+                            <span key={timeIndex}>
+                              {timeSlot.startTime}{' '}
+                              {timeIndex !== selectedMovies.length}
+                            </span>
+                          </Link>
                         ))}
                     </td>
                   </tr>
