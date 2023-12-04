@@ -6,6 +6,11 @@
         max-width: 1110px;
         margin: 0 auto;
 
+        svg {
+            font-size: 1rem;
+            color: rgb(47, 128, 237);
+        }
+
         table {
             width: 100%;
             text-align: left;
@@ -15,6 +20,11 @@
                 tr {
                     display: flex;
                     align-items: stretch;
+
+                    @media (max-width: 767px) {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
                 }
 
                 tr:nth-child(even) {
@@ -26,14 +36,99 @@
                     white-space: nowrap;
                     flex: 1;
                     display: flex;
-                    gap: 2rem;
+
+                    @media (max-width: 767px) {
+                        flex-direction: row;
+                        align-items: flex-start;
+                    }
                 }
             }
         }
+
+
+    }
+
+    &__head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &--link {
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgb(31, 128, 224) !important;
+        }
+    }
+
+    .repertoire-view__legend {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-left: 0.5rem;
+    }
+
+    .repertoire-view__hours {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .repertoire-view__title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        @media (max-width: 767px) {
+            display: none;
+        }
+    }
+
+    .repertoire-view__language {
+        td {
+            gap: 1rem !important;
+        }
+
+        @media (max-width: 767px) {
+            display: none;
+        }
+    }
+
+    .repertoire-view__premiere {
+        display: flex;
+        align-items: center;
+    }
+
+    .repertoire-view__movie-title {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        @media (min-width: 768px) {
+            display: none;
+        }
+    }
+
+    &__premiere {
+        max-width: 7rem;
+    }
+
+    &__hours {
+        color: red;
+    }
+
+    &__day-btn--date {
+        font-weight: 800;
+        font-size: 1.3rem;
+    }
+
+    &__day-btn--day {
+        font-size: 1rem;
     }
 
     .day-buttons {
         display: flex;
+        overflow-x: scroll;
 
         button {
             flex: 1;
@@ -42,6 +137,7 @@
             background-color: transparent;
             cursor: pointer;
             padding: 1rem;
+            min-width: 120px;
 
             &:focus,
             &:active {

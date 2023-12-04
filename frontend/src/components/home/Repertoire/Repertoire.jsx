@@ -3,6 +3,8 @@ import '../../../Styles/layout/_Repertoire.scss';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { pl } from 'date-fns/locale';
+import { IoMdNotificationsOutline } from 'react-icons/io';
+import { BsArrowRight } from 'react-icons/bs';
 
 const Repertoire = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -37,7 +39,7 @@ const Repertoire = () => {
         movie: entry.movie.title,
         language: entry.movie.language,
         startTime: format(new Date(entry.startTime), 'HH:mm'),
-        isPremiere: entry.isPremiere,
+        isPremiere: entry.movie.isPremiere,
       }));
 
       setSelectedMovies(schedulesForSelectedDate);
@@ -68,10 +70,10 @@ const Repertoire = () => {
             i === 0 ? 'first-day' : ''
           }`}
         >
-          <div>
+          <div className="repertoire-view__day-btn--date">
             <span>{format(dayDate, 'dd.MM')}</span>
           </div>
-          <div>
+          <div className="repertoire-view__day-btn--day">
             <span>{format(dayDate, 'iiii', { locale: pl })}</span>
           </div>
         </button>
@@ -86,34 +88,67 @@ const Repertoire = () => {
   return (
     <div className="repertoire-view">
       <div className="repertoire-view__container">
-        <h2>Repertuar</h2>
+        <div className="repertoire-view__head">
+          <h2>Repertuar</h2>
+          <Link to="/repertuar" className="repertoire-view__head--link">
+            Zobacz więcej
+            <BsArrowRight />
+          </Link>
+        </div>
         <div className="day-buttons">{renderDayButtons()}</div>
         <div>
           {selectedMovies.length > 0 ? (
             <table>
               <tbody>
-                {selectedMovies.map((schedule, index) => (
+                {Object.entries(
+                  selectedMovies.reduce((acc, curr) => {
+                    if (!acc[curr.movie]) {
+                      acc[curr.movie] = {
+                        language: curr.language,
+                        times: [curr.startTime],
+                        isPremiere: curr.isPremiere,
+                      };
+                    } else {
+                      acc[curr.movie].times.push(curr.startTime);
+                    }
+                    return acc;
+                  }, {})
+                ).map(([movie, details], index) => (
                   <tr key={index}>
-                    <td>{schedule.movie}</td>
-                    <td>{schedule.language}</td>
-                    <td>
-                      {selectedMovies
-                        .filter((s) => s.movie === schedule.movie)
-                        .map((timeSlot, timeIndex) => (
-                          <Link
-                            key={timeIndex}
-                            to={`/`}
-                            className="time-slot-link"
-                          >
-                            <span key={timeIndex}>
-                              {timeSlot.startTime}{' '}
-                              {timeIndex !== selectedMovies.length - 1}
-                            </span>
-                          </Link>
-                        ))}
+                    <td className="repertoire-view__movie-title">
+                      <span>
+                        {movie}
+                        {details.isPremiere && <IoMdNotificationsOutline />}
+                      </span>
+                      <span>{details.language}</span>
+                    </td>
+
+                    <td className="repertoire-view__title">
+                      {movie}
+                      {details.isPremiere && <IoMdNotificationsOutline />}
+                    </td>
+
+                    <td className="repertoire-view__language">
+                      {details.language}
+                    </td>
+                    <td className="repertoire-view__hours">
+                      {details.times.map((time, timeIndex) => (
+                        <Link
+                          key={timeIndex}
+                          to={`/`}
+                          className="time-slot-link"
+                        >
+                          <span key={timeIndex}>
+                            {time} {timeIndex !== details.times.length - 1}
+                          </span>
+                        </Link>
+                      ))}
                     </td>
                   </tr>
                 ))}
+                <p className="repertoire-view__legend">
+                  <IoMdNotificationsOutline /> - Premiera filmu
+                </p>
               </tbody>
             </table>
           ) : (

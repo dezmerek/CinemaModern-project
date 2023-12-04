@@ -8,13 +8,11 @@ router.post('/', async (req, res) => {
     try {
         const { movie, date, startTime, endTime, hall, isPremiere } = req.body;
 
-        // Check if the referenced movie exists
         const existingMovie = await Movie.findById(movie);
         if (!existingMovie) {
             return res.status(400).json({ error: 'Invalid movie reference.' });
         }
 
-        // Check if the referenced hall exists
         const existingHall = await Hall.findById(hall);
         if (!existingHall) {
             return res.status(400).json({ error: 'Invalid hall reference.' });
@@ -40,15 +38,13 @@ router.get('/', async (req, res) => {
             return res.status(400).json({ error: 'Missing date parameter.' });
         }
 
-        // Convert the received date string to a valid Date object
         const selectedDate = new Date(date + 'T00:00:00.000Z');
 
         console.log('Converted date:', selectedDate);
 
-        // Pobierz harmonogram dla wybranej daty z bazy danych
         const schedules = await Schedule.find({ date: selectedDate })
-            .populate('movie', 'title language isPreview')
-            .select('startTime endTime isPremiere');
+            .populate('movie', 'title language isPreview isPremiere')
+            .select('startTime endTime ');
 
         console.log('Fetched schedules from the database:', schedules);
 
