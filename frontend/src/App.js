@@ -22,6 +22,7 @@ import MovieRecommendsList from './routers/MovieRecommendsList';
 import MoviePreviewsDetails from './routers/MoviePreviewsDetails';
 import MovieRecommendsDetails from './routers/MovieRecommendsDetails';
 import ReportiresList from './routers/ReportiresList';
+import Reservations from './routers/Reservations';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="/polecane" element={<MovieRecommendsList />} />
           <Route path="/film/:id" element={<MovieRecommendsDetails />} />
           <Route path="/repertuar" element={<ReportiresList />} />
+          <Route path="/rezerwacja" element={<Reservations />} />
         </Routes>
       </>
     </BrowserRouter>
