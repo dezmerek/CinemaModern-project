@@ -6,14 +6,52 @@
         max-width: 1110px;
         margin: 0 auto;
 
-        h2 {
-            margin: 0;
-        }
-
         table {
             width: 100%;
             text-align: left;
             border-spacing: 0 1rem;
+
+            tbody {
+                tr {
+                    display: flex;
+                    align-items: stretch;
+                }
+
+                tr:nth-child(even) {
+                    background-color: rgb(10, 14, 23);
+                }
+
+                td {
+                    padding: 1rem;
+                    white-space: nowrap;
+                    flex: 1;
+                    display: flex;
+                    gap: 2rem;
+                }
+            }
         }
     }
+
+    .day-buttons {
+        display: flex;
+
+        button {
+            flex: 1;
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            padding: 1rem;
+
+            &:focus,
+            &:active {
+                outline: none;
+            }
+
+            &.odd-button {
+                background-color: #151f30;
+            }
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../../Styles/layout/_Repertoire.scss';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { pl } from 'date-fns/locale';
 
 const Repertoire = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -15,7 +16,10 @@ const Repertoire = () => {
   };
 
   const handleDateClick = async (dayIndex) => {
-    const clickedDate = addDays(startOfWeek(selectedDate), dayIndex);
+    const clickedDate = new Date(
+      startOfWeek(selectedDate, { weekStartsOn: 1 })
+    );
+    clickedDate.setDate(clickedDate.getDate() + dayIndex);
     clickedDate.setHours(0, 0, 0, 0);
 
     setSelectedDate(clickedDate);
@@ -26,6 +30,7 @@ const Repertoire = () => {
           clickedDate
         )}`
       );
+
       const data = await response.json();
 
       const schedulesForSelectedDate = data.map((entry) => ({
@@ -42,26 +47,39 @@ const Repertoire = () => {
   };
 
   const currentDate = new Date();
-  const startDate = startOfWeek(currentDate);
+  const startDate = startOfWeek(currentDate, { weekStartsOn: 1 });
 
   const renderDayButtons = () => {
     const buttons = [];
-    for (let i = 1; i < 7; i++) {
+    let isEvenColor = false;
+
+    for (let i = 0; i < 7; i++) {
       const dayDate = addDays(startDate, i);
+
       buttons.push(
         <button
           key={i}
           onClick={() => handleDateClick(i)}
-          className={
+          className={`${
             format(selectedDate, 'yyyy-MM-dd') === format(dayDate, 'yyyy-MM-dd')
               ? 'active'
               : ''
-          }
+          } ${isEvenColor ? 'even-button' : 'odd-button'} ${
+            i === 0 ? 'first-day' : ''
+          }`}
         >
-          {format(dayDate, 'iiii\ndd.MM')}
+          <div>
+            <span>{format(dayDate, 'dd.MM')}</span>
+          </div>
+          <div>
+            <span>{format(dayDate, 'iiii', { locale: pl })}</span>
+          </div>
         </button>
       );
+
+      isEvenColor = !isEvenColor;
     }
+
     return buttons;
   };
 
@@ -82,10 +100,14 @@ const Repertoire = () => {
                       {selectedMovies
                         .filter((s) => s.movie === schedule.movie)
                         .map((timeSlot, timeIndex) => (
-                          <Link key={timeIndex} to={`/`}>
+                          <Link
+                            key={timeIndex}
+                            to={`/`}
+                            className="time-slot-link"
+                          >
                             <span key={timeIndex}>
                               {timeSlot.startTime}{' '}
-                              {timeIndex !== selectedMovies.length}
+                              {timeIndex !== selectedMovies.length - 1}
                             </span>
                           </Link>
                         ))}
