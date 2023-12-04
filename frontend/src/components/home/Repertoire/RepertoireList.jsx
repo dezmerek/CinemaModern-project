@@ -4,6 +4,7 @@ import '../../../Styles/layout/_RepertoireList.scss';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import { BsStar } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const RepertoireList = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -29,6 +30,8 @@ const RepertoireList = () => {
 
       const uniqueMovies = [];
       for (const entry of data) {
+        console.log('Schedule _id:', entry._id);
+
         const existingMovie = uniqueMovies.find(
           (movie) => movie.title === entry.movie.title
         );
@@ -56,15 +59,21 @@ const RepertoireList = () => {
             duration: movieDetails.duration,
             language: movieDetails.language,
             rating: formattedRating,
-            startTimes: [format(new Date(entry.startTime), 'HH:mm')],
+            startTimes: [
+              {
+                time: format(new Date(entry.startTime), 'HH:mm'),
+                scheduleId: entry._id,
+              },
+            ],
             isPremiere: movieDetails.isPremiere,
             reviews,
             mainBannerImage: `${process.env.REACT_APP_API_URL}/images/movieBanners/${movieDetails.mainBannerImage}`,
           });
         } else {
-          existingMovie.startTimes.push(
-            format(new Date(entry.startTime), 'HH:mm')
-          );
+          existingMovie.startTimes.push({
+            time: format(new Date(entry.startTime), 'HH:mm'),
+            scheduleId: entry._id,
+          });
         }
       }
 
@@ -123,7 +132,7 @@ const RepertoireList = () => {
           {selectedMovies.length > 0 ? (
             <>
               {selectedMovies.map((movie, index) => (
-                <div key={movie.id || index}>
+                <div key={movie._id || index}>
                   <div className="repertoire-list__info1">
                     <div className="repertoire-list__banner">
                       <img
@@ -149,10 +158,15 @@ const RepertoireList = () => {
                       <div className="repertoire-list__btn">
                         {movie.startTimes.map((startTime, timeIndex) => (
                           <button key={timeIndex}>
-                            <p className="repertoire-list__btn--hour">
-                              {startTime}
-                            </p>
-                            <p>{movie.language}</p>
+                            <Link
+                              to={`/kup-bilet/${startTime.scheduleId}`}
+                              key={timeIndex}
+                            >
+                              <p className="repertoire-list__btn--hour">
+                                {startTime.time}
+                              </p>
+                              <p>{movie.language}</p>
+                            </Link>
                           </button>
                         ))}
                       </div>
