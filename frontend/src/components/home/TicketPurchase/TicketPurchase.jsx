@@ -2,7 +2,7 @@ import React from 'react';
 import header from '../../../assets/images/header_3.png';
 import '../../../Styles/layout/_Reservation.scss';
 
-const Reservation = () => {
+const TicketPurchase = () => {
   return (
     <div className="reservation-ticket">
       <div className="reservation-ticket__container">
@@ -15,4 +15,4 @@ const Reservation = () => {
   );
 };
 
-export default Reservation;
+export default TicketPurchase;
