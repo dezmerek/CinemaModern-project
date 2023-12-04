@@ -10,16 +10,14 @@ const ScheduleAdd = () => {
   const [selectedHall, setSelectedHall] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [isPremiere, setIsPremiere] = useState(false); // Nowy stan dla informacji o premierze
+  const [isPremiere, setIsPremiere] = useState(false);
 
   useEffect(() => {
-    // Fetch the list of movies from the server
     fetch(`${process.env.REACT_APP_API_URL}/api/movies`)
       .then((response) => response.json())
       .then((data) => setMovies(data))
       .catch((error) => console.error('Error fetching movies:', error));
 
-    // Fetch the list of halls from the server
     fetch(`${process.env.REACT_APP_API_URL}/api/halls`)
       .then((response) => response.json())
       .then((data) => setHalls(data))
@@ -27,13 +25,11 @@ const ScheduleAdd = () => {
   }, []);
 
   const handleSaveSchedule = async () => {
-    // Perform validation before sending the request to the server
     if (!selectedMovie || !date || !selectedHall || !startTime || !endTime) {
       alert('Proszę wypełnić wszystkie pola.');
       return;
     }
 
-    // Send the schedule data to the server
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/schedules`,
@@ -48,14 +44,13 @@ const ScheduleAdd = () => {
             startTime: new Date(date + 'T' + startTime),
             endTime: new Date(date + 'T' + endTime),
             hall: selectedHall,
-            isPremiere, // Dodaj informację o premierze
+            isPremiere,
           }),
         }
       );
 
       if (response.status === 201) {
         alert('Schedule added successfully!');
-        // You can perform additional actions, such as clearing the form or updating the schedule list
       } else {
         alert('Failed to add schedule. Please try again.');
       }
@@ -81,11 +76,11 @@ const ScheduleAdd = () => {
   };
 
   const handleStartTimeChange = (selectedOption) => {
-    setStartTime(selectedOption.label); // Pobierz etykietę z wybranej opcji
+    setStartTime(selectedOption.label);
   };
 
   const handleEndTimeChange = (selectedOption) => {
-    setEndTime(selectedOption.label); // Pobierz etykietę z wybranej opcji
+    setEndTime(selectedOption.label);
   };
 
   return (

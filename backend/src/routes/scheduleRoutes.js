@@ -3,7 +3,19 @@ import Schedule from '../models/schedule.js';
 import Movie from '../models/movie.js';
 import Hall from '../models/hall.js';
 
+function deepClone(obj) {
+    try {
+        const clonedObj = JSON.parse(JSON.stringify(obj));
+        console.log('Deep clone success:', clonedObj);
+        return clonedObj;
+    } catch (error) {
+        console.error('Deep clone error:', error);
+        return null;
+    }
+}
+
 const router = express.Router();
+
 router.post('/', async (req, res) => {
     try {
         const { movie, date, startTime, endTime, hall, isPremiere } = req.body;
@@ -18,7 +30,26 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Invalid hall reference.' });
         }
 
-        const newSchedule = new Schedule({ movie, date, startTime, endTime, hall, isPremiere });
+        const hallLayoutCopy = deepClone(existingHall.seatLayout);
+
+        if (!hallLayoutCopy) {
+            return res.status(500).json({ error: 'Error cloning hall layout.' });
+        }
+
+        if (hallLayoutCopy.length > 0) {
+            hallLayoutCopy[0].isReserved = true;
+        }
+
+        const newSchedule = new Schedule({
+            movie,
+            date,
+            startTime,
+            endTime,
+            hall,
+            isPremiere,
+            clonedHallLayout: hallLayoutCopy,
+        });
+
         await newSchedule.save();
 
         res.status(201).json({ message: 'Schedule added successfully!' });
@@ -27,6 +58,7 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Internal server error. Please try again later.' });
     }
 });
+
 
 router.get('/', async (req, res) => {
     try {

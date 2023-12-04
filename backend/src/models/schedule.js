@@ -25,6 +25,26 @@ const scheduleSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    clonedHallLayout: [
+        {
+            row: {
+                type: Number,
+                required: true,
+            },
+            seat: {
+                type: Number,
+                required: true,
+            },
+            isActive: {
+                type: Boolean,
+                required: true,
+            },
+            isReserved: {
+                type: Boolean,
+                default: false,
+            },
+        },
+    ],
 });
 
 
