@@ -21,6 +21,7 @@ import MoviePreviewsLists from './routers/MoviePreviewsList';
 import MovieRecommendsList from './routers/MovieRecommendsList';
 import MoviePreviewsDetails from './routers/MoviePreviewsDetails';
 import MovieRecommendsDetails from './routers/MovieRecommendsDetails';
+import ReportiresList from './routers/ReportiresList';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/zapowiedz/:id" element={<MoviePreviewsDetails />} />
           <Route path="/polecane" element={<MovieRecommendsList />} />
           <Route path="/film/:id" element={<MovieRecommendsDetails />} />
+          <Route path="/repertuar" element={<ReportiresList />} />
         </Routes>
       </>
     </BrowserRouter>
