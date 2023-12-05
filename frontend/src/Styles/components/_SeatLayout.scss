@@ -1,10 +1,15 @@
-// _SeatLayout.scss
+.seat-layout-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .seat-layout {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    overflow-y: hidden;
-    align-items: center;
+    overflow-x: auto;
 }
 
 .seat-layout__row {
@@ -15,7 +20,8 @@
 
 .seat-layout__row-number {
     display: flex;
-    margin-bottom: 5px;
+    min-width: 1rem;
+    justify-content: center;
 }
 
 .seat-layout__screen {
@@ -38,8 +44,8 @@
     margin: 2px;
     position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     border-radius: 10px 10px 5px 5px;
     cursor: pointer;
 }

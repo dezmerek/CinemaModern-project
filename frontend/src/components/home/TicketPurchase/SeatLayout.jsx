@@ -60,44 +60,46 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
 
   return (
     <>
-      <div className="seat-layout">
-        <div className="seat-layout__screen">EKRAN</div>
-        {seatsArray.map((row, rowIndex) => (
-          <div key={rowIndex} className="seat-layout__row">
-            <div className="seat-layout__row-number">
-              {String.fromCharCode(65 + rowIndex)}
-            </div>
-
-            {row.map((seat, seatIndex) => (
-              <div
-                key={seatIndex}
-                className={`seat-layout__seat ${
-                  seat && seat.isActive
-                    ? 'active'
-                    : seat && seat.isReserved
-                    ? 'reserved'
-                    : 'inactive'
-                } ${
-                  seat &&
-                  selectedSeats.some(
-                    (selectedSeat) =>
-                      selectedSeat.row === seat.row &&
-                      selectedSeat.seat === seat.seat
-                  )
-                    ? 'selected'
-                    : ''
-                }`}
-                onClick={() => seat && handleClick(seat)}
-              >
-                {seat && (seat.isActive || seat.isReserved) ? seat.seat : ''}
+      <div className="seat-layout__screen">EKRAN</div>
+      <div className="seat-layout-container">
+        <div className="seat-layout">
+          {seatsArray.map((row, rowIndex) => (
+            <div key={rowIndex} className="seat-layout__row">
+              <div className="seat-layout__row-number">
+                {String.fromCharCode(65 + rowIndex)}
               </div>
-            ))}
 
-            <div className="seat-layout__row-number">
-              {String.fromCharCode(65 + rowIndex)}
+              {row.map((seat, seatIndex) => (
+                <div
+                  key={seatIndex}
+                  className={`seat-layout__seat ${
+                    seat && seat.isActive
+                      ? 'active'
+                      : seat && seat.isReserved
+                      ? 'reserved'
+                      : 'inactive'
+                  } ${
+                    seat &&
+                    selectedSeats.some(
+                      (selectedSeat) =>
+                        selectedSeat.row === seat.row &&
+                        selectedSeat.seat === seat.seat
+                    )
+                      ? 'selected'
+                      : ''
+                  }`}
+                  onClick={() => seat && handleClick(seat)}
+                >
+                  {seat && (seat.isActive || seat.isReserved) ? seat.seat : ''}
+                </div>
+              ))}
+
+              <div className="seat-layout__row-number">
+                {String.fromCharCode(65 + rowIndex)}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       {selectedSeats.length > 0 && (
         <SelectedTickets
@@ -110,5 +112,4 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
     </>
   );
 };
-
 export default SeatLayout;

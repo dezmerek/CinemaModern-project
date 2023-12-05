@@ -1,8 +1,12 @@
-// _SeatLegend.scss
+.seat-legend-container {
+    display: flex;
+}
+
 .seat-legend {
     display: flex;
     margin-top: 20px;
     gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .seat-legend-h3 {
