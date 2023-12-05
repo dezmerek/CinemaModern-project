@@ -2,18 +2,27 @@
 import React, { useState } from 'react';
 import '../../../Styles/components/_SeatLayout.scss';
 import SeatLegend from './SeatLegend.jsx';
+import SelectedTickets from './SelectedTickets.jsx';
 
 const SeatLayout = ({ seatData, onSeatClick }) => {
   const maxRow = Math.max(...seatData.map((seat) => seat.row));
   const maxSeat = Math.max(...seatData.map((seat) => seat.seat));
 
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [selectedTicketTypes, setSelectedTicketTypes] = useState({});
 
   const seatsArray = Array.from(Array(maxRow), () => Array(maxSeat).fill(null));
 
   seatData.forEach((seat) => {
     seatsArray[seat.row - 1][seat.seat - 1] = seat;
   });
+
+  const handleTicketTypeChange = (seat, ticketType) => {
+    setSelectedTicketTypes((prevTypes) => ({
+      ...prevTypes,
+      [`${seat.row}-${seat.seat}`]: ticketType,
+    }));
+  };
 
   const handleClick = (seat) => {
     if (!seat.isReserved) {
@@ -29,9 +38,20 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
             !(selectedSeat.row === seat.row && selectedSeat.seat === seat.seat)
         );
         setSelectedSeats(updatedSelectedSeats);
+
+        // Usuń typ biletu dla odznaczonego miejsca
+        const { [`${seat.row}-${seat.seat}`]: removedTicketType, ...rest } =
+          selectedTicketTypes;
+        setSelectedTicketTypes(rest);
       } else {
         // Zaznacz miejsce
         setSelectedSeats([...selectedSeats, seat]);
+
+        // Dodaj domyślny typ biletu dla nowo zaznaczonego miejsca
+        setSelectedTicketTypes((prevTypes) => ({
+          ...prevTypes,
+          [`${seat.row}-${seat.seat}`]: 'NORMAL',
+        }));
       }
 
       onSeatClick(seat.row, seat.seat);
@@ -79,6 +99,13 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
           </div>
         ))}
       </div>
+      {selectedSeats.length > 0 && (
+        <SelectedTickets
+          selectedSeats={selectedSeats}
+          onTicketTypeChange={handleTicketTypeChange}
+          selectedTicketTypes={selectedTicketTypes}
+        />
+      )}
       <SeatLegend />
     </>
   );
