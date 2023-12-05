@@ -101,6 +101,7 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
           ))}
         </div>
       </div>
+      <SeatLegend />
       {selectedSeats.length > 0 && (
         <SelectedTickets
           selectedSeats={selectedSeats}
@@ -108,7 +109,6 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
           selectedTicketTypes={selectedTicketTypes}
         />
       )}
-      <SeatLegend />
     </>
   );
 };

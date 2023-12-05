@@ -1,0 +1,38 @@
+.selected-tickets {
+    padding-top: 2rem;
+
+    table {
+        text-align: left;
+        width: 100%;
+
+        th {
+            padding: 0;
+        }
+
+        tbody {
+            td {
+                padding: 0.6rem 0;
+            }
+
+            tr:nth-child(even) {
+                background-color: #0A0E17;
+            }
+
+            select {
+                background-color: #1966B3;
+                border: 0;
+                color: rgb(255, 255, 255);
+                border-radius: 5px;
+                padding: 0.3rem;
+            }
+        }
+
+        tfoot {
+            font-weight: 800;
+
+            td.sum-column {
+                text-align: right;
+            }
+        }
+    }
+}

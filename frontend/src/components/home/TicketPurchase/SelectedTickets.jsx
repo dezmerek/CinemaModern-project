@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Voucher from './Voucher';
+import '../../../Styles/components/_SelectedTickets.scss';
 
 const rowNumberToLetter = (number) => {
   return String.fromCharCode(65 + number - 1);
@@ -92,7 +93,9 @@ const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan="3">SUMA PLN biletów:</td>
+            <td colSpan="3" className="sum-column">
+              Razem:
+            </td>
             <td>{totalPrice.toFixed(2)} PLN</td>
           </tr>
         </tfoot>
