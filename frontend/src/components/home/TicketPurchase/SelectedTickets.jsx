@@ -1,5 +1,5 @@
-// SelectedTickets.jsx
 import React, { useState, useEffect } from 'react';
+import Voucher from './Voucher';
 
 const rowNumberToLetter = (number) => {
   return String.fromCharCode(65 + number - 1);
@@ -12,8 +12,9 @@ const ticketInfo = {
 
 const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
   const [selectedTicketTypes, setSelectedTicketTypes] = useState({});
-  const [selectedTicketPrices, setSelectedTicketPrices] = useState({}); // Dodaj tę linię
+  const [selectedTicketPrices, setSelectedTicketPrices] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
+  const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   useEffect(() => {
     // Inicjalizacja stanu z typami biletów na podstawie wybranych miejsc
@@ -31,12 +32,16 @@ const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
     selectedSeats.forEach((seat) => {
       const type = selectedTicketTypes[`${seat.row}-${seat.seat}`];
       const price = ticketInfo[type] ? ticketInfo[type].price : 0;
-      updatedPrices[`${seat.row}-${seat.seat}`] = price.toFixed(2);
-      total += price;
+
+      // Zastosuj zniżkę 10% do ceny pojedynczego biletu
+      const discountedPrice = price - price * (voucherDiscount / 100);
+
+      updatedPrices[`${seat.row}-${seat.seat}`] = discountedPrice.toFixed(2);
+      total += discountedPrice;
     });
-    setSelectedTicketPrices(updatedPrices);
     setTotalPrice(total);
-  }, [selectedSeats, selectedTicketTypes]);
+    setSelectedTicketPrices(updatedPrices);
+  }, [selectedSeats, selectedTicketTypes, voucherDiscount]);
 
   const handleTicketTypeChange = (seat, event) => {
     const { value } = event.target;
@@ -45,6 +50,14 @@ const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
       [`${seat.row}-${seat.seat}`]: value,
     }));
     onTicketTypeChange(seat, value);
+  };
+
+  const applyVoucher = (voucherCode) => {
+    // Tutaj możesz dodać logikę do sprawdzania poprawności vouchera
+    // i obliczania zniżki na cenę biletów
+    // W tym przykładzie zakładamy, że voucher o kodzie "test" obniża cenę o 10%
+    const discount = voucherCode === 'test' ? 10 : 0;
+    setVoucherDiscount(discount);
   };
 
   return (
@@ -77,8 +90,14 @@ const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
             </tr>
           ))}
         </tbody>
-        <p>Razem: {totalPrice.toFixed(2)} PLN</p>
+        <tfoot>
+          <tr>
+            <td colSpan="3">SUMA PLN biletów:</td>
+            <td>{totalPrice.toFixed(2)} PLN</td>
+          </tr>
+        </tfoot>
       </table>
+      <Voucher onApplyVoucher={applyVoucher} />
     </div>
   );
 };
