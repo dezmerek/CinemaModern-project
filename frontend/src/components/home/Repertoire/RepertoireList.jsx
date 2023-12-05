@@ -159,7 +159,13 @@ const RepertoireList = () => {
                         {movie.startTimes.map((startTime, timeIndex) => (
                           <button key={timeIndex}>
                             <Link
-                              to={`/kup-bilet/${startTime.scheduleId}`}
+                              to={{
+                                pathname: `/kup-bilet/${startTime.scheduleId}`,
+                                state: {
+                                  id: startTime.scheduleId,
+                                  movie: movie,
+                                },
+                              }}
                               key={timeIndex}
                             >
                               <p className="repertoire-list__btn--hour">

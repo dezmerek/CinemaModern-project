@@ -25,6 +25,10 @@ const scheduleSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    numberOfSeats: {
+        type: Number,
+        required: true,
+    },
     clonedHallLayout: [
         {
             row: {
