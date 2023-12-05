@@ -1,9 +1,9 @@
-// TicketPurchase component
-
+// TicketPurchase.js
 import React, { useState, useEffect } from 'react';
 import header from '../../../assets/images/header_3.png';
 import '../../../Styles/layout/_Reservation.scss';
 import { useParams } from 'react-router-dom';
+import SeatLayout from './SeatLayout'; // Import SeatLayout component
 
 const TicketPurchase = () => {
   const { id } = useParams();
@@ -34,9 +34,10 @@ const TicketPurchase = () => {
         </div>
         {scheduleData && (
           <>
-            <p>Schedule ID: {scheduleData._id}</p>
-            <p>Liczba miejsc: {scheduleData.numberOfSeats}</p>
-            {/* Tutaj możesz dodać kod do renderowania miejsc */}
+            <SeatLayout
+              seatData={scheduleData.clonedHallLayout}
+              onSeatClick={(row, seat) => {}}
+            />
           </>
         )}
       </div>

@@ -1,0 +1,35 @@
+// _SeatLegend.scss
+.seat-legend {
+    display: flex;
+    margin-top: 20px;
+    gap: 1rem;
+}
+
+.seat-legend-h3 {
+    padding-top: 1rem;
+    margin: 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+
+.legend-color {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+.legend-color.active {
+    background-color: #151f30;
+}
+
+.legend-color.reserved {
+    background-color: #0a0e17;
+}
+
+.legend-color.selected {
+    background-color: #2f80ed;
+}
