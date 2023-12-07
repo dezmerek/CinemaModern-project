@@ -18,7 +18,6 @@ const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
   const [voucherDiscount, setVoucherDiscount] = useState(0);
 
   useEffect(() => {
-    // Inicjalizacja stanu z typami biletów na podstawie wybranych miejsc
     const initialTypes = {};
     selectedSeats.forEach((seat) => {
       initialTypes[`${seat.row}-${seat.seat}`] = 'NORMAL';
@@ -27,14 +26,12 @@ const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
   }, [selectedSeats]);
 
   useEffect(() => {
-    // Oblicz ceny biletów po każdej zmianie typu biletu
     const updatedPrices = {};
     let total = 0;
     selectedSeats.forEach((seat) => {
       const type = selectedTicketTypes[`${seat.row}-${seat.seat}`];
       const price = ticketInfo[type] ? ticketInfo[type].price : 0;
 
-      // Zastosuj zniżkę 10% do ceny pojedynczego biletu
       const discountedPrice = price - price * (voucherDiscount / 100);
 
       updatedPrices[`${seat.row}-${seat.seat}`] = discountedPrice.toFixed(2);
@@ -54,9 +51,6 @@ const SelectedTickets = ({ selectedSeats, onTicketTypeChange }) => {
   };
 
   const applyVoucher = (voucherCode) => {
-    // Tutaj możesz dodać logikę do sprawdzania poprawności vouchera
-    // i obliczania zniżki na cenę biletów
-    // W tym przykładzie zakładamy, że voucher o kodzie "test" obniża cenę o 10%
     const discount = voucherCode === 'test' ? 10 : 0;
     setVoucherDiscount(discount);
   };

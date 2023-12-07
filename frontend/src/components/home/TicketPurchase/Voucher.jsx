@@ -15,18 +15,12 @@ const Voucher = ({ onApplyVoucher }) => {
   };
 
   const handleRemoveVoucher = () => {
-    // Reset voucher-related state
     setVoucherCode('');
     setVoucherApplied(false);
-    // Add logic to reset the prices or any other related state
-    // For now, let's assume you have a function resetPrices to handle this
     resetPrices();
   };
 
   const resetPrices = () => {
-    // Implement logic to reset prices or any other related state
-    // For example, you can call your existing logic for recalculating prices
-    // without the voucher discount
     onApplyVoucher('');
   };
 

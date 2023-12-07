@@ -1,4 +1,3 @@
-// _SeatLayout.js
 import React, { useState } from 'react';
 import '../../../Styles/components/_SeatLayout.scss';
 import SeatLegend from './SeatLegend.jsx';
@@ -39,15 +38,12 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
         );
         setSelectedSeats(updatedSelectedSeats);
 
-        // Usuń typ biletu dla odznaczonego miejsca
         const { [`${seat.row}-${seat.seat}`]: removedTicketType, ...rest } =
           selectedTicketTypes;
         setSelectedTicketTypes(rest);
       } else {
-        // Zaznacz miejsce
         setSelectedSeats([...selectedSeats, seat]);
 
-        // Dodaj domyślny typ biletu dla nowo zaznaczonego miejsca
         setSelectedTicketTypes((prevTypes) => ({
           ...prevTypes,
           [`${seat.row}-${seat.seat}`]: 'NORMAL',

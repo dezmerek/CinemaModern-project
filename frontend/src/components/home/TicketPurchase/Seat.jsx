@@ -1,4 +1,3 @@
-// Seat.js
 import React from 'react';
 
 const Seat = ({ seat, row, seatNumber, onSeatClick }) => {

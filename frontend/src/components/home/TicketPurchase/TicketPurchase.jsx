@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import header from '../../../assets/images/header_3.png';
 import '../../../Styles/layout/_Reservation.scss';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import SeatLayout from './SeatLayout';
-// import { loadStripe } from '@stripe/stripe-js';
+import PersonalDataForm from './PersonalDataForm';
 
 const TicketPurchase = () => {
   const { id } = useParams();
   const [scheduleData, setScheduleData] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [seatsSelected, setSeatsSelected] = useState(false);
 
   useEffect(() => {
     const fetchScheduleData = async () => {
@@ -24,6 +26,38 @@ const TicketPurchase = () => {
 
     fetchScheduleData();
   }, [id]);
+
+  const handleSeatClick = (row, seat) => {
+    // Handle seat click logic
+    // For example, you can update the state or perform other actions
+    const isSeatSelected = selectedSeats.some(
+      (selectedSeat) => selectedSeat.row === row && selectedSeat.seat === seat
+    );
+
+    if (isSeatSelected) {
+      // Deselect the seat
+      const updatedSelectedSeats = selectedSeats.filter(
+        (selectedSeat) =>
+          !(selectedSeat.row === row && selectedSeat.seat === seat)
+      );
+      setSelectedSeats(updatedSelectedSeats);
+    } else {
+      // Select the seat
+      setSelectedSeats([...selectedSeats, { row, seat }]);
+    }
+  };
+
+  const handleZatwierdzClick = () => {
+    // Set the state to indicate that seats have been selected
+    setSeatsSelected(true);
+  };
+
+  const handleBackToSeatsClick = () => {
+    // Set the state to indicate going back to seat selection
+    setSeatsSelected(false);
+    // Clear the selected seats
+    setSelectedSeats([]);
+  };
 
   /*   const handlePaymentStripe = async () => {
     const stripe = await loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
@@ -50,7 +84,7 @@ const TicketPurchase = () => {
     }
   }; */
 
-  const handlePaymentTpay = async () => {
+  /*   const handlePaymentTpay = async () => {
     try {
       const response = await fetch(
         'http://localhost:3001/api/payments/create-session-transaction-tpay',
@@ -81,25 +115,39 @@ const TicketPurchase = () => {
     } catch (error) {
       console.error('Error initiating tpay payment:', error);
     }
-  };
+  }; */
 
   return (
     <div className="reservation-ticket">
       <div className="reservation-ticket__container">
         <div className="reservation-ticket__header">
           <img src={header} alt="repertuar" />
-          <h2>Wybierz miejsce</h2>
+          <h2>{seatsSelected ? 'Dane osobiste' : 'Wybierz miejsce'}</h2>
         </div>
-        {scheduleData && (
-          <>
-            <SeatLayout
-              seatData={scheduleData.clonedHallLayout}
-              onSeatClick={(row, seat) => {}}
-            />
-          </>
-        )}
+        <div className="navigation-buttons">
+          {!seatsSelected && scheduleData && (
+            <>
+              <SeatLayout
+                seatData={scheduleData.clonedHallLayout}
+                onSeatClick={handleSeatClick}
+              />
+              <div className="reservation-ticket__btn">
+                <Link to="/repertuar">
+                  <button>Powrót do repertuaru</button>
+                </Link>
+                {selectedSeats.length > 0 && (
+                  <button onClick={handleZatwierdzClick}>
+                    Zatwierdź i podaj dane osobowe
+                  </button>
+                )}
+              </div>
+            </>
+          )}
+          {seatsSelected && (
+            <PersonalDataForm onBackToSeatsClick={handleBackToSeatsClick} />
+          )}
+        </div>
       </div>
-      <button onClick={handlePaymentTpay}>Przejdź do płatności</button>
     </div>
   );
 };
