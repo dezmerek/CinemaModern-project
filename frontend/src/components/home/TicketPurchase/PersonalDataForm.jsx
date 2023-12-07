@@ -34,7 +34,55 @@ const PersonalDataForm = ({ onSubmit, onBackToSeatsClick }) => {
   };
 
   const validateFormData = () => {
+    if (
+      formData.firstName.trim() === '' ||
+      formData.lastName.trim() === '' ||
+      formData.email.trim() === '' ||
+      formData.confirmEmail.trim() === '' ||
+      formData.phone.trim() === '' ||
+      !consentMarketing ||
+      !consentEmail
+    ) {
+      console.error('Wypełnij wszystkie wymagane pola i zaakceptuj zgody');
+      return false;
+    }
+
     return true;
+  };
+
+  const handlePaymentTpay = async () => {
+    if (validateFormData()) {
+      try {
+        const response = await fetch(
+          'http://localhost:3001/api/payments/create-session-transaction-tpay',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              amount: 1000,
+              crc: 1224,
+              description: 'test',
+              email: formData.email,
+              name: `${formData.firstName} ${formData.lastName}`,
+              phone: formData.phone,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          console.error('Error initiating tpay payment:', response.statusText);
+          return;
+        }
+
+        const responseData = await response.json();
+
+        window.location.href = responseData.payment_url;
+      } catch (error) {
+        console.error('Error initiating tpay payment:', error);
+      }
+    }
   };
 
   return (
@@ -136,7 +184,7 @@ const PersonalDataForm = ({ onSubmit, onBackToSeatsClick }) => {
         </div>
         <div className="personal-data-form__btn">
           <button onClick={onBackToSeatsClick}>Powrót do wyboru miejsc</button>
-          <button type="submit">Przejdź do płatności</button>
+          <button onClick={handlePaymentTpay}>Przejdź do płatności</button>
         </div>
       </form>
     </div>
