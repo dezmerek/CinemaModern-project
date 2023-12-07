@@ -6,6 +6,7 @@ import movieRoutes from './routes/movieRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import hallRoutes from './routes/hallRoutes.js';
 import scheduleRoutes from './routes/scheduleRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ mongoose.connect(dbURI, {
         app.use('/api/users', userRoutes);
         app.use('/api/halls', hallRoutes);
         app.use('/api/schedules', scheduleRoutes);
+        app.use('/api/payments', paymentRoutes);
 
         app.listen(port, () => {
             console.log('Server is running on port: ' + port);
