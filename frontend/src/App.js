@@ -23,6 +23,7 @@ import MoviePreviewsDetails from './routers/MoviePreviewsDetails';
 import MovieRecommendsDetails from './routers/MovieRecommendsDetails';
 import ReportiresList from './routers/ReportiresList';
 import TicketsPurchase from './routers/TicketsPurchase';
+import PaymentsSummary from './routers/PaymentsSummary';
 
 function App() {
   return (
@@ -51,6 +52,8 @@ function App() {
           <Route path="/film/:id" element={<MovieRecommendsDetails />} />
           <Route path="/repertuar" element={<ReportiresList />} />
           <Route path="/kup-bilet/:id" element={<TicketsPurchase />} />
+          <Route path="/podsumowanie/:id" element={<PaymentsSummary />} />
+          <Route path="/podsumowanie/" element={<PaymentsSummary />} />
         </Routes>
       </>
     </BrowserRouter>

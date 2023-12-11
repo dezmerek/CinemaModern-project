@@ -19,6 +19,12 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
                 name,
                 phone,
             },
+            callbacks: {
+                payerUrls: {
+                    success: 'http://localhost:3000/podsumowanie',
+                    error: 'https://twojastrona.pl/bladPlatnosci',
+                },
+            },
         };
 
         const credentials = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`).toString('base64');
@@ -42,8 +48,10 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
         const tpayData = await tpayResponse.json();
         console.log('tpay response data:', tpayData);
 
-        const paymentUrl = tpayData.url;
-        res.json({ payment_url: paymentUrl });
+
+
+        const paymentUrl = tpayData.transactionPaymentUrl;
+        res.json({ transactionPaymentUrl: paymentUrl });
     } catch (error) {
         res.status(500).json({ error: 'Error creating tpay transaction' });
     }

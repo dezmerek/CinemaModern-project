@@ -116,6 +116,14 @@ const TicketPurchase = () => {
       console.error('Error initiating tpay payment:', error);
     }
   }; */
+  const handlePersonalDataSubmit = (
+    formData,
+    consentMarketing,
+    consentEmail
+  ) => {
+    // Tutaj możesz wykonać działania z danymi osobowymi, np. przesłać do API
+    console.log('Dane osobowe przekazane do TicketPurchase:', formData);
+  };
 
   return (
     <div className="reservation-ticket">
@@ -144,7 +152,10 @@ const TicketPurchase = () => {
             </>
           )}
           {seatsSelected && (
-            <PersonalDataForm onBackToSeatsClick={handleBackToSeatsClick} />
+            <PersonalDataForm
+              onSubmit={handlePersonalDataSubmit}
+              onBackToSeatsClick={handleBackToSeatsClick}
+            />
           )}
         </div>
       </div>

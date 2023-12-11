@@ -78,7 +78,7 @@ const PersonalDataForm = ({ onSubmit, onBackToSeatsClick }) => {
 
         const responseData = await response.json();
 
-        window.location.href = responseData.payment_url;
+        window.location.href = responseData.transactionPaymentUrl;
       } catch (error) {
         console.error('Error initiating tpay payment:', error);
       }
@@ -184,7 +184,9 @@ const PersonalDataForm = ({ onSubmit, onBackToSeatsClick }) => {
         </div>
         <div className="personal-data-form__btn">
           <button onClick={onBackToSeatsClick}>Powrót do wyboru miejsc</button>
-          <button onClick={handlePaymentTpay}>Przejdź do płatności</button>
+          <button type="button" onClick={handlePaymentTpay}>
+            Przejdź do płatności
+          </button>
         </div>
       </form>
     </div>
