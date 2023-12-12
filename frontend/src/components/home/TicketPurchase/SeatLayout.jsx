@@ -30,6 +30,8 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
           selectedSeat.row === seat.row && selectedSeat.seat === seat.seat
       );
 
+      console.log(`Row: ${seat.row} Seat: ${seat.seat} (${seat._id})`);
+
       if (isSelected) {
         // Odznacz miejsce
         const updatedSelectedSeats = selectedSeats.filter(
@@ -50,7 +52,7 @@ const SeatLayout = ({ seatData, onSeatClick }) => {
         }));
       }
 
-      onSeatClick(seat.row, seat.seat);
+      onSeatClick(seat.row, seat.seat, seat._id);
     }
   };
 
