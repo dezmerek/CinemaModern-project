@@ -22,8 +22,12 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
             callbacks: {
                 payerUrls: {
                     success: 'http://localhost:3000/podsumowanie',
-                    error: 'https://twojastrona.pl/bladPlatnosci',
+                    error: 'http://localhost:3000/error',
                 },
+                notification:
+                {
+                    url: 'https://92ef-2a02-a31a-a241-1300-b46d-68e-fa1-2b17.ngrok-free.app/api/payments/tpay-notifications'
+                }
             },
         };
 
@@ -55,6 +59,14 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error creating tpay transaction' });
     }
+});
+
+router.post('/tpay-notifications', async (req, res) => {
+    const { tr_id, tr_email } = req.body;
+    console.log('Transaction ID:', tr_id);
+    console.log('Email:', tr_email);
+    res.json({ result: true, transactionId: tr_id, email: tr_email });
+
 });
 
 /* const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
