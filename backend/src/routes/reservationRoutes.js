@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
         const reservation = new Reservation({
             scheduleId,
-            selectedSeats, // selectedSeats zawiera teraz tablicę identyfikatorów miejsc
+            selectedSeats,
             voucherCode,
             voucherDiscount,
             totalPrice,

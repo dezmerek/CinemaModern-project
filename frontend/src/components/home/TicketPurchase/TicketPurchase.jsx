@@ -1,4 +1,3 @@
-// TicketPurchase.js
 import React, { useState, useEffect, useMemo } from 'react';
 import header from '../../../assets/images/header_3.png';
 import '../../../Styles/layout/_Reservation.scss';
@@ -44,11 +43,8 @@ const TicketPurchase = () => {
   }, [id]);
 
   const handleApplyVoucher = () => {
-    // Implement logic to apply voucher
-    // For now, let's assume a hardcoded discount percentage for the voucher code "test".
-
     const voucherCodeToDiscountMapping = {
-      test: 10, // Example: 10% discount for the voucher code "test"
+      test: 10,
     };
 
     const discountPercentage = voucherCodeToDiscountMapping[voucherCode];
@@ -62,23 +58,18 @@ const TicketPurchase = () => {
       setVoucherDiscount(discountPercentage);
       setSelectedSeats(updatedSelectedSeats);
 
-      // Toggle the state to indicate that the voucher is applied
       setIsVoucherApplied(true);
     } else {
-      // Invalid voucher code
-      // You can handle this case by showing an error message or taking appropriate action.
       console.error('Invalid voucher code');
     }
   };
 
   const handleRemoveVoucher = () => {
-    // Reset prices to their original values without the voucher discount
     const updatedSelectedSeats = selectedSeats.map((seat) => ({
       ...seat,
       price: ticketPrices[seat.ticketType],
     }));
 
-    // Clear voucher-related states
     setVoucherDiscount(0);
     setVoucherCode('');
     setIsVoucherApplied(false);
@@ -129,12 +120,10 @@ const TicketPurchase = () => {
         );
 
         if (selectedIndex !== -1) {
-          // Deselect the seat
           const updatedSelectedSeats = [...selectedSeats];
           updatedSelectedSeats.splice(selectedIndex, 1);
           setSelectedSeats(updatedSelectedSeats);
         } else {
-          // Select the seat
           const ticketType = 'normalny';
           const price =
             ticketPrices[ticketType] -
@@ -145,7 +134,6 @@ const TicketPurchase = () => {
             { _id: clickedSeat._id, row, seat, ticketType, price },
           ]);
 
-          // Log the clicked seat information
           console.log('Selected Seat:', {
             _id: clickedSeat._id,
             row,
@@ -162,7 +150,6 @@ const TicketPurchase = () => {
     if (seatIndex !== null) {
       const updatedSelectedSeats = selectedSeats.map((seat, index) => {
         if (index === seatIndex) {
-          // Update the ticket type and price for the selected seat
           return {
             ...seat,
             ticketType: newTicketType,
@@ -200,7 +187,6 @@ const TicketPurchase = () => {
 
   const handlePaymentTpay = async () => {
     try {
-      // Wywołaj handleConfirmId przed handlePaymentTpay
       const responseConfirm = await fetch(
         'http://localhost:3001/api/reservations',
         {
@@ -226,17 +212,14 @@ const TicketPurchase = () => {
       const responseDataConfirm = await responseConfirm.json();
       console.log('Rezerwacja zapisana pomyślnie!', responseDataConfirm);
 
-      // Zapisz _id rezerwacji w stanie
       setReservationId(responseDataConfirm._id);
     } catch (error) {
       console.error('Error saving reservation:', error);
     }
   };
 
-  // Use useEffect to trigger handlePaymentTpay when reservationId changes
   useEffect(() => {
     if (reservationId) {
-      // Now reservationId is available, proceed with payment
       const initiateTpayPayment = async () => {
         try {
           const response = await fetch(
@@ -267,7 +250,6 @@ const TicketPurchase = () => {
 
           const responseData = await response.json();
           console.log('Tpay API Response:', responseData);
-          // Redirect to the Tpay payment page
           console.log(
             'Redirecting to Tpay payment page:',
             responseData.transactionPaymentUrl
@@ -278,7 +260,6 @@ const TicketPurchase = () => {
         }
       };
 
-      // Trigger the payment initiation
       initiateTpayPayment();
     }
   }, [reservationId, totalPrice, scheduleData, formData]);
@@ -312,11 +293,17 @@ const TicketPurchase = () => {
                           <div
                             key={seatIndex}
                             className={`seat-layout__seat ${
-                              seat && seat.isActive
-                                ? 'active'
-                                : seat && seat.isReserved
+                              seat && seat.isActive && seat.isReserved
                                 ? 'reserved'
-                                : 'inactive'
+                                : ''
+                            } ${
+                              seat && seat.isActive && !seat.isReserved
+                                ? 'active'
+                                : ''
+                            } ${
+                              seat && !seat.isActive && !seat.isReserved
+                                ? 'inactive'
+                                : ''
                             } ${
                               seat &&
                               selectedSeats.some(

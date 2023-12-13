@@ -9,7 +9,6 @@ function deepCloneWithSeats(obj, numberOfSeats) {
         const clonedObj = JSON.parse(JSON.stringify(obj));
         console.log('Deep clone success:', clonedObj);
 
-        // Set numberOfSeats property only once for the entire cloned layout
         clonedObj.forEach(seat => {
             seat.numberOfSeats = numberOfSeats;
         });
@@ -44,9 +43,8 @@ router.post('/', async (req, res) => {
             return res.status(500).json({ error: 'Error cloning hall layout.' });
         }
 
-        const numberOfSeats = existingHall.numberOfSeats; // Set only once
+        const numberOfSeats = existingHall.numberOfSeats;
 
-        // Create the newSchedule object without numberOfSeats in clonedHallLayout
         const newSchedule = new Schedule({
             movie,
             date,
@@ -84,7 +82,7 @@ router.get('/', async (req, res) => {
 
         const schedules = await Schedule.find({ date: selectedDate })
             .populate('movie', 'title language isPreview isPremiere')
-            .select('startTime endTime isPremiere movie');  // Dodaj 'isPremiere' i 'movie' do select
+            .select('startTime endTime isPremiere movie');
 
         res.json(schedules);
     } catch (error) {
@@ -93,12 +91,10 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Dodaj nowy endpoint do pobierania harmonogramu po ID
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Sprawdź, czy id jest prawidłowym identyfikatorem ObjectId
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ error: 'Invalid schedule ID.' });
         }

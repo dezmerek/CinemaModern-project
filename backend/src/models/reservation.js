@@ -15,6 +15,9 @@ const reservationSchema = new mongoose.Schema({
     voucherCode: String,
     voucherDiscount: Number,
     totalPrice: Number,
+    transactionId: String,
+    customerEmail: String,
+    amountPaid: Number,
 });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);
