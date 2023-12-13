@@ -75,10 +75,7 @@ const TicketPurchase = () => {
     setIsVoucherApplied(false);
     setSelectedSeats(updatedSelectedSeats);
   };
-  const totalPrice = selectedSeats.reduce(
-    (acc, seat) => acc + seat.price - voucherDiscount,
-    0
-  );
+  const totalPrice = selectedSeats.reduce((acc, seat) => acc + seat.price, 0);
 
   const ticketPrices = {
     ulgowy: 20,
