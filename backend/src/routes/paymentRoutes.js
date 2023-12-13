@@ -8,11 +8,12 @@ dotenv.config();
 const router = express.Router();
 
 router.post('/create-session-transaction-tpay', async (req, res) => {
-    const { amount, description, email, name, phone } = req.body;
+    const { amount, description, email, name, phone, hiddenDescription } = req.body;
 
     try {
         const tpayRequest = {
             amount,
+            hiddenDescription,
             description,
             payer: {
                 email,
@@ -22,11 +23,11 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
             callbacks: {
                 payerUrls: {
                     success: 'http://localhost:3000/podsumowanie',
-                    error: 'http://localhost:3000/error',
+                    error: 'http://localhost:3000/',
                 },
                 notification:
                 {
-                    url: 'https://92ef-2a02-a31a-a241-1300-b46d-68e-fa1-2b17.ngrok-free.app/api/payments/tpay-notifications'
+                    url: 'https://d8ee-2a02-a31a-a241-1300-20a4-2d0a-901-a64e.ngrok-free.app/api/payments/tpay-notifications'
                 }
             },
         };
@@ -62,10 +63,15 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
 });
 
 router.post('/tpay-notifications', async (req, res) => {
-    const { tr_id, tr_email } = req.body;
+    const { tr_id, tr_email, tr_crc, tr_amount, tr_hiddenDescription } = req.body;
     console.log('Transaction ID:', tr_id);
     console.log('Email:', tr_email);
-    res.json({ result: true, transactionId: tr_id, email: tr_email });
+    console.log('Crc:', tr_crc);
+    console.log('hiddenDescription:', tr_hiddenDescription);
+    console.log('Amount:', tr_amount);
+
+    console.log(req.body);
+    res.json({ result: true });
 
 });
 

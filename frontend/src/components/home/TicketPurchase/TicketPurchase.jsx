@@ -12,6 +12,7 @@ const TicketPurchase = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [voucherCode, setVoucherCode] = useState('');
   const [voucherDiscount, setVoucherDiscount] = useState(0);
+  const [reservationId, setReservationId] = useState(null);
   const [isVoucherApplied, setIsVoucherApplied] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -141,8 +142,17 @@ const TicketPurchase = () => {
 
           setSelectedSeats([
             ...selectedSeats,
-            { row, seat, ticketType, price },
+            { _id: clickedSeat._id, row, seat, ticketType, price },
           ]);
+
+          // Log the clicked seat information
+          console.log('Selected Seat:', {
+            _id: clickedSeat._id,
+            row,
+            seat,
+            ticketType,
+            price,
+          });
         }
       }
     }
@@ -184,47 +194,94 @@ const TicketPurchase = () => {
     });
   };
 
-  const handleConfirmSeats = () => {
+  const handleConfirmSeats = async () => {
     setShowPersonalDataForm(true);
   };
 
   const handlePaymentTpay = async () => {
     try {
-      const response = await fetch(
-        'http://localhost:3001/api/payments/create-session-transaction-tpay',
+      // Wywołaj handleConfirmId przed handlePaymentTpay
+      const responseConfirm = await fetch(
+        'http://localhost:3001/api/reservations',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            amount: totalPrice,
-            description: scheduleData.movie.title,
-            email: formData.email,
-            name: `${formData.firstName} ${formData.lastName}`,
-            phone: formData.phone,
+            scheduleId: id,
+            selectedSeats: selectedSeats.map((seat) => seat._id),
+            voucherCode,
+            voucherDiscount,
+            totalPrice,
           }),
         }
       );
 
-      if (!response.ok) {
-        console.error('Error initiating tpay payment:', response.statusText);
+      if (!responseConfirm.ok) {
+        console.error('Error saving reservation:', responseConfirm.statusText);
         return;
       }
 
-      const responseData = await response.json();
-      console.log('Tpay API Response:', responseData);
+      const responseDataConfirm = await responseConfirm.json();
+      console.log('Rezerwacja zapisana pomyślnie!', responseDataConfirm);
 
-      // Redirect to the Tpay payment page
-      console.log(
-        'Redirecting to Tpay payment page:',
-        responseData.transactionPaymentUrl
-      );
-      window.location.href = responseData.transactionPaymentUrl;
+      // Zapisz _id rezerwacji w stanie
+      setReservationId(responseDataConfirm._id);
     } catch (error) {
-      console.error('Error initiating Tpay payment:', error);
+      console.error('Error saving reservation:', error);
     }
   };
+
+  // Use useEffect to trigger handlePaymentTpay when reservationId changes
+  useEffect(() => {
+    if (reservationId) {
+      // Now reservationId is available, proceed with payment
+      const initiateTpayPayment = async () => {
+        try {
+          const response = await fetch(
+            'http://localhost:3001/api/payments/create-session-transaction-tpay',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                amount: totalPrice,
+                description: scheduleData.movie.title,
+                email: formData.email,
+                name: `${formData.firstName} ${formData.lastName}`,
+                phone: formData.phone,
+                hiddenDescription: reservationId,
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            console.error(
+              'Error initiating tpay payment:',
+              response.statusText
+            );
+            return;
+          }
+
+          const responseData = await response.json();
+          console.log('Tpay API Response:', responseData);
+          // Redirect to the Tpay payment page
+          console.log(
+            'Redirecting to Tpay payment page:',
+            responseData.transactionPaymentUrl
+          );
+          window.location.href = responseData.transactionPaymentUrl;
+        } catch (error) {
+          console.error('Error initiating Tpay payment:', error);
+        }
+      };
+
+      // Trigger the payment initiation
+      initiateTpayPayment();
+    }
+  }, [reservationId, totalPrice, scheduleData, formData]);
 
   const handleGoBack = () => {
     setShowPersonalDataForm(false);
@@ -480,7 +537,11 @@ const TicketPurchase = () => {
                       <button onClick={handleGoBack}>Powrót</button>
                     </div>
                   )}
-                  <button onClick={handlePaymentTpay}>
+                  <button
+                    onClick={() => {
+                      handlePaymentTpay();
+                    }}
+                  >
                     Przejdź do płatności
                   </button>
                 </div>
