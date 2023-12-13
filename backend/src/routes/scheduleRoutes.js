@@ -44,11 +44,6 @@ router.post('/', async (req, res) => {
             return res.status(500).json({ error: 'Error cloning hall layout.' });
         }
 
-        // Set isReserved for the first seat in the cloned layout
-        if (hallLayoutCopy.length > 0) {
-            hallLayoutCopy[0].isReserved = true;
-        }
-
         const numberOfSeats = existingHall.numberOfSeats; // Set only once
 
         // Create the newSchedule object without numberOfSeats in clonedHallLayout
