@@ -1,5 +1,8 @@
 import express from 'express';
 import Reservation from '../models/reservation.js';
+import Schedule from '../models/schedule.js';
+import Movie from '../models/movie.js';
+import Hall from '../models/hall.js';
 
 const router = express.Router();
 
@@ -13,12 +16,17 @@ router.post('/', async (req, res) => {
             totalPrice,
         } = req.body;
 
+        // Pobierz schedule, aby uzyskać dostęp do informacji o sali
+        const schedule = await Schedule.findById(scheduleId);
+        const hall = await Hall.findById(schedule.hall);
+
         const reservation = new Reservation({
             scheduleId,
             selectedSeats,
             voucherCode,
             voucherDiscount,
             totalPrice,
+            hallName: hall.name, // Dodaj to pole do modelu Reservation
         });
 
         const savedReservation = await reservation.save();
@@ -42,7 +50,30 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Reservation not found' });
         }
 
-        res.status(200).json(reservation);
+        const schedule = await Schedule.findById(reservation.scheduleId);
+        const movie = await Movie.findById(schedule.movie);
+        const hall = await Hall.findById(schedule.hall);
+
+        // Pobierz szczegóły miejsc i rzędów z klonowanego układu sali
+        const seatDetails = reservation.selectedSeats.map(seatId => {
+            const seat = schedule.clonedHallLayout.id(seatId);
+            return { row: seat.row, seat: seat.seat };
+        });
+
+        // Dodaj więcej informacji do obiektu reservation
+        const extendedReservation = {
+            ...reservation.toObject(),
+            scheduleDate: schedule.date,
+            hall: schedule.hall,
+            hallName: hall.name, // Dodaj nazwę sali
+            movieTitle: movie.title,
+            seatDetails: seatDetails, // Dodaj szczegóły miejsc i rzędów jako osobną tablicę
+            rows: seatDetails.map(seat => seat.row), // Dodaj tablicę z numerami rzędów
+            seats: seatDetails.map(seat => seat.seat), // Dodaj tablicę z numerami miejsc
+            // Dodaj inne informacje, które chcesz wyświetlić
+        };
+
+        res.status(200).json(extendedReservation);
     } catch (error) {
         console.error('Error fetching reservation data:', error);
         res.status(500).json({
