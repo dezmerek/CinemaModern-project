@@ -10,6 +10,10 @@ const MoviePreviewsDetail = () => {
   const [movieDetails, setMovieDetails] = useState(null);
 
   useEffect(() => {
+    document.title = `CinemaModern - ${movieDetails?.title || 'Loading...'}`;
+  }, [movieDetails?.title]);
+
+  useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
         const response = await fetch(

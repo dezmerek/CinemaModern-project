@@ -44,6 +44,10 @@ const MovieRecommendDetail = () => {
     fetchMovieData();
   }, [id]);
 
+  useEffect(() => {
+    document.title = `CinemaModern - ${movieDetails?.title || 'Loading...'}`;
+  }, [movieDetails?.title]);
+
   const handleRatingClick = async (rating) => {
     try {
       const response = await fetch(

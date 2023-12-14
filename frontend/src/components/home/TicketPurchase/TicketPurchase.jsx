@@ -27,6 +27,12 @@ const TicketPurchase = () => {
   const [showPersonalDataForm, setShowPersonalDataForm] = useState(false);
 
   useEffect(() => {
+    if (scheduleData && scheduleData.movie) {
+      document.title = `CinemaModern - ${scheduleData.movie.title}`;
+    }
+  }, [scheduleData]);
+
+  useEffect(() => {
     const fetchScheduleData = async () => {
       try {
         const response = await fetch(
