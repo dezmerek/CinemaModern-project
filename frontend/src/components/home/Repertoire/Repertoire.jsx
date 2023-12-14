@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../../Styles/layout/_Repertoire.scss';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { Link } from 'react-router-dom';
@@ -16,6 +16,32 @@ const Repertoire = () => {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   };
+
+  useEffect(() => {
+    const fetchScheduleForToday = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/schedules?date=${formatDate(
+            selectedDate
+          )}`
+        );
+        const data = await response.json();
+
+        const schedulesForSelectedDate = data.map((entry) => ({
+          movie: entry.movie.title,
+          language: entry.movie.language,
+          startTime: format(new Date(entry.startTime), 'HH:mm'),
+          isPremiere: entry.movie.isPremiere,
+        }));
+
+        setSelectedMovies(schedulesForSelectedDate);
+      } catch (error) {
+        console.error('Error fetching schedule:', error);
+      }
+    };
+
+    fetchScheduleForToday();
+  }, [selectedDate]);
 
   const handleDateClick = async (dayIndex) => {
     const clickedDate = new Date(
@@ -54,14 +80,28 @@ const Repertoire = () => {
   const renderDayButtons = () => {
     const buttons = [];
     let isEvenColor = false;
+    const daysOfWeek = [
+      'poniedziałek',
+      'wtorek',
+      'środa',
+      'czwartek',
+      'piątek',
+      'sobota',
+      'niedziela',
+    ];
+    const todayIndex = daysOfWeek.indexOf(
+      format(currentDate, 'iiii', { locale: pl })
+    );
 
     for (let i = 0; i < 7; i++) {
-      const dayDate = addDays(startDate, i);
+      const dayIndex = (todayIndex + i) % 7; // Adjusted day index to start from today
+
+      const dayDate = addDays(startDate, dayIndex);
 
       buttons.push(
         <button
           key={i}
-          onClick={() => handleDateClick(i)}
+          onClick={() => handleDateClick(dayIndex)}
           className={`${
             format(selectedDate, 'yyyy-MM-dd') === format(dayDate, 'yyyy-MM-dd')
               ? 'active'
