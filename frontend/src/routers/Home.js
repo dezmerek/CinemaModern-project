@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/home/Navbar/Navbar";
 import Banner from "../components/home/Banner/Banner";
 import MovieRecommended from "../components/home/MovieRecommended/MovieRecommended";
@@ -9,6 +9,9 @@ import AdvertisementView from "../components/home/Advertisement/AdvertisementVie
 import Repertoire from "../components/home/Repertoire/Repertoire";
 
 const Home = () => {
+    useEffect(() => {
+        document.title = 'CinemaCity - Strona Główna';
+    }, []);
     return (
         <div>
             <Navbar />

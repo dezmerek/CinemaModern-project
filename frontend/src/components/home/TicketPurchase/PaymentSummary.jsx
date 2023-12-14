@@ -10,6 +10,10 @@ const PaymentSummary = () => {
   const [transactionData, setTransactionData] = useState(null);
 
   useEffect(() => {
+    document.title = 'CinemaCity - Podsumowanie';
+  }, []);
+
+  useEffect(() => {
     const fetchTransactionData = async () => {
       try {
         const response = await fetch(
