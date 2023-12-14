@@ -233,6 +233,7 @@ const TicketPurchase = () => {
                 name: `${formData.firstName} ${formData.lastName}`,
                 phone: formData.phone,
                 hiddenDescription: reservationId,
+                success: `http://localhost:3000/podsumowanie/${reservationId}`,
               }),
             }
           );

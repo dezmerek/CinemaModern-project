@@ -10,7 +10,7 @@ dotenv.config();
 const router = express.Router();
 
 router.post('/create-session-transaction-tpay', async (req, res) => {
-    const { amount, description, email, name, phone, hiddenDescription } = req.body;
+    const { amount, description, email, name, phone, hiddenDescription, success } = req.body;
 
     try {
         const tpayRequest = {
@@ -24,7 +24,7 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
             },
             callbacks: {
                 payerUrls: {
-                    success: 'http://localhost:3000/podsumowanie',
+                    success,
                     error: 'http://localhost:3000/',
                 },
                 notification: {
