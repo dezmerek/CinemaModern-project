@@ -19,12 +19,13 @@ router.post('/', async (req, res) => {
         const schedule = await Schedule.findById(scheduleId);
         const hall = await Hall.findById(schedule.hall);
 
-        // Aktualizacja cen biletów dla konkretnych miejsc w klonowanym układzie sali
+        // Aktualizacja cen biletów i typów biletów dla konkretnych miejsc w klonowanym układzie sali
         selectedSeats.forEach(selectedSeat => {
             const seatIndex = schedule.clonedHallLayout.findIndex(seat => seat._id.equals(selectedSeat._id));
 
             if (seatIndex !== -1) {
                 schedule.clonedHallLayout[seatIndex].price = selectedSeat.price;
+                schedule.clonedHallLayout[seatIndex].ticketType = selectedSeat.ticketType;
             }
         });
 
@@ -38,7 +39,7 @@ router.post('/', async (req, res) => {
         });
 
         const savedReservation = await reservation.save();
-        await schedule.save(); // Zapisz aktualizacje cen biletów w klonowanym układzie sali
+        await schedule.save(); // Zapisz aktualizacje cen biletów i typów biletów w klonowanym układzie sali
 
         res.status(201).json({ message: 'Reservation saved successfully!', _id: savedReservation._id });
     } catch (error) {

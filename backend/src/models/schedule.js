@@ -50,6 +50,9 @@ const scheduleSchema = new mongoose.Schema({
             price: {
                 type: Number,
             },
+            ticketType: {
+                type: String,
+            },
         },
     ],
 });
