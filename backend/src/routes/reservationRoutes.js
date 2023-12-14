@@ -64,10 +64,15 @@ router.get('/:id', async (req, res) => {
         const movie = await Movie.findById(schedule.movie);
         const hall = await Hall.findById(schedule.hall);
 
-        // Pobierz szczegóły miejsc i rzędów z klonowanego układu sali
+        // Pobierz szczegóły miejsc, rzędów, typu biletu i ceny biletu z klonowanego układu sali
         const seatDetails = reservation.selectedSeats.map(seatId => {
             const seat = schedule.clonedHallLayout.id(seatId);
-            return { row: seat.row, seat: seat.seat };
+            return {
+                row: seat.row,
+                seat: seat.seat,
+                ticketType: seat.ticketType, // Dodaj typ biletu
+                ticketPrice: seat.price, // Dodaj cenę biletu
+            };
         });
 
         // Dodaj więcej informacji do obiektu reservation
@@ -77,9 +82,11 @@ router.get('/:id', async (req, res) => {
             hall: schedule.hall,
             hallName: hall.name, // Dodaj nazwę sali
             movieTitle: movie.title,
-            seatDetails: seatDetails, // Dodaj szczegóły miejsc i rzędów jako osobną tablicę
+            seatDetails: seatDetails, // Dodaj szczegóły miejsc, rzędów, typu biletu i ceny biletu jako osobną tablicę
             rows: seatDetails.map(seat => seat.row), // Dodaj tablicę z numerami rzędów
             seats: seatDetails.map(seat => seat.seat), // Dodaj tablicę z numerami miejsc
+            ticketTypes: seatDetails.map(seat => seat.ticketType), // Dodaj tablicę z typami biletów
+            ticketPrices: seatDetails.map(seat => seat.ticketPrice), // Dodaj tablicę z cenami biletów
             // Dodaj inne informacje, które chcesz wyświetlić
         };
 

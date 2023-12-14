@@ -49,6 +49,10 @@ const PaymentSummary = () => {
                 <table>
                   <tbody>
                     <tr>
+                      <td>Transakcja</td>
+                      <td>{transactionData.transactionId}</td>
+                    </tr>
+                    <tr>
                       <td>Data</td>
                       <td>
                         {format(
@@ -71,11 +75,11 @@ const PaymentSummary = () => {
                     </tr>
                     <tr>
                       <td>Typ biletu</td>
-                      <td>{transactionData.ticketType}</td>
+                      <td>{seatDetails.ticketType}</td>
                     </tr>
                     <tr>
                       <td>Cena</td>
-                      <td>{transactionData.price}</td>
+                      <td>{seatDetails.ticketPrice.toFixed(2)} PLN</td>
                     </tr>
                   </tbody>
                 </table>
