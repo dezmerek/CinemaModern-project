@@ -16,20 +16,29 @@ router.post('/', async (req, res) => {
             totalPrice,
         } = req.body;
 
-        // Pobierz schedule, aby uzyskać dostęp do informacji o sali
         const schedule = await Schedule.findById(scheduleId);
         const hall = await Hall.findById(schedule.hall);
 
+        // Aktualizacja cen biletów dla konkretnych miejsc w klonowanym układzie sali
+        selectedSeats.forEach(selectedSeat => {
+            const seatIndex = schedule.clonedHallLayout.findIndex(seat => seat._id.equals(selectedSeat._id));
+
+            if (seatIndex !== -1) {
+                schedule.clonedHallLayout[seatIndex].price = selectedSeat.price;
+            }
+        });
+
         const reservation = new Reservation({
             scheduleId,
-            selectedSeats,
+            selectedSeats: selectedSeats.map((seat) => seat._id),
             voucherCode,
             voucherDiscount,
             totalPrice,
-            hallName: hall.name, // Dodaj to pole do modelu Reservation
+            hallName: hall.name,
         });
 
         const savedReservation = await reservation.save();
+        await schedule.save(); // Zapisz aktualizacje cen biletów w klonowanym układzie sali
 
         res.status(201).json({ message: 'Reservation saved successfully!', _id: savedReservation._id });
     } catch (error) {

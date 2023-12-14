@@ -193,7 +193,13 @@ const TicketPurchase = () => {
           },
           body: JSON.stringify({
             scheduleId: id,
-            selectedSeats: selectedSeats.map((seat) => seat._id),
+            selectedSeats: selectedSeats.map((seat) => ({
+              _id: seat._id,
+              row: seat.row,
+              seat: seat.seat,
+              ticketType: seat.ticketType,
+              price: seat.price,
+            })),
             voucherCode,
             voucherDiscount,
             totalPrice,

@@ -28,7 +28,7 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
                     error: 'http://localhost:3000/',
                 },
                 notification: {
-                    url: 'https://d8ee-2a02-a31a-a241-1300-20a4-2d0a-901-a64e.ngrok-free.app/api/payments/tpay-notifications'
+                    url: 'https://f4b9-2a02-a31a-a241-1300-794a-1d68-c666-9906.ngrok-free.app/api/payments/tpay-notifications'
                 }
             },
         };
