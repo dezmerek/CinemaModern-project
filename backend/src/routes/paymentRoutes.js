@@ -28,7 +28,7 @@ router.post('/create-session-transaction-tpay', async (req, res) => {
                     error: 'http://localhost:3000/',
                 },
                 notification: {
-                    url: `${process.env.URL_SUCCESS_NOTIFICATION}`,
+                    url: `${process.env.URL_SUCCESS_NOTIFICATION}/api/payments/tpay-notifications`,
                 }
             },
         };
