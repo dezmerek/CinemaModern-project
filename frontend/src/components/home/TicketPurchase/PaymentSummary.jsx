@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
+import QRCode from 'react-qr-code';
 
 const PaymentSummary = () => {
   const { id } = useParams();
@@ -83,6 +84,8 @@ const PaymentSummary = () => {
                     </tr>
                   </tbody>
                 </table>
+
+                <QRCode value={`${transactionData.transactionId}`} />
               </div>
             );
           })}

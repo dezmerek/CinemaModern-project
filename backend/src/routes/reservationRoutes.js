@@ -19,7 +19,6 @@ router.post('/', async (req, res) => {
         const schedule = await Schedule.findById(scheduleId);
         const hall = await Hall.findById(schedule.hall);
 
-        // Aktualizacja cen biletów i typów biletów dla konkretnych miejsc w klonowanym układzie sali
         selectedSeats.forEach(selectedSeat => {
             const seatIndex = schedule.clonedHallLayout.findIndex(seat => seat._id.equals(selectedSeat._id));
 
@@ -39,7 +38,7 @@ router.post('/', async (req, res) => {
         });
 
         const savedReservation = await reservation.save();
-        await schedule.save(); // Zapisz aktualizacje cen biletów i typów biletów w klonowanym układzie sali
+        await schedule.save();
 
         res.status(201).json({ message: 'Reservation saved successfully!', _id: savedReservation._id });
     } catch (error) {
@@ -64,30 +63,27 @@ router.get('/:id', async (req, res) => {
         const movie = await Movie.findById(schedule.movie);
         const hall = await Hall.findById(schedule.hall);
 
-        // Pobierz szczegóły miejsc, rzędów, typu biletu i ceny biletu z klonowanego układu sali
         const seatDetails = reservation.selectedSeats.map(seatId => {
             const seat = schedule.clonedHallLayout.id(seatId);
             return {
                 row: seat.row,
                 seat: seat.seat,
-                ticketType: seat.ticketType, // Dodaj typ biletu
-                ticketPrice: seat.price, // Dodaj cenę biletu
+                ticketType: seat.ticketType,
+                ticketPrice: seat.price,
             };
         });
 
-        // Dodaj więcej informacji do obiektu reservation
         const extendedReservation = {
             ...reservation.toObject(),
             scheduleDate: schedule.date,
             hall: schedule.hall,
-            hallName: hall.name, // Dodaj nazwę sali
+            hallName: hall.name,
             movieTitle: movie.title,
-            seatDetails: seatDetails, // Dodaj szczegóły miejsc, rzędów, typu biletu i ceny biletu jako osobną tablicę
-            rows: seatDetails.map(seat => seat.row), // Dodaj tablicę z numerami rzędów
-            seats: seatDetails.map(seat => seat.seat), // Dodaj tablicę z numerami miejsc
-            ticketTypes: seatDetails.map(seat => seat.ticketType), // Dodaj tablicę z typami biletów
-            ticketPrices: seatDetails.map(seat => seat.ticketPrice), // Dodaj tablicę z cenami biletów
-            // Dodaj inne informacje, które chcesz wyświetlić
+            seatDetails: seatDetails,
+            rows: seatDetails.map(seat => seat.row),
+            seats: seatDetails.map(seat => seat.seat),
+            ticketTypes: seatDetails.map(seat => seat.ticketType),
+            ticketPrices: seatDetails.map(seat => seat.ticketPrice),
         };
 
         res.status(200).json(extendedReservation);
