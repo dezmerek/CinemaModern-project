@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import QRCode from 'react-qr-code';
+import '../../../Styles/layout/_PaymentSummary.scss';
+import header from '../../../assets/images/header_3.png';
 
 const PaymentSummary = () => {
   const { id } = useParams();
@@ -29,68 +31,92 @@ const PaymentSummary = () => {
     fetchTransactionData();
   }, [id]);
 
-  // Function to convert row number to corresponding letter
   const convertRowNumberToLetter = (rowNumber) => {
     const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-    return alphabet[rowNumber - 1].toUpperCase(); // Assuming row 1 corresponds to 'A'
+    return alphabet[rowNumber - 1].toUpperCase();
   };
 
   return (
-    <div>
-      <h2>Podsumowanie płatności</h2>
-      {transactionData && (
-        <>
-          {transactionData.selectedSeats.map((seat, index) => {
-            const seatDetails = transactionData.seatDetails[index];
+    <div className="payment-summary">
+      <div className="payment-summary__container">
+        <div className="reservation-ticket__header">
+          <img src={header} alt="repertuar" />
+          <h2>Podsumowanie</h2>
+        </div>
+        {transactionData && (
+          <div className="payment-summary__tickets">
+            {transactionData.selectedSeats.map((seat, index) => {
+              const seatDetails = transactionData.seatDetails[index];
 
-            return (
-              <div key={index}>
-                <h2>{transactionData.movieTitle}</h2>
+              return (
+                <div key={index} className="payment-summary__ticket">
+                  <div className="payment-summary__content">
+                    <h2>{transactionData.movieTitle}</h2>
+                    <div className="payment-summary__content-qr">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Transakcja</td>
+                            <td className="payment-summary__content--data">
+                              {transactionData.transactionId}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Data</td>
+                            <td className="payment-summary__content--data">
+                              {format(
+                                new Date(transactionData.scheduleDate),
+                                'dd.MM.yyyy'
+                              )}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Sala</td>
+                            <td className="payment-summary__content--data">
+                              {transactionData.hallName}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Rząd</td>
+                            <td className="payment-summary__content--data">
+                              {convertRowNumberToLetter(seatDetails.row)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Miejsce</td>
+                            <td className="payment-summary__content--data">
+                              {seatDetails.seat}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Typ biletu</td>
+                            <td className="payment-summary__content--data">
+                              {seatDetails.ticketType}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Cena</td>
+                            <td className="payment-summary__content--data">
+                              {seatDetails.ticketPrice.toFixed(2)} PLN
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
 
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>Transakcja</td>
-                      <td>{transactionData.transactionId}</td>
-                    </tr>
-                    <tr>
-                      <td>Data</td>
-                      <td>
-                        {format(
-                          new Date(transactionData.scheduleDate),
-                          'dd.MM.yyyy'
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Sala</td>
-                      <td>{transactionData.hallName}</td>
-                    </tr>
-                    <tr>
-                      <td>Rząd</td>
-                      <td>{convertRowNumberToLetter(seatDetails.row)}</td>
-                    </tr>
-                    <tr>
-                      <td>Miejsce</td>
-                      <td>{seatDetails.seat}</td>
-                    </tr>
-                    <tr>
-                      <td>Typ biletu</td>
-                      <td>{seatDetails.ticketType}</td>
-                    </tr>
-                    <tr>
-                      <td>Cena</td>
-                      <td>{seatDetails.ticketPrice.toFixed(2)} PLN</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <QRCode value={`${transactionData.transactionId}`} />
-              </div>
-            );
-          })}
-        </>
-      )}
+                      <div className="payment-summary__qr">
+                        <QRCode
+                          className="payment-summary__qr--qr"
+                          value={`${transactionData.transactionId}`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

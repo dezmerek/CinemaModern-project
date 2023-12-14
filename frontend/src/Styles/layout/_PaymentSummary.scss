@@ -1,0 +1,50 @@
+.payment-summary {
+    width: 100%;
+    padding: 1rem;
+
+    &__container {
+        max-width: 1110px;
+        margin: 0 auto;
+    }
+
+    &__tickets {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    &__content-qr {
+        display: flex;
+        max-height: 180px;
+        gap: 1rem;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        text-wrap: nowrap;
+
+        &--data {
+            font-weight: 800;
+            padding-left: 1rem;
+        }
+    }
+
+    &__ticket {
+        display: flex;
+        align-items: stretch;
+    }
+
+    &__qr {
+        background-color: white;
+        padding: 0.5rem;
+        width: 160px;
+        height: 160px;
+
+        &--qr {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
