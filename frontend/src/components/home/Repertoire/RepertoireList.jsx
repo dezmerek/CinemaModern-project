@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import header from '../../../assets/images/header_4.png';
 import '../../../Styles/layout/_RepertoireList.scss';
-import { format, addDays, startOfWeek } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import { BsStar } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
@@ -10,10 +10,8 @@ const RepertoireList = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedMovies, setSelectedMovies] = useState([]);
 
-  const handleDateClick = async (dayIndex) => {
-    const clickedDate = new Date(
-      startOfWeek(selectedDate, { weekStartsOn: 1 })
-    );
+  const handleDateClick = useCallback(async (dayIndex) => {
+    const clickedDate = new Date();
     clickedDate.setDate(clickedDate.getDate() + dayIndex);
     clickedDate.setHours(0, 0, 0, 0);
     setSelectedDate(clickedDate);
@@ -30,8 +28,6 @@ const RepertoireList = () => {
 
       const uniqueMovies = [];
       for (const entry of data) {
-        console.log('Schedule _id:', entry._id);
-
         const existingMovie = uniqueMovies.find(
           (movie) => movie.title === entry.movie.title
         );
@@ -81,17 +77,19 @@ const RepertoireList = () => {
     } catch (error) {
       console.error('Error fetching schedule:', error);
     }
-  };
+  }, []);
 
+  useEffect(() => {
+    handleDateClick(0);
+  }, [handleDateClick]);
   const currentDate = new Date();
-  const startDate = startOfWeek(currentDate, { weekStartsOn: 1 });
 
   const renderDayButtons = () => {
     const buttons = [];
     let isEvenColor = false;
 
     for (let i = 0; i < 7; i++) {
-      const dayDate = addDays(startDate, i);
+      const dayDate = addDays(currentDate, i);
 
       buttons.push(
         <button
