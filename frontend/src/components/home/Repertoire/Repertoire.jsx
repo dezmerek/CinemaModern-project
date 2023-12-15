@@ -38,6 +38,7 @@ const Repertoire = () => {
         language: entry.movie.language,
         startTime: format(new Date(entry.startTime), 'HH:mm'),
         isPremiere: entry.movie.isPremiere,
+        scheduleId: entry._id, // Added scheduleId to the result
       }));
 
       setSelectedMovies(schedulesForSelectedDate);
@@ -109,6 +110,7 @@ const Repertoire = () => {
                           language: curr.language,
                           times: [curr.startTime],
                           isPremiere: curr.isPremiere,
+                          scheduleId: curr.scheduleId, // Added scheduleId to the result
                         };
                       } else {
                         acc[curr.movie].times.push(curr.startTime);
@@ -137,7 +139,18 @@ const Repertoire = () => {
                         {details.times.map((time, timeIndex) => (
                           <Link
                             key={timeIndex}
-                            to={`/`}
+                            to={{
+                              pathname: `/kup-bilet/${details.scheduleId}`, // Use scheduleId here
+                              state: {
+                                id: details.scheduleId,
+                                movie: {
+                                  title: movie,
+                                  language: details.language,
+                                  startTime: time,
+                                  isPremiere: details.isPremiere,
+                                },
+                              },
+                            }}
                             className="time-slot-link"
                           >
                             <span key={timeIndex}>
