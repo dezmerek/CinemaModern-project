@@ -128,7 +128,7 @@
 
     .day-buttons {
         display: flex;
-        overflow-x: scroll;
+        overflow-x: auto;
 
         button {
             flex: 1;
