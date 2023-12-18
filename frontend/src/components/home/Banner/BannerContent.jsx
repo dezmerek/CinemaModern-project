@@ -11,6 +11,7 @@ const BannerContent = ({
   releaseDatePoland,
   duration,
   averageRating,
+  handleTrailerClick,
 }) => {
   const formattedReleaseDate = releaseDatePoland
     ? format(new Date(releaseDatePoland), 'yyyy')
@@ -41,7 +42,7 @@ const BannerContent = ({
         <button>
           <Link to={`/film/${_id}`}>Szczegóły</Link>
         </button>
-        <button>
+        <button onClick={handleTrailerClick}>
           <BsPlay />
           Zwiastun
         </button>

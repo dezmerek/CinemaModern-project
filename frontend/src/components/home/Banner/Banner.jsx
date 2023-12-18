@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../../Styles/components/_Banner.scss';
+import TrailerPlayer from '../MovieRecommended/TrailerPlayer';
 import BannerContent from './BannerContent';
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -39,6 +40,12 @@ const Banner = () => {
     return () => clearInterval(timer);
   }, [currentBanner, adBanners]);
 
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+
+  const handleTrailerClick = () => {
+    setIsTrailerOpen(true);
+  };
+
   return (
     <div className="banner">
       <div className="banner__container">
@@ -51,6 +58,8 @@ const Banner = () => {
             <BannerContent
               {...adBanners[currentBanner]}
               averageRating={adBanners[currentBanner].averageRating}
+              handleTrailerClick={handleTrailerClick}
+              _id={adBanners[currentBanner]._id}
             />
             <div className="banner__dots">
               {adBanners.map((_, index) => (
@@ -66,6 +75,12 @@ const Banner = () => {
           </>
         )}
       </div>
+      {isTrailerOpen && (
+        <TrailerPlayer
+          movieId={adBanners[currentBanner]._id}
+          onClose={() => setIsTrailerOpen(false)}
+        />
+      )}
     </div>
   );
 };
