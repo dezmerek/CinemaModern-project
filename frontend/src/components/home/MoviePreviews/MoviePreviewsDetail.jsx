@@ -4,10 +4,12 @@ import { format } from 'date-fns';
 import { pl } from 'date-fns/locale';
 import '../../../Styles/layout/_MoviePreviewsDetail.scss';
 import { BsPlayCircle } from 'react-icons/bs';
+import TrailerPlayer from '../MovieRecommended/TrailerPlayer';
 
 const MoviePreviewsDetail = () => {
   const { id } = useParams();
   const [movieDetails, setMovieDetails] = useState(null);
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
   useEffect(() => {
     document.title = `CinemaModern - ${movieDetails?.title || 'Loading...'}`;
@@ -31,6 +33,10 @@ const MoviePreviewsDetail = () => {
 
     fetchMovieDetails();
   }, [id]);
+
+  const handleTrailerClick = () => {
+    setIsTrailerOpen(true);
+  };
 
   return (
     <div className="movie-previews-detail">
@@ -94,7 +100,10 @@ const MoviePreviewsDetail = () => {
                         </tr>
                       </tbody>
                     </table>
-                    <div className="movie-previews-detail__trailer">
+                    <div
+                      className="movie-recomended-detail__trailer"
+                      onClick={handleTrailerClick}
+                    >
                       <img
                         src={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movieDetails.trailerBannerImage}`}
                         alt="Trailer Banner"
@@ -102,7 +111,13 @@ const MoviePreviewsDetail = () => {
                       <BsPlayCircle />
                     </div>
                   </div>
-                </div>{' '}
+                  {isTrailerOpen && (
+                    <TrailerPlayer
+                      movieId={id}
+                      onClose={() => setIsTrailerOpen(false)}
+                    />
+                  )}
+                </div>
               </div>
             </div>
             <div className="movie-previews-detail__long-info2">
@@ -141,7 +156,10 @@ const MoviePreviewsDetail = () => {
                     </tr>
                   </tbody>
                 </table>
-                <div className="movie-previews-detail__trailer">
+                <div
+                  className="movie-recomended-detail__trailer"
+                  onClick={handleTrailerClick}
+                >
                   <img
                     src={`${process.env.REACT_APP_API_URL}/images/trailerBanners/${movieDetails.trailerBannerImage}`}
                     alt="Trailer Banner"
@@ -149,6 +167,12 @@ const MoviePreviewsDetail = () => {
                   <BsPlayCircle />
                 </div>
               </div>
+              {isTrailerOpen && (
+                <TrailerPlayer
+                  movieId={id}
+                  onClose={() => setIsTrailerOpen(false)}
+                />
+              )}
             </div>
           </>
         )}
