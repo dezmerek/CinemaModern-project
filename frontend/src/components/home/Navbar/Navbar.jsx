@@ -99,7 +99,9 @@ const Navbar = () => {
     <div className="navbar-home">
       <div className="navbar-home__container">
         <div className="logo-menu-container">
-          <img src={logo} alt="logo" />
+          <Link to="/">
+            <img src={logo} alt="logo" />
+          </Link>
           <div className="navbar-home__menu">{menuItems}</div>
         </div>
         <div className="search-container" ref={searchContainerRef}>

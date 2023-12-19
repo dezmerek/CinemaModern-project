@@ -6,7 +6,9 @@ import { BsBoxArrowInLeft } from 'react-icons/bs';
 const Sidebar = ({ isOpen, menuItems }) => {
   return (
     <div className={`navbar-sidebar ${isOpen ? 'is-open' : ''}`}>
-      <img src={logo} alt="logo" />
+      <Link to="/">
+        <img src={logo} alt="logo" />
+      </Link>
       <Link className="navbar-sidebar__my-account" to="/moje-ekino">
         Moje e-kino
         <BsBoxArrowInLeft className="arrow-icon" />
