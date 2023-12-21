@@ -3,6 +3,10 @@ import HallAdd from '../components/dashboard/HallView/HallAdd';
 import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 
 export const HallsAdd = () => {
+    useEffect(() => {
+        document.title = 'CinemaCity - Dodaj sale';
+    }, []);
+
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
 
     useEffect(() => {

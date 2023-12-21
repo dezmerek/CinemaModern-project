@@ -3,6 +3,10 @@ import FilmView from '../components/dashboard/FilmView/FilmView';
 import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 
 export const Films = () => {
+    useEffect(() => {
+        document.title = 'CinemaCity - Lista filmów';
+    }, []);
+
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
 
     useEffect(() => {

@@ -3,6 +3,10 @@ import ScheduleAdd from '../components/dashboard/ScheduleView/ScheduleAdd';
 import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 
 export const SchedulesAdd = () => {
+    useEffect(() => {
+        document.title = 'CinemaCity - Dodaj seans';
+    }, []);
+
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
 
     useEffect(() => {

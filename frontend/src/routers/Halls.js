@@ -3,6 +3,10 @@ import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 import HallView from "../components/dashboard/HallView/HallView";
 
 export const Halls = () => {
+    useEffect(() => {
+        document.title = 'CinemaCity - Lista sal';
+    }, []);
+
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
 
     useEffect(() => {

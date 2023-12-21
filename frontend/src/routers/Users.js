@@ -3,6 +3,10 @@ import UserView from '../components/dashboard/UserView/UserView';
 import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 
 export const Users = () => {
+    useEffect(() => {
+        document.title = 'CinemaCity - Lista użytkowników';
+    }, []);
+
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
 
     useEffect(() => {

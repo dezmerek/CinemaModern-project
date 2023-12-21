@@ -3,6 +3,10 @@ import Sidebar from "../components/dashboard/Sidebar/Sidebar";
 import DashboardView from "../components/dashboard/Dashboard/DashboardView";
 
 export const Dashboard = () => {
+    useEffect(() => {
+        document.title = 'CinemaCity - Dashboard';
+    }, []);
+
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
 
     useEffect(() => {
