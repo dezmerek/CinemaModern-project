@@ -174,6 +174,16 @@ router.post('/ad-banners', upload.single('adBannerImage'), async (req, res) => {
     }
 });
 
+router.get('/reviews', async (req, res) => {
+    try {
+        const reviews = await Review.find();
+        res.status(200).json(reviews);
+    } catch (error) {
+        console.error('Error fetching all reviews:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
 router.get('/ad-banners', async (req, res) => {
     try {
         const adBanners = await Movie.find({ isAdBanner: true });
@@ -231,19 +241,16 @@ router.post('/:id/rate', async (req, res) => {
         const movieId = req.params.id;
         const { rating } = req.body;
 
-        // Sprawdź, czy film istnieje
         const movie = await Movie.findById(movieId);
 
         if (!movie) {
             return res.status(404).json({ error: 'Movie not found' });
         }
 
-        // Sprawdź, czy ocena mieści się w zakresie od 1 do 10
         if (rating < 1 || rating > 10) {
             return res.status(400).json({ error: 'Invalid rating value' });
         }
 
-        // Dodaj nową ocenę do bazy danych
         const newRating = new Rating({
             movie: movieId,
             rating
@@ -251,7 +258,6 @@ router.post('/:id/rate', async (req, res) => {
 
         await newRating.save();
 
-        // Aktualizuj średnią ocenę filmu (jeśli to potrzebne)
         const ratings = await Rating.find({ movie: movieId });
         const totalRating = ratings.reduce((sum, r) => sum + r.rating, 0);
         const averageRating = totalRating / ratings.length;
@@ -303,7 +309,6 @@ router.post('/:id/reviews', async (req, res) => {
         const movieId = req.params.id;
         const { comment } = req.body;
 
-        // Tutaj dodaj kod do dodawania recenzji dla danego filmu (możesz użyć modelu recenzji)
         const movie = await Movie.findById(movieId);
 
         if (!movie) {

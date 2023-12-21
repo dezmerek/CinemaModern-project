@@ -9,6 +9,7 @@ const DashboardView = () => {
   const [users, setUsers] = useState([]);
   const [newMoviesCount, setNewMoviesCount] = useState(0);
   const [newUsersCount, setNewUsersCount] = useState(0);
+  const [newReviewsCount, setNewReviewsCount] = useState(0);
 
   const testData = [
     { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
@@ -116,6 +117,31 @@ const DashboardView = () => {
   const latestMovies = getLatestMovies(films);
   const latestUsers = getLatestUsers(users);
 
+  useEffect(() => {
+    async function fetchReviews() {
+      try {
+        const response = await fetch(`${apiUrl}/api/movies/reviews`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch reviews');
+        }
+        const data = await response.json();
+
+        const last30DaysReviews = data.filter((review) => {
+          const reviewDate = new Date(review.dateAdded);
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          return reviewDate >= thirtyDaysAgo;
+        });
+
+        setNewReviewsCount(last30DaysReviews.length);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    }
+
+    fetchReviews();
+  }, [apiUrl]);
+
   return (
     <>
       <h2>Dashboard</h2>
@@ -140,7 +166,7 @@ const DashboardView = () => {
           <DashboardStat
             title="Napisantch recenzji"
             subtitle="Ostatnie 30 dni"
-            value={2137}
+            value={newReviewsCount}
           />
         </div>
 
