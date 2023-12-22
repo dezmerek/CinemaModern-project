@@ -10,7 +10,7 @@ const PaymentSummary = () => {
   const [transactionData, setTransactionData] = useState(null);
 
   useEffect(() => {
-    document.title = 'CinemaCity - Podsumowanie';
+    document.title = 'CinemaModern - Podsumowanie';
   }, []);
 
   useEffect(() => {
