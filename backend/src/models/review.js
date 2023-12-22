@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
+    reviewID: {
+        type: Number,
+        required: true,
+    },
     movie: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Movie',
