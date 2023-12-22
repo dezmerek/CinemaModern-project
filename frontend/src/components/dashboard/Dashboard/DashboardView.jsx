@@ -161,10 +161,14 @@ const DashboardView = () => {
         const data = await response.json();
 
         const totalSoldTickets = data.reduce((acc, reservation) => {
-          const selectedSeatsCount = reservation.selectedSeats
-            ? reservation.selectedSeats.length
-            : 0;
-          return acc + selectedSeatsCount;
+          const reservationDate = new Date(reservation.createdAt);
+          if (!isNaN(reservationDate) && reservationDate >= thirtyDaysAgo) {
+            const selectedSeatsCount = reservation.selectedSeats
+              ? reservation.selectedSeats.length
+              : 0;
+            return acc + selectedSeatsCount;
+          }
+          return acc;
         }, 0);
 
         setSoldTickets(totalSoldTickets);

@@ -18,6 +18,10 @@ const reservationSchema = new mongoose.Schema({
     transactionId: String,
     customerEmail: String,
     amountPaid: Number,
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 const Reservation = mongoose.model('Reservation', reservationSchema);

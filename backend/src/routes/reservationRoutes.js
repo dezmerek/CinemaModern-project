@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
             voucherDiscount,
             totalPrice,
             hallName: hall.name,
+            createdAt: new Date(),
         });
 
         const savedReservation = await reservation.save();
