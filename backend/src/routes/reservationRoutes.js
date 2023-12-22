@@ -95,4 +95,17 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/', async (req, res) => {
+    try {
+        const reservations = await Reservation.find();
+
+        res.status(200).json(reservations);
+    } catch (error) {
+        console.error('Error fetching all reservations:', error);
+        res.status(500).json({
+            error: 'Internal server error. Please try again later.',
+        });
+    }
+});
+
 export default router;

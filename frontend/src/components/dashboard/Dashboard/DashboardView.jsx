@@ -10,6 +10,7 @@ const DashboardView = () => {
   const [newMoviesCount, setNewMoviesCount] = useState(0);
   const [newUsersCount, setNewUsersCount] = useState(0);
   const [newReviewsCount, setNewReviewsCount] = useState(0);
+  const [soldTickets, setSoldTickets] = useState([]);
 
   const testData = [
     { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
@@ -142,6 +143,39 @@ const DashboardView = () => {
     fetchReviews();
   }, [apiUrl]);
 
+  useEffect(() => {
+    async function fetchSoldTickets() {
+      try {
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const formattedDate = thirtyDaysAgo.toISOString().split('T')[0];
+
+        const response = await fetch(
+          `${apiUrl}/api/reservations?startDate=${formattedDate}`
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch sold tickets');
+        }
+
+        const data = await response.json();
+
+        const totalSoldTickets = data.reduce((acc, reservation) => {
+          const selectedSeatsCount = reservation.selectedSeats
+            ? reservation.selectedSeats.length
+            : 0;
+          return acc + selectedSeatsCount;
+        }, 0);
+
+        setSoldTickets(totalSoldTickets);
+      } catch (error) {
+        console.error('Error fetching sold tickets:', error);
+      }
+    }
+
+    fetchSoldTickets();
+  }, [apiUrl]);
+
   return (
     <>
       <h2>Dashboard</h2>
@@ -151,7 +185,7 @@ const DashboardView = () => {
           <DashboardStat
             title="Sprzedanych biletów"
             subtitle="Ostatnie 30 dni"
-            value={2137}
+            value={soldTickets}
           />
           <DashboardStat
             title="Nowych filmów"
