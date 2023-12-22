@@ -6,7 +6,7 @@ import About from "../components/home/About/About";
 
 const Abouts = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - O nas';
+        document.title = 'CinemaModern - O nas';
     }, []);
     return (
         <div>

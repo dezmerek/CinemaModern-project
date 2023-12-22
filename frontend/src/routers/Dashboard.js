@@ -4,7 +4,7 @@ import DashboardView from "../components/dashboard/Dashboard/DashboardView";
 
 export const Dashboard = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Dashboard';
+        document.title = 'CinemaModern - Dashboard';
     }, []);
 
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);

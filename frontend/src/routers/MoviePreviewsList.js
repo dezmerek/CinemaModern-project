@@ -6,7 +6,7 @@ import MoviePreviewsList from "../components/home/MoviePreviews/MoviePreviewsLis
 
 const MoviePreviewsLists = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Zapowiedzi filmów';
+        document.title = 'CinemaModern - Zapowiedzi filmów';
     }, []);
     return (
         <div>

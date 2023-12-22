@@ -10,7 +10,7 @@ import Repertoire from "../components/home/Repertoire/Repertoire";
 
 const Home = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Strona Główna';
+        document.title = 'CinemaModern - Strona Główna';
     }, []);
     return (
         <div>

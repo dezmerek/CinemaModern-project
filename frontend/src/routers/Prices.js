@@ -6,7 +6,7 @@ import Price from "../components/home/Price/Price"
 
 const Termss = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Cennik';
+        document.title = 'CinemaModern - Cennik';
     }, []);
     return (
         <div>

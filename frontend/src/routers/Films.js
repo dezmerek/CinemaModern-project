@@ -4,7 +4,7 @@ import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 
 export const Films = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Lista filmów';
+        document.title = 'CinemaModern - Lista filmów';
     }, []);
 
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);

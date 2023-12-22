@@ -6,7 +6,7 @@ import LoyaltyProgram from "../components/home/loyaltyProgram/loyaltyProgram";
 
 const LoyaltyPrograms = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Program lojalnościowy';
+        document.title = 'CinemaModern - Program lojalnościowy';
     }, []);
     return (
         <div>

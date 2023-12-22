@@ -6,7 +6,7 @@ import MovieRecommendList from "../components/home/MovieRecommended/MovieRecomme
 
 const MovieRecommendsList = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Polecane filmy';
+        document.title = 'CinemaModern - Polecane filmy';
     }, []);
     return (
         <div>

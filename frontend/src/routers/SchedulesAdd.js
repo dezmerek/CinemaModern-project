@@ -4,7 +4,7 @@ import Sidebar from '../components/dashboard/Sidebar/Sidebar';
 
 export const SchedulesAdd = () => {
     useEffect(() => {
-        document.title = 'CinemaCity - Dodaj seans';
+        document.title = 'CinemaModern - Dodaj seans';
     }, []);
 
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
