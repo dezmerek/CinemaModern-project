@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DashboardStat from './DashboardStat';
 import DashboardCard from './DashboardCard';
 import '../../../Styles/layout/_Dashboard.scss';
+import format from 'date-fns/format';
 
 const DashboardView = () => {
   const apiUrl = process.env.REACT_APP_API_URL;
@@ -11,6 +12,7 @@ const DashboardView = () => {
   const [newUsersCount, setNewUsersCount] = useState(0);
   const [newReviewsCount, setNewReviewsCount] = useState(0);
   const [soldTickets, setSoldTickets] = useState([]);
+  const [latestReviews, setLatestReviews] = useState([]);
 
   const testData = [
     { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
@@ -35,10 +37,10 @@ const DashboardView = () => {
   ];
 
   const lastReviewColumns = [
-    { label: 'ID', value: 'movieID' },
-    { label: 'TYTUŁ', value: 'title' },
-    { label: 'JĘZYK', value: 'language' },
-    { label: 'OCENA', value: 'rating' },
+    { label: 'ID', value: 'reviewID' },
+    { label: 'TYTUŁ', value: 'movieTitle' },
+    { label: 'UŻYTKOWNIK', value: 'rating' },
+    { label: 'DATA', value: 'dateAdded' },
   ];
 
   const lastUserColumns = [
@@ -180,6 +182,54 @@ const DashboardView = () => {
     fetchSoldTickets();
   }, [apiUrl]);
 
+  useEffect(() => {
+    async function fetchReviews() {
+      try {
+        const response = await fetch(`${apiUrl}/api/movies/reviews`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch reviews');
+        }
+        const data = await response.json();
+
+        const last30DaysReviews = data.filter((review) => {
+          const reviewDate = new Date(review.dateAdded);
+          const thirtyDaysAgo = new Date();
+          thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+          return reviewDate >= thirtyDaysAgo;
+        });
+
+        const reviewsWithTitles = await Promise.all(
+          last30DaysReviews.map(async (review) => {
+            const movieResponse = await fetch(
+              `${apiUrl}/api/movies/${review.movie}`
+            );
+            if (!movieResponse.ok) {
+              throw new Error('Failed to fetch movie details');
+            }
+            const movieData = await movieResponse.json();
+            return {
+              ...review,
+              movieTitle: movieData.title,
+            };
+          })
+        );
+
+        const sortedReviews = reviewsWithTitles.sort(
+          (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
+        );
+        const topFiveReviews = sortedReviews.slice(0, 5);
+        const reviewsWithFormattedDates = topFiveReviews.map((review) => ({
+          ...review,
+          dateAdded: format(new Date(review.dateAdded), 'dd/MM/yyyy'),
+        }));
+        setLatestReviews(reviewsWithFormattedDates);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    }
+    fetchReviews();
+  }, [apiUrl]);
+
   return (
     <>
       <h2>Dashboard</h2>
@@ -226,7 +276,7 @@ const DashboardView = () => {
           <DashboardCard
             title="Najnowsze recenzje"
             buttonText="Wszystkie"
-            data={testData}
+            data={latestReviews}
             columns={lastReviewColumns}
           />
 

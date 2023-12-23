@@ -303,8 +303,6 @@ router.get('/:id/reviews', async (req, res) => {
     }
 });
 
-let currentReviewID = 0;
-
 router.post('/:id/reviews', async (req, res) => {
     try {
         const movieId = req.params.id;
@@ -316,9 +314,9 @@ router.post('/:id/reviews', async (req, res) => {
             return res.status(404).json({ error: 'Movie not found' });
         }
 
-        currentReviewID++;
+        const reviewCount = await Review.countDocuments()
         const newReview = new Review({
-            reviewID: currentReviewID,
+            reviewID: reviewCount + 1,
             movie: movieId,
             comment,
         });
