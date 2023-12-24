@@ -92,6 +92,49 @@ const DashboardView = () => {
     fetchUsers();
   }, [apiUrl]);
 
+  useEffect(() => {
+    async function fetchLatestMovies() {
+      try {
+        const response = await fetch(`${apiUrl}/api/movies`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch movies');
+        }
+        const data = await response.json();
+
+        // Pobierz oceny dla każdego filmu
+        const moviesWithRatings = await Promise.all(
+          data.map(async (movie) => {
+            const ratingResponse = await fetch(
+              `${apiUrl}/api/movies/${movie._id}/average-rating`
+            );
+            if (!ratingResponse.ok) {
+              throw new Error('Failed to fetch movie rating');
+            }
+            const ratingData = await ratingResponse.json();
+
+            return {
+              ...movie,
+              averageRating: ratingData.averageRating,
+            };
+          })
+        );
+
+        const sortedMovies = moviesWithRatings.sort(
+          (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
+        );
+
+        const latestMoviesWithRatings = sortedMovies.slice(0, 5);
+
+        setFilms(latestMoviesWithRatings);
+        setNewMoviesCount(latestMoviesWithRatings.length);
+      } catch (error) {
+        console.error('Error fetching latest movies with ratings:', error);
+      }
+    }
+
+    fetchLatestMovies();
+  }, [apiUrl]);
+
   const getLatestMovies = (movies, limit = 5) => {
     const sortedMovies = movies.sort(
       (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)

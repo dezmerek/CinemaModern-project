@@ -30,6 +30,11 @@ const DashboardCard = ({ title, buttonText, data, columns }) => {
                       <BsStar />
                       {item.averageRating}
                     </>
+                  ) : column.value === 'rating' && item.rating ? (
+                    <>
+                      <BsStar />
+                      {item.rating}
+                    </>
                   ) : (
                     item[column.value]
                   )}
