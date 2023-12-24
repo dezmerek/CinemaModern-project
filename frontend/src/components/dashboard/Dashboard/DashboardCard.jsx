@@ -25,10 +25,10 @@ const DashboardCard = ({ title, buttonText, data, columns }) => {
             <tr key={item._id}>
               {columns.map((column, index) => (
                 <td key={index}>
-                  {column.value === 'rating' && item.rating ? (
+                  {column.value === 'averageRating' && item.averageRating ? (
                     <>
                       <BsStar />
-                      {item.rating}
+                      {item.averageRating}
                     </>
                   ) : (
                     item[column.value]

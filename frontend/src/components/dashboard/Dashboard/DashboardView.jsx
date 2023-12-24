@@ -13,27 +13,20 @@ const DashboardView = () => {
   const [newReviewsCount, setNewReviewsCount] = useState(0);
   const [soldTickets, setSoldTickets] = useState([]);
   const [latestReviews, setLatestReviews] = useState([]);
-
-  const testData = [
-    { movieID: 221, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { movieID: 222, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { movieID: 223, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { movieID: 224, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-    { movieID: 225, title: 'Aftersun', language: 'Polski', rating: 8.4 },
-  ];
+  const [topRatedMovies, setTopRatedMovies] = useState([]);
 
   const lastMovieColumns = [
     { label: 'ID', value: 'movieID' },
     { label: 'TYTUŁ', value: 'title' },
     { label: 'JĘZYK', value: 'language' },
-    { label: 'OCENA', value: 'rating' },
+    { label: 'OCENA', value: 'averageRating' },
   ];
 
   const topMovieColumns = [
     { label: 'ID', value: 'movieID' },
     { label: 'TYTUŁ', value: 'title' },
     { label: 'JĘZYK', value: 'language' },
-    { label: 'OCENA', value: 'rating' },
+    { label: 'OCENA', value: 'averageRating' },
   ];
 
   const lastReviewColumns = [
@@ -230,6 +223,81 @@ const DashboardView = () => {
     fetchReviews();
   }, [apiUrl]);
 
+  useEffect(() => {
+    async function fetchTopRatedMovies() {
+      try {
+        const response = await fetch(`${apiUrl}/api/movies/ratings/all`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch top-rated movies');
+        }
+        const data = await response.json();
+
+        const movieRatingsMap = new Map();
+
+        data.forEach((movieRating) => {
+          const movieId = movieRating.movie;
+
+          if (!movieRatingsMap.has(movieId)) {
+            movieRatingsMap.set(movieId, {
+              totalRating: movieRating.rating,
+              numberOfRatings: 1,
+            });
+          } else {
+            const currentTotalRating = movieRatingsMap.get(movieId).totalRating;
+            const currentNumberOfRatings =
+              movieRatingsMap.get(movieId).numberOfRatings;
+
+            const newRating = movieRating.rating;
+
+            movieRatingsMap.set(movieId, {
+              totalRating: currentTotalRating + newRating,
+              numberOfRatings: currentNumberOfRatings + 1,
+            });
+          }
+        });
+
+        const sortedMoviesWithAverageRating = Array.from(
+          movieRatingsMap.entries()
+        )
+          .map(([movieId, { totalRating, numberOfRatings }]) => ({
+            movieId,
+            averageRating: totalRating / numberOfRatings,
+          }))
+          .sort((a, b) => b.averageRating - a.averageRating);
+
+        const topFiveMoviesWithAverageRating =
+          sortedMoviesWithAverageRating.slice(0, 5);
+
+        const moviesWithAverageRating = await Promise.all(
+          topFiveMoviesWithAverageRating.map(
+            async ({ movieId, averageRating }) => {
+              const response = await fetch(`${apiUrl}/api/movies/${movieId}`);
+              if (!response.ok) {
+                throw new Error('Failed to fetch movie details');
+              }
+              const movieData = await response.json();
+
+              const formattedAverageRating = parseFloat(
+                averageRating.toFixed(1)
+              );
+
+              return {
+                ...movieData,
+                averageRating: formattedAverageRating,
+              };
+            }
+          )
+        );
+
+        setTopRatedMovies(moviesWithAverageRating);
+      } catch (error) {
+        console.error('Error fetching top-rated movies:', error);
+      }
+    }
+
+    fetchTopRatedMovies();
+  }, [apiUrl]);
+
   return (
     <>
       <h2>Dashboard</h2>
@@ -283,7 +351,7 @@ const DashboardView = () => {
           <DashboardCard
             title="Najlepsze filmy"
             buttonText="Wszystkie"
-            data={testData}
+            data={topRatedMovies}
             columns={topMovieColumns}
           />
         </div>

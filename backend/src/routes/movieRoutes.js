@@ -330,4 +330,15 @@ router.post('/:id/reviews', async (req, res) => {
     }
 });
 
+router.get('/ratings/all', async (req, res) => {
+    try {
+        const allRatings = await Rating.find();
+
+        res.status(200).json(allRatings);
+    } catch (error) {
+        console.error('Error fetching all ratings:', error);
+        res.status(500).json({ error: 'Internal server error', details: error.message });
+    }
+});
+
 export default router;
