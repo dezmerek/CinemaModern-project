@@ -83,91 +83,128 @@ const ScheduleAdd = () => {
     setEndTime(selectedOption.label);
   };
 
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: 'rgb(21, 31, 48)',
+      color: 'white',
+      border: 'none',
+      borderRadius: '10px',
+      padding: '0.23rem',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused
+        ? 'rgb(44, 127, 237)'
+        : 'rgb(21, 31, 48)',
+      color: 'white',
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: 'white',
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: 'white',
+    }),
+  };
+
   return (
     <div className="schedule-add">
-      <h2>Utwórz Harmonogram Seansów</h2>
-      <form>
-        <div>
-          <label>Wybierz film:</label>
-          <Select
-            value={movies.find((movie) => movie._id === selectedMovie)}
-            options={movies.map((movie) => ({
-              value: movie._id,
-              label: movie.title,
-            }))}
-            onChange={(selectedOption) =>
-              setSelectedMovie(selectedOption.value)
-            }
-            isSearchable
-            placeholder="---"
-          />
-        </div>
-        <div>
-          <label>Data:</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Godzina rozpoczęcia:</label>
-          <Select
-            value={generateTimeOptions(10).find(
-              (option) => option.label === startTime
-            )}
-            options={generateTimeOptions(10).map((time) => ({
-              value: time,
-              label: time,
-            }))}
-            onChange={handleStartTimeChange}
-            isSearchable
-            placeholder="---"
-          />
-        </div>
-        <div>
-          <label>Godzina zakończenia:</label>
-          <Select
-            value={generateTimeOptions(10).find(
-              (option) => option.label === endTime
-            )}
-            options={generateTimeOptions(10).map((time) => ({
-              value: time,
-              label: time,
-            }))}
-            onChange={handleEndTimeChange}
-            isSearchable
-            placeholder="---"
-          />
-        </div>
-        <div>
-          <label>Premiera:</label>
-          <input
-            type="checkbox"
-            checked={isPremiere}
-            onChange={() => setIsPremiere(!isPremiere)}
-          />
-        </div>
-        <div>
-          <label>Wybierz salę:</label>
-          <select
-            value={selectedHall}
-            onChange={(e) => setSelectedHall(e.target.value)}
+      <h2>Utwórz seans</h2>
+      <div className="schedule-add__container">
+        <form>
+          <div className="schedule-add__movie">
+            <label>Wybierz film</label>
+            <Select
+              styles={customStyles}
+              value={movies.find((movie) => movie.title === selectedMovie)}
+              options={movies.map((movie) => ({
+                value: movie._id,
+                label: movie.title,
+              }))}
+              onChange={(selectedOption) =>
+                setSelectedMovie(selectedOption.value)
+              }
+              isSearchable
+              placeholder="---"
+            />
+          </div>
+          <div className="schedule-add__hours">
+            <div className="schedule-add__hour-start">
+              <label>Godzina rozpoczęcia</label>
+              <Select
+                styles={customStyles}
+                value={generateTimeOptions(10).find(
+                  (option) => option.label === startTime
+                )}
+                options={generateTimeOptions(10).map((time) => ({
+                  value: time,
+                  label: time,
+                }))}
+                onChange={handleStartTimeChange}
+                isSearchable
+                placeholder="---"
+              />
+            </div>
+            <div className="schedule-add__hour-end">
+              <label>Godzina zakończenia</label>
+              <Select
+                styles={customStyles}
+                value={generateTimeOptions(10).find(
+                  (option) => option.label === endTime
+                )}
+                options={generateTimeOptions(10).map((time) => ({
+                  value: time,
+                  label: time,
+                }))}
+                onChange={handleEndTimeChange}
+                isSearchable
+                placeholder="---"
+              />
+            </div>
+          </div>
+          <div className="schedule-add__hall">
+            <label>Wybierz salę</label>
+            <Select
+              styles={customStyles}
+              value={halls.find((hall) => hall.title === selectedHall)}
+              options={halls.map((hall) => ({
+                value: hall._id,
+                label: hall.name,
+              }))}
+              onChange={(selectedOption) =>
+                setSelectedHall(selectedOption.value)
+              }
+              isSearchable
+              placeholder="---"
+            />
+          </div>
+          <div className="schedule-add__date">
+            <label>Data</label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+          <div className="schedule-add__premiere">
+            <label>Premiera</label>
+            <input
+              type="checkbox"
+              checked={isPremiere}
+              onChange={() => setIsPremiere(!isPremiere)}
+            />
+          </div>
+          <button
+            className="film-add__btn-save"
+            type="button"
+            onClick={handleSaveSchedule}
           >
-            <option value="" disabled>
-              ---
-            </option>
-            {halls.map((hall) => (
-              <option key={hall._id} value={hall._id}>
-                {hall.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button type="button" onClick={handleSaveSchedule}>
-          Zapisz Harmonogram
-        </button>
-      </form>
+            Zapisz seans
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
