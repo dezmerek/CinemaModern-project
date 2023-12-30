@@ -64,8 +64,19 @@ const menuItems = [
     },
     {
         name: 'Harmonogram',
-        link: '/dashboard/schedules',
         icon: <BsClockHistory />,
+        submenu: [
+            {
+                name: 'Lista seansów',
+                link: '/dashboard/schedules',
+                icon: <BsRecordFill />,
+            },
+            {
+                name: 'Dodaj seans',
+                link: '/dashboard/schedules/add',
+                icon: <BsRecordFill />,
+            },
+        ],
     },
 ];
 
