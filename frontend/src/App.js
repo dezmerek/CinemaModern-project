@@ -24,6 +24,7 @@ import MovieRecommendsDetails from './routers/MovieRecommendsDetails';
 import ReportiresList from './routers/ReportiresList';
 import TicketsPurchase from './routers/TicketsPurchase';
 import PaymentsSummary from './routers/PaymentsSummary';
+import { SchedulesList } from './routers/SchedulesList';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/dashboard/banners/add" element={<BannersAdd />} />
           <Route path="/dashboard/halls" element={<Halls />} />
           <Route path="/dashboard/halls/add" element={<HallsAdd />} />
+          <Route path="/dashboard/schedules" element={<SchedulesList />} />
           <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
           <Route path="/" element={<Home />} />
           <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
