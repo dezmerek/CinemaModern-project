@@ -91,6 +91,27 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/all', async (req, res) => {
+    try {
+        const allSchedules = await Schedule.find()
+            .populate({
+                path: 'movie',
+                select: 'title',
+            })
+            .populate({
+                path: 'hall',
+                select: 'name',
+            })
+            .select('date startTime endTime isPremiere movie hall');
+
+        res.json(allSchedules);
+    } catch (error) {
+        console.error('Error fetching all schedules:', error);
+        res.status(500).json({ error: 'Internal server error. Please try again later.' });
+    }
+});
+
+
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -110,6 +131,29 @@ router.get('/:id', async (req, res) => {
         res.json(schedule);
     } catch (error) {
         console.error('Error fetching schedule by ID:', error);
+        res.status(500).json({ error: 'Internal server error. Please try again later.' });
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: 'Invalid schedule ID.' });
+        }
+
+        const schedule = await Schedule.findById(id);
+
+        if (!schedule) {
+            return res.status(404).json({ error: 'Schedule not found.' });
+        }
+
+        await schedule.deleteOne();
+
+        res.json({ message: 'Schedule deleted successfully!' });
+    } catch (error) {
+        console.error('Error deleting schedule:', error);
         res.status(500).json({ error: 'Internal server error. Please try again later.' });
     }
 });
