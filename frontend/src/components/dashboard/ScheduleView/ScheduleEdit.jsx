@@ -6,11 +6,47 @@ const ScheduleEdit = ({ schedule, onSave, onCancel }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedSchedule({ ...editedSchedule, [name]: value });
+
+    if (name === 'date' || name === 'startTime' || name === 'endTime') {
+      setEditedSchedule({ ...editedSchedule, [name]: value });
+    } else {
+      setEditedSchedule({
+        ...editedSchedule,
+        [name]: { ...editedSchedule[name], title: value },
+      });
+    }
   };
 
-  const handleSave = () => {
-    onSave(editedSchedule);
+  const handleSave = async () => {
+    try {
+      const { date, startTime, endTime } = editedSchedule;
+
+      const startTimeAsDate = new Date(`${date}T${startTime}:00.000Z`);
+      const endTimeAsDate = new Date(`${date}T${endTime}:00.000Z`);
+
+      const response = await fetch(
+        `http://localhost:3001/api/schedules/${editedSchedule._id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            date,
+            startTime: startTimeAsDate,
+            endTime: endTimeAsDate,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to save changes');
+      }
+
+      onSave(editedSchedule);
+    } catch (error) {
+      console.error('Error saving changes:', error);
+    }
   };
 
   return (
@@ -23,8 +59,9 @@ const ScheduleEdit = ({ schedule, onSave, onCancel }) => {
             <input
               type="text"
               name="movie"
-              value={editedSchedule.movie}
+              value={editedSchedule.movie.title}
               onChange={handleInputChange}
+              readOnly
             />
           </div>
           <div>
@@ -63,8 +100,9 @@ const ScheduleEdit = ({ schedule, onSave, onCancel }) => {
             <input
               type="text"
               name="hall"
-              value={editedSchedule.hall}
+              value={editedSchedule.hall.name}
               onChange={handleInputChange}
+              readOnly
             />
           </div>
           <div className="universal-edit__buttons">

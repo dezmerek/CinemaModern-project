@@ -158,4 +158,31 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.put('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { date, startTime, endTime } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: 'Invalid schedule ID.' });
+        }
+
+        const updatedSchedule = await Schedule.findByIdAndUpdate(
+            id,
+            { date, startTime, endTime },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedSchedule) {
+            return res.status(404).json({ error: 'Schedule not found.' });
+        }
+
+        res.json(updatedSchedule);
+    } catch (error) {
+        console.error('Error updating schedule:', error);
+        res.status(500).json({ error: 'Internal server error. Please try again later.' });
+    }
+});
+
+
 export default router;

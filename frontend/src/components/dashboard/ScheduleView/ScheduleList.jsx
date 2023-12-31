@@ -124,6 +124,7 @@ const ScheduleList = () => {
             (schedule) => schedule._id !== itemToDelete._id
           );
           setSchedules(updatedSchedules);
+          setItemToDelete(null);
         } else {
           console.error('Failed to delete the schedule');
         }
@@ -164,7 +165,7 @@ const ScheduleList = () => {
       {isEditing && (
         <div>
           <ScheduleEdit
-            user={editedItem}
+            schedule={editedItem}
             onSave={handleSaveEdit}
             onCancel={() => setIsEditing(false)}
           />
@@ -172,7 +173,7 @@ const ScheduleList = () => {
       )}
 
       {selectedItem && (
-        <SchedulePreview user={selectedItem} onClose={handleClosePreview} />
+        <SchedulePreview schedule={selectedItem} onClose={handleClosePreview} />
       )}
 
       {itemToDelete && (
