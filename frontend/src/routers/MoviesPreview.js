@@ -4,6 +4,9 @@ import MoviePreview from "../components/dashboard/FilmView/MoviePreview";
 
 export const MoviesPreview = () => {
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
+    useEffect(() => {
+        document.title = `CinemaModern - Zapowiedzi filmów`;
+    });
 
     useEffect(() => {
         const handleResize = () => {

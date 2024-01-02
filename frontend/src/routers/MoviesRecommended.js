@@ -4,6 +4,9 @@ import MovieRecommended from "../components/dashboard/FilmView/MovieRecommended"
 
 export const MoviesRecommended = () => {
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
+    useEffect(() => {
+        document.title = `CinemaModern - Polecane filmy`;
+    });
 
     useEffect(() => {
         const handleResize = () => {

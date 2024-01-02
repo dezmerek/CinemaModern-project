@@ -4,6 +4,9 @@ import TicketView from "../components/dashboard/TicketView/TicketView";
 
 export const TicketsView = () => {
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
+    useEffect(() => {
+        document.title = `CinemaModern - Lista biletów`;
+    });
 
     useEffect(() => {
         const handleResize = () => {
