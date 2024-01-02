@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from '../components/dashboard/Sidebar/Sidebar';
-import MoviePreview from "../components/dashboard/Dashboard/MoviePreview/MoviePreview";
+import MoviePreview from "../components/dashboard/FilmView/MoviePreview";
 
 export const MoviesPreview = () => {
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
