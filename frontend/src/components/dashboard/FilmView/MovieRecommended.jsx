@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../../../Styles/layout/_RecommendedPreview.scss';
 
 const MovieRecommended = () => {
   const [movies, setMovies] = useState([]);
@@ -79,32 +80,34 @@ const MovieRecommended = () => {
   };
 
   return (
-    <div>
-      <h2>Lista filmów</h2>
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie._id}>
-            {movie.title}
-            {!movie.isRecommended && (
-              <button onClick={() => moveMovieToPreview(movie._id)}>
-                Przenieś do polecanych
-              </button>
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="recommended-preview">
+      <div className="recommended-preview__container">
+        <h2>Lista filmów</h2>
+        <ul>
+          {movies.map((movie) => (
+            <li key={movie._id}>
+              {movie.title}
+              {!movie.isRecommended && (
+                <button onClick={() => moveMovieToPreview(movie._id)}>
+                  Przenieś do polecanych
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
 
-      <h2>Filmy w zapowiedziach</h2>
-      <ul>
-        {previewMovies.map((movie) => (
-          <li key={movie._id}>
-            {movie.title} -
-            <button onClick={() => removeFromPreview(movie._id)}>
-              Usuń z zapowiedzi
-            </button>
-          </li>
-        ))}
-      </ul>
+        <h2>Filmy w polecanych</h2>
+        <ul>
+          {previewMovies.map((movie) => (
+            <li key={movie._id}>
+              {movie.title} -
+              <button onClick={() => removeFromPreview(movie._id)}>
+                Usuń z polecanych
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
