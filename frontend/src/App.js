@@ -25,6 +25,7 @@ import ReportiresList from './routers/ReportiresList';
 import TicketsPurchase from './routers/TicketsPurchase';
 import PaymentsSummary from './routers/PaymentsSummary';
 import { SchedulesList } from './routers/SchedulesList';
+import { TicketsView } from './routers/TicketsView';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="/dashboard/halls/add" element={<HallsAdd />} />
           <Route path="/dashboard/schedules" element={<SchedulesList />} />
           <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
+          <Route path="/dashboard/tickets" element={<TicketsView />} />
           <Route path="/" element={<Home />} />
           <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
           <Route path="/regulamin" element={<Terms />} />
