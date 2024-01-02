@@ -33,10 +33,10 @@ function App() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/users" element={<Users />} />
-          <Route path="/dashboard/films" element={<Films />} />
-          <Route path="/dashboard/films/preview" element={<MoviesPreview />} />
-          <Route path="/dashboard/films/recommended" element={<MoviesRecommended />} />
-          <Route path="/dashboard/films/add" element={<FilmsAdd />} />
+          <Route path="/dashboard/movies" element={<Films />} />
+          <Route path="/dashboard/movies/preview" element={<MoviesPreview />} />
+          <Route path="/dashboard/movies/recommended" element={<MoviesRecommended />} />
+          <Route path="/dashboard/movies/add" element={<FilmsAdd />} />
           <Route path="/dashboard/banners/add" element={<BannersAdd />} />
           <Route path="/dashboard/halls" element={<Halls />} />
           <Route path="/dashboard/halls/add" element={<HallsAdd />} />

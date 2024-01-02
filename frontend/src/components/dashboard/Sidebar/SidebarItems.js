@@ -26,12 +26,22 @@ const menuItems = [
         submenu: [
             {
                 name: 'Lista filmów',
-                link: '/dashboard/films',
+                link: '/dashboard/movies',
                 icon: <BsRecordFill />,
             },
             {
                 name: 'Dodaj film',
-                link: '/dashboard/films/add',
+                link: '/dashboard/movies/add',
+                icon: <BsRecordFill />,
+            },
+            {
+                name: 'Zapowiedzi',
+                link: '/dashboard/movies/preview',
+                icon: <BsRecordFill />,
+            },
+            {
+                name: 'Polecane',
+                link: '/dashboard/movies/recommended',
                 icon: <BsRecordFill />,
             },
         ],
