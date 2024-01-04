@@ -93,6 +93,9 @@ const TicketView = () => {
     value: column,
   }));
 
+  columnsMap.find((column) => column.value === 'totalPrice').render = (value) =>
+    `${value.toFixed(2)} PLN`;
+
   const handleSearchChange = (newSearchText) => {
     setSearchText(newSearchText);
   };
