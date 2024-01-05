@@ -71,6 +71,18 @@ const menuItems = [
         name: 'Voucher',
         link: '/dashboard/vouchers',
         icon: <BsSticky />,
+        submenu: [
+            {
+                name: 'Lista voucher',
+                link: '/dashboard/vouchers',
+                icon: <BsRecordFill />,
+            },
+            {
+                name: 'Dodaj voucher',
+                link: '/dashboard/vouchers/add',
+                icon: <BsRecordFill />,
+            },
+        ],
     },
     {
         name: 'Harmonogram',
