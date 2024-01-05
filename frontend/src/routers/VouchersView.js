@@ -5,7 +5,7 @@ import VoucherView from "../components/dashboard/VoucherView/VoucherView";
 export const VouchersView = () => {
     const [isFlex, setIsFlex] = useState(window.innerWidth >= 992);
     useEffect(() => {
-        document.title = `CinemaModern - Lista biletów`;
+        document.title = `CinemaModern - Lista Voucher`;
     });
 
     useEffect(() => {
