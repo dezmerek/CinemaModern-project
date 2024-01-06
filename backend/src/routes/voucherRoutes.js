@@ -5,7 +5,15 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const { code, discountValue, expirationDate, usageLimit } = req.body;
+        const { code, discountValue, expirationDate, usageLimit, discountType, minPurchaseAmount } = req.body;
+
+        if (!code || !discountValue || !discountType) {
+            return res.status(400).json({ error: 'Missing required fields.' });
+        }
+
+        if (!['amount', 'percentage'].includes(discountType)) {
+            return res.status(400).json({ error: 'Invalid discountType value.' });
+        }
 
         const lastVoucher = await Voucher.findOne().sort({ voucherId: -1 });
 
@@ -15,6 +23,8 @@ router.post('/', async (req, res) => {
             discountValue,
             expirationDate,
             usageLimit,
+            discountType,
+            minPurchaseAmount,
         });
 
         await newVoucher.save();
@@ -29,7 +39,6 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const vouchers = await Voucher.find();
-
         res.status(200).json(vouchers);
     } catch (error) {
         console.error('Error fetching vouchers:', error);

@@ -35,10 +35,15 @@ const VoucherView = () => {
     }
   };
 
+  const translateDiscountType = (type) => {
+    return type === 'percentage' ? 'Procentowy' : 'Kwotowy';
+  };
+
   const voucherColumns = [
     'voucherId',
     'code',
     'discountValue',
+    'discountType',
     'creationDate',
     'isActive',
   ];
@@ -47,6 +52,7 @@ const VoucherView = () => {
     'ID',
     'Kod vouchera',
     'Wartość obniżki',
+    'Typ obniżki',
     'Data utworzenia',
     'Aktywny',
   ];
@@ -90,6 +96,7 @@ const VoucherView = () => {
           ...item,
           creationDate: formatDate(item.creationDate),
           isActive: item.isActive ? 'Tak' : 'Nie',
+          discountType: translateDiscountType(item.discountType),
         }))}
         columns={columnsMap}
         onPreview={handlePreview}

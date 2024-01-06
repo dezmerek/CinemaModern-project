@@ -14,6 +14,15 @@ const voucherSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    discountType: {
+        type: String,
+        enum: ['amount', 'percentage'],
+        default: 'amount',
+    },
+    minPurchaseAmount: {
+        type: Number,
+        default: 0,
+    },
     creationDate: {
         type: Date,
         default: Date.now,
