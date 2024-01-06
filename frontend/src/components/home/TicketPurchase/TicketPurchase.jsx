@@ -6,6 +6,7 @@ import { useParams, Link } from 'react-router-dom';
 import SeatLegend from './SeatLegend';
 
 const TicketPurchase = () => {
+  const apiUrl = process.env.REACT_APP_API_URL;
   const { id } = useParams();
   const [scheduleData, setScheduleData] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -13,6 +14,7 @@ const TicketPurchase = () => {
   const [voucherDiscount, setVoucherDiscount] = useState(0);
   const [reservationId, setReservationId] = useState(null);
   const [isVoucherApplied, setIsVoucherApplied] = useState(false);
+  const [voucherError, setVoucherError] = useState(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -48,25 +50,33 @@ const TicketPurchase = () => {
     fetchScheduleData();
   }, [id]);
 
-  const handleApplyVoucher = () => {
-    const voucherCodeToDiscountMapping = {
-      test: 10,
-    };
+  const handleApplyVoucher = async () => {
+    try {
+      setVoucherError(null); // Zresetuj błąd przed próbą zastosowania vouchera
 
-    const discountPercentage = voucherCodeToDiscountMapping[voucherCode];
+      const responseVouchers = await fetch(`${apiUrl}/api/vouchers`);
+      if (!responseVouchers.ok) {
+        throw new Error(`Failed to fetch vouchers: ${responseVouchers.status}`);
+      }
+      const vouchersData = await responseVouchers.json();
 
-    if (discountPercentage !== undefined) {
-      const updatedSelectedSeats = selectedSeats.map((seat) => ({
-        ...seat,
-        price: seat.price - (seat.price * discountPercentage) / 100,
-      }));
+      const voucher = vouchersData.find((v) => v.code === voucherCode);
 
-      setVoucherDiscount(discountPercentage);
-      setSelectedSeats(updatedSelectedSeats);
+      if (voucher) {
+        const updatedSelectedSeats = selectedSeats.map((seat) => ({
+          ...seat,
+          price: seat.price - (seat.price * voucher.discountValue) / 100,
+        }));
 
-      setIsVoucherApplied(true);
-    } else {
-      console.error('Invalid voucher code');
+        setVoucherDiscount(voucher.discountValue);
+        setSelectedSeats(updatedSelectedSeats);
+        setIsVoucherApplied(true);
+      } else {
+        setVoucherError('Nieprawidłowy kod vouchera');
+        console.error('Invalid voucher code');
+      }
+    } catch (error) {
+      console.error('Error applying voucher:', error.message);
     }
   };
 
@@ -390,21 +400,28 @@ const TicketPurchase = () => {
                   </tfoot>
                 </table>
                 <div className="voucher-section">
-                  <input
-                    type="text"
-                    value={voucherCode}
-                    placeholder="Masz kupon/voucher? Wpisz jego kod"
-                    onChange={(e) => setVoucherCode(e.target.value)}
-                  />
-                  <button
-                    onClick={
-                      isVoucherApplied
-                        ? handleRemoveVoucher
-                        : handleApplyVoucher
-                    }
-                  >
-                    {isVoucherApplied ? 'Usuń voucher' : 'Zastosuj voucher'}
-                  </button>
+                  <div>
+                    <input
+                      type="text"
+                      value={voucherCode}
+                      placeholder="Masz kupon/voucher? Wpisz jego kod"
+                      onChange={(e) => setVoucherCode(e.target.value)}
+                    />
+                    <button
+                      onClick={
+                        isVoucherApplied
+                          ? handleRemoveVoucher
+                          : handleApplyVoucher
+                      }
+                    >
+                      {isVoucherApplied ? 'Usuń voucher' : 'Zastosuj voucher'}
+                    </button>
+                  </div>
+                  <div>
+                    {voucherError && (
+                      <div className="voucher-error">{voucherError}</div>
+                    )}
+                  </div>
                 </div>
                 <div className="reservation-ticket__btn">
                   {!showPersonalDataForm && (
