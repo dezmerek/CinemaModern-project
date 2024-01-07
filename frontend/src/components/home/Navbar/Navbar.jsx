@@ -1,4 +1,3 @@
-// Navbar.js
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BsSearch, BsBoxArrowInLeft } from 'react-icons/bs';
