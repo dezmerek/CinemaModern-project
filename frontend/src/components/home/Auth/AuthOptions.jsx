@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import LoggedInContent from './LoggedInContent';
-import GoogleLogin from './GoogleLogin';
-import './../../../Styles/components/_AuthOptions.scss';
+import GoogleLoginButton from './GoogleLoginButton';
 
 const AuthOptions = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    // Pobierz dane użytkownika z sessionStorage
+    const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -17,14 +17,15 @@ const AuthOptions = () => {
 
   const handleGoogleAuth = (userData) => {
     setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+    // Zapisz dane użytkownika w sessionStorage
+    sessionStorage.setItem('user', JSON.stringify(userData));
   };
 
   const handleLogout = () => {
-    // Wywołanie googleLogout bez oczekiwania na obietnicę
     googleLogout();
     setUser(null);
-    localStorage.removeItem('user');
+    // Usuń dane użytkownika z sessionStorage
+    sessionStorage.removeItem('user');
   };
 
   return (
@@ -34,9 +35,9 @@ const AuthOptions = () => {
       ) : (
         <>
           <h2>Moje e-kino</h2>
-          <p>Proszę wybierz, czy chcesz się zalogować czy zarejestrować:</p>
+          <p>Zaloguj się lub utwórz konto, aby korzystać z naszych usług:</p>
           <div className="buttons-container">
-            <GoogleLogin onGoogleLogin={handleGoogleAuth} />
+            <GoogleLoginButton onGoogleLogin={handleGoogleAuth} />
           </div>
         </>
       )}

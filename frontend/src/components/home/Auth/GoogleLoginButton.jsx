@@ -1,14 +1,13 @@
-// GoogleLogin.js
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import '../../../Styles/components/_AuthOptions.scss';
 
 const clientId =
   '740816282526-srg5qmod870vij8pgdeov73q0i48bk2c.apps.googleusercontent.com';
 
 const GoogleLoginButton = ({ onGoogleLogin }) => {
-  const handleGoogleLogin = (response) => {
+  const handleGoogleLogin = async (response) => {
     if (response && response.credential) {
-      // Dekodowanie JWT ręcznie
       const base64Url = response.credential.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       const jsonPayload = decodeURIComponent(
@@ -27,7 +26,20 @@ const GoogleLoginButton = ({ onGoogleLogin }) => {
         uid: decoded.sub,
         picture: decoded.picture,
       };
-      onGoogleLogin(userData);
+
+      const serverResponse = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/users/google-login`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        }
+      );
+
+      const data = await serverResponse.json();
+      onGoogleLogin(data);
     } else {
       console.error('Nieprawidłowa odpowiedź z Google:', response);
     }
