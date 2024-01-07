@@ -10,8 +10,6 @@
         align-items: center;
     }
 
-
-
     .logo-menu-container {
         display: flex;
         justify-content: flex-start;
@@ -94,6 +92,7 @@
     &__my-account {
         display: none;
         text-wrap: nowrap;
+        cursor: pointer;
 
         @media screen and (min-width: 768px) {
             display: flex;

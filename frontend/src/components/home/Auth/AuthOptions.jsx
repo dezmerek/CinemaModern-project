@@ -4,7 +4,7 @@ import { googleLogout } from '@react-oauth/google';
 import LoggedInContent from './LoggedInContent';
 import GoogleLoginButton from './GoogleLoginButton';
 
-const AuthOptions = () => {
+const AuthOptions = ({ onAuthOptions, handleCloseAuthOptions }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -28,13 +28,24 @@ const AuthOptions = () => {
     sessionStorage.removeItem('user');
   };
 
+  const handleHideAuthOptions = () => {
+    handleCloseAuthOptions(); // Zamknij AuthOptions
+  };
+
   return (
     <div className="auth-options">
       {user ? (
-        <LoggedInContent user={user} handleLogout={handleLogout} />
+        <LoggedInContent
+          user={user}
+          handleLogout={handleLogout}
+          handleCloseAuthOptions={handleCloseAuthOptions}
+        />
       ) : (
         <>
-          <h2>Moje e-kino</h2>
+          <div className="logged-in-content__header">
+            <h2>Moje e-kino</h2>
+            <button onClick={handleHideAuthOptions}>X</button>
+          </div>
           <p>Zaloguj się lub utwórz konto, aby korzystać z naszych usług:</p>
           <div className="buttons-container">
             <GoogleLoginButton onGoogleLogin={handleGoogleAuth} />

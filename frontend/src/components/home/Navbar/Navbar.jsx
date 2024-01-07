@@ -179,7 +179,10 @@ const Navbar = () => {
           </div>
 
           {isAuthOptionsVisible && (
-            <AuthOptions onAuthOptions={closeAuthOptions} />
+            <AuthOptions
+              onAuthOptions={closeAuthOptions}
+              handleCloseAuthOptions={closeAuthOptions}
+            />
           )}
         </div>
         <Sidebar isOpen={isOpen} menuItems={menuData} />
