@@ -2,8 +2,7 @@ import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import '../../../Styles/components/_AuthOptions.scss';
 
-const clientId =
-  '740816282526-srg5qmod870vij8pgdeov73q0i48bk2c.apps.googleusercontent.com';
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const GoogleLoginButton = ({ onGoogleLogin }) => {
   const handleGoogleLogin = async (response) => {

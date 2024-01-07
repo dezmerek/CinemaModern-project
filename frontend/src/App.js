@@ -30,7 +30,7 @@ import { TicketsView } from './routers/TicketsView';
 import { VouchersView } from './routers/VouchersView';
 import { VouchersAdd } from './routers/VouchersAdd';
 
-const clientId = '740816282526-srg5qmod870vij8pgdeov73q0i48bk2c.apps.googleusercontent.com';
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 function App() {
   return (
