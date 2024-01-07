@@ -5,7 +5,7 @@ import { BsSearch, BsBoxArrowInLeft } from 'react-icons/bs';
 import '../../../Styles/components/_Navbar.scss';
 import NavbarSearch from './NavbarSearch';
 import Sidebar from './Sidebar';
-import MojeEkinoContent from './../Auth/AuthOptions'; // Import the new component
+import AuthOptions from './../Auth/AuthOptions'; // Import the new component
 import logo from '../../../assets/images/logo.png';
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -16,7 +16,7 @@ const Navbar = () => {
   const searchContainerRef = useRef(null);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [isMojeEkinoVisible, setIsMojeEkinoVisible] = useState(false);
+  const [isAuthOptionsVisible, setIsAuthOptionsVisible] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -98,13 +98,46 @@ const Navbar = () => {
     setSearchTerm('');
   };
 
-  const openMojeEkino = () => {
-    setIsMojeEkinoVisible(!isMojeEkinoVisible);
+  const openAuthOptions = () => {
+    setIsAuthOptionsVisible(!isAuthOptionsVisible);
   };
 
-  const closeMojeEkino = () => {
-    setIsMojeEkinoVisible(false);
+  const closeAuthOptions = () => {
+    setIsAuthOptionsVisible(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the clicked element is inside the search container
+      if (
+        searchContainerRef.current &&
+        searchContainerRef.current.contains(event.target)
+      ) {
+        return;
+      }
+
+      // Check if the clicked element is inside the MojeEkinoContent
+      if (isAuthOptionsVisible && event.target.closest('.logged-in-content')) {
+        return;
+      }
+
+      // Close the search if it's open
+      if (isSearchVisible) {
+        setSearchTerm('');
+      }
+
+      // Close MojeEkino if it's open
+      if (isAuthOptionsVisible) {
+        setIsAuthOptionsVisible(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSearchVisible, isAuthOptionsVisible]);
 
   return (
     <div className="navbar-home">
@@ -141,13 +174,13 @@ const Navbar = () => {
             <span></span>
           </div>
 
-          <div className="navbar-home__my-account" onClick={openMojeEkino}>
+          <div className="navbar-home__my-account" onClick={openAuthOptions}>
             Moje e-kino
             <BsBoxArrowInLeft className="arrow-icon" />
           </div>
 
-          {isMojeEkinoVisible && (
-            <MojeEkinoContent onCloseMojeEkino={closeMojeEkino} />
+          {isAuthOptionsVisible && (
+            <AuthOptions onAuthOptions={closeAuthOptions} />
           )}
         </div>
         <Sidebar isOpen={isOpen} menuItems={menuData} />
