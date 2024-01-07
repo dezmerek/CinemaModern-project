@@ -20,15 +20,23 @@ router.post('/google-login', async (req, res) => {
         let user = await User.findOne({ uid });
 
         if (!user) {
-            // Znajdź ostatniego użytkownika i zwiększ jego userId o 1
             const lastUser = await User.findOne().sort({ userId: -1 });
             const userId = lastUser ? lastUser.userId + 1 : 1;
 
-            user = new User({ userId, displayName, email, uid, picture });
+            user = new User({
+                userId,
+                displayName,
+                email,
+                uid,
+                picture,
+                registrationDate: new Date(),
+                lastLoginDate: new Date()
+            });
         } else {
             user.displayName = displayName;
             user.email = email;
             user.picture = picture;
+            user.lastLoginDate = new Date();
         }
 
         await user.save();

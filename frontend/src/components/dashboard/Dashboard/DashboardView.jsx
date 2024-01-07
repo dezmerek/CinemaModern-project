@@ -37,10 +37,10 @@ const DashboardView = () => {
   ];
 
   const lastUserColumns = [
-    { label: 'ID', value: 'id' },
-    { label: 'IMIĘ', value: 'firstName' },
-    { label: 'NAZWISKO', value: 'lastName' },
-    { label: 'DATA REJESTRACJI', value: 'createdAt' },
+    { label: 'ID', value: 'userId' },
+    { label: 'IMIĘ i NAZWISKO', value: 'displayName' },
+    { label: 'AKTYWNOŚĆ', value: 'lastLoginDate' },
+    { label: 'REJESTRACJA', value: 'registrationDate' },
   ];
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const DashboardView = () => {
         const data = await response.json();
 
         const last30DaysUsers = data.filter((user) => {
-          const userDate = new Date(user.createdAt);
+          const userDate = new Date(user.registrationDate);
           const thirtyDaysAgo = new Date();
           thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
           return userDate >= thirtyDaysAgo;
@@ -144,11 +144,12 @@ const DashboardView = () => {
 
   const getLatestUsers = (users, limit = 5) => {
     const sortedUsers = users.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.registrationDate) - new Date(a.registrationDate)
     );
     const formattedUsers = sortedUsers.map((user) => ({
       ...user,
-      createdAt: new Date(user.createdAt).toLocaleDateString(),
+      registrationDate: new Date(user.registrationDate).toLocaleDateString(),
+      lastLoginDate: new Date(user.lastLoginDate).toLocaleDateString(), // Format lastLoginDate
     }));
     return formattedUsers.slice(0, limit);
   };
