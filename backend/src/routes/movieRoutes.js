@@ -239,8 +239,21 @@ router.get('/:id', async (req, res) => {
 router.post('/:id/rate', async (req, res) => {
     try {
         const movieId = req.params.id;
-        const { rating } = req.body;
+        const { rating, userId } = req.body;
 
+        // Sprawdź, czy użytkownik już ocenił ten film
+        const existingRating = await Rating.findOneAndUpdate(
+            { movie: movieId, user: userId },
+            { rating },
+            { new: true }
+        );
+
+        // Jeśli ocena istnieje, zwróć zaktualizowaną ocenę
+        if (existingRating) {
+            return res.status(200).json({ message: 'Rating updated successfully' });
+        }
+
+        // W przeciwnym razie, dodaj nową ocenę
         const movie = await Movie.findById(movieId);
 
         if (!movie) {
@@ -253,21 +266,15 @@ router.post('/:id/rate', async (req, res) => {
 
         const newRating = new Rating({
             movie: movieId,
-            rating
+            rating,
+            user: userId,
         });
 
         await newRating.save();
 
-        const ratings = await Rating.find({ movie: movieId });
-        const totalRating = ratings.reduce((sum, r) => sum + r.rating, 0);
-        const averageRating = totalRating / ratings.length;
-
-        movie.rating = averageRating;
-        await movie.save();
-
         res.status(200).json({ message: 'Rating added successfully' });
     } catch (error) {
-        console.error('Error adding rating:', error);
+        console.error('Error adding or updating rating:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });

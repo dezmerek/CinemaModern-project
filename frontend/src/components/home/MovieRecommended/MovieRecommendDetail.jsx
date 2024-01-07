@@ -6,12 +6,13 @@ import '../../../Styles/components/_MovieRecommendedDetail.scss';
 import MovieRecommendReview from './MovieRecommendReview';
 import { BsStar, BsPlayCircle } from 'react-icons/bs';
 import TrailerPlayer from './TrailerPlayer';
+import { useAuth } from '../Auth/AuthContext';
 
 const MovieRecommendDetail = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [averageRating, setAverageRating] = useState(null);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
-
+  const { user } = useAuth();
   const { id } = useParams();
 
   useEffect(() => {
@@ -51,6 +52,12 @@ const MovieRecommendDetail = () => {
   }, [movieDetails?.title]);
 
   const handleRatingClick = async (rating) => {
+    console.log('Rating Data:', { rating, userId: user._id });
+
+    if (!user) {
+      alert('Musisz być zalogowany, aby ocenić film');
+      return;
+    }
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/api/movies/${id}/rate`,
@@ -58,8 +65,9 @@ const MovieRecommendDetail = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`, // Zakładając, że token jest przechowywany w obiekcie user
           },
-          body: JSON.stringify({ rating }),
+          body: JSON.stringify({ rating, userId: user._id }), // Przesyłanie ID użytkownika wraz z oceną
         }
       );
 
