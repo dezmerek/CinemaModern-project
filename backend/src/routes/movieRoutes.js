@@ -299,6 +299,28 @@ router.get('/:id/average-rating', async (req, res) => {
 });
 
 
+router.get('/:id/user-rating/:userId', async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const userId = req.params.userId;
+
+        // Pobierz ocenę użytkownika dla danego filmu
+        const userRating = await Rating.findOne({ movie: movieId, user: userId });
+
+        if (!userRating) {
+            // Jeśli nie ma oceny od tego użytkownika, zwróć null lub odpowiednią wartość domyślną
+            res.status(200).json({ rating: null });
+        } else {
+            // Jeśli istnieje, zwróć ocenę
+            res.status(200).json({ rating: userRating.rating });
+        }
+    } catch (error) {
+        console.error('Error fetching user rating:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 router.get('/:id/reviews', async (req, res) => {
     try {
         const movieId = req.params.id;

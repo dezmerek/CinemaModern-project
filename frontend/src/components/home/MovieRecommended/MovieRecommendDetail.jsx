@@ -14,6 +14,7 @@ const MovieRecommendDetail = () => {
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
   const { user } = useAuth();
   const { id } = useParams();
+  const [userRating, setUserRating] = useState(null);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -85,6 +86,9 @@ const MovieRecommendDetail = () => {
 
       const updatedData = await updatedResponse.json();
       setMovieDetails(updatedData);
+
+      // Aktualizuj stan userRating, aby zmienić podświetlenie
+      setUserRating(rating);
     } catch (error) {
       console.error('Error submitting rating:', error);
     }
@@ -93,6 +97,27 @@ const MovieRecommendDetail = () => {
   const handleTrailerClick = () => {
     setIsTrailerOpen(true);
   };
+
+  useEffect(() => {
+    const fetchUserRating = async () => {
+      try {
+        if (user) {
+          const userRatingResponse = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/movies/${id}/user-rating/${user._id}`
+          );
+
+          if (userRatingResponse.ok) {
+            const userRatingData = await userRatingResponse.json();
+            setUserRating(userRatingData.rating);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user rating:', error);
+      }
+    };
+
+    fetchUserRating();
+  }, [id, user]);
 
   return (
     <div className="movie-recomended-detail">
@@ -129,7 +154,9 @@ const MovieRecommendDetail = () => {
                       <div
                         key={rating}
                         onClick={() => handleRatingClick(rating)}
-                        className={`rating-button`}
+                        className={`rating-button ${
+                          userRating === rating ? 'selected' : ''
+                        }`}
                       >
                         {rating}
                       </div>
