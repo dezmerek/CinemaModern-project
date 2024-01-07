@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import '../../../Styles/components/_MovieRecommendReview.scss';
 import avatar from '../../../assets/images/avatar.png';
+import { useAuth } from '../Auth/AuthContext';
 
 const fetchReviews = async (id, setReviews) => {
   try {
@@ -31,13 +32,26 @@ const MovieReviewForm = () => {
   const { id } = useParams();
   const [userReview, setUserReview] = useState('');
   const [reviews, setReviews] = useState([]);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      fetchReviews(id, setReviews);
+    }
+  }, [id, user]);
 
   useEffect(() => {
     fetchReviews(id, setReviews);
-  }, [id]);
+  }, [id, user]);
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
+
+    // Sprawdź, czy użytkownik jest zalogowany
+    if (!user) {
+      alert('Musisz być zalogowany, aby dodać recenzję');
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -98,19 +112,21 @@ const MovieReviewForm = () => {
         </div>
       )}
 
-      <form className="review__form" onSubmit={handleReviewSubmit}>
-        <textarea
-          value={userReview}
-          onChange={(e) => setUserReview(e.target.value)}
-          placeholder="Dodaj recenzję..."
-        />
-        <div>
-          <button type="submit">Dodaj</button>
-          <button type="button" onClick={handleReset}>
-            Wyczyść
-          </button>
-        </div>
-      </form>
+      {user && (
+        <form className="review__form" onSubmit={handleReviewSubmit}>
+          <textarea
+            value={userReview}
+            onChange={(e) => setUserReview(e.target.value)}
+            placeholder="Dodaj recenzję..."
+          />
+          <div>
+            <button type="submit">Dodaj</button>
+            <button type="button" onClick={handleReset}>
+              Wyczyść
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

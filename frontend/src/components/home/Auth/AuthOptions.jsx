@@ -1,11 +1,13 @@
 // AuthOptions.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { googleLogout } from '@react-oauth/google';
 import LoggedInContent from './LoggedInContent';
 import GoogleLoginButton from './GoogleLoginButton';
+import { useAuth } from './AuthContext';
 
 const AuthOptions = ({ onAuthOptions, handleCloseAuthOptions }) => {
-  const [user, setUser] = useState(null);
+  const auth = useAuth();
+  const { user, setUser } = auth;
 
   useEffect(() => {
     // Pobierz dane użytkownika z sessionStorage
@@ -13,7 +15,7 @@ const AuthOptions = ({ onAuthOptions, handleCloseAuthOptions }) => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-  }, []);
+  }, [setUser]);
 
   const handleGoogleAuth = (userData) => {
     setUser(userData);
