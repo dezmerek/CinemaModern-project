@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { Dashboard } from "./routers/Dashboard";
 import { Users } from "./routers/Users";
@@ -29,42 +30,46 @@ import { TicketsView } from './routers/TicketsView';
 import { VouchersView } from './routers/VouchersView';
 import { VouchersAdd } from './routers/VouchersAdd';
 
+const clientId = '740816282526-srg5qmod870vij8pgdeov73q0i48bk2c.apps.googleusercontent.com';
+
 function App() {
   return (
-    <BrowserRouter>
-      <>
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/users" element={<Users />} />
-          <Route path="/dashboard/movies" element={<Films />} />
-          <Route path="/dashboard/movies/preview" element={<MoviesPreview />} />
-          <Route path="/dashboard/movies/recommended" element={<MoviesRecommended />} />
-          <Route path="/dashboard/movies/add" element={<FilmsAdd />} />
-          <Route path="/dashboard/banners/add" element={<BannersAdd />} />
-          <Route path="/dashboard/halls" element={<Halls />} />
-          <Route path="/dashboard/halls/add" element={<HallsAdd />} />
-          <Route path="/dashboard/schedules" element={<SchedulesList />} />
-          <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
-          <Route path="/dashboard/tickets" element={<TicketsView />} />
-          <Route path="/dashboard/vouchers" element={<VouchersView />} />
-          <Route path="/dashboard/vouchers/add" element={<VouchersAdd />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
-          <Route path="/regulamin" element={<Terms />} />
-          <Route path="/o-nas" element={<Abouts />} />
-          <Route path="/cennik" element={<Prices />} />
-          <Route path="/program-lojalnosciowy" element={<LoyaltyPrograms />} />
-          <Route path="/zapowiedz" element={<MoviePreviewsLists />} />
-          <Route path="/zapowiedz/:id" element={<MoviePreviewsDetails />} />
-          <Route path="/polecane" element={<MovieRecommendsList />} />
-          <Route path="/film/:id" element={<MovieRecommendsDetails />} />
-          <Route path="/repertuar" element={<ReportiresList />} />
-          <Route path="/kup-bilet/:id" element={<TicketsPurchase />} />
-          <Route path="/podsumowanie/:id" element={<PaymentsSummary />} />
-          <Route path="/podsumowanie/" element={<PaymentsSummary />} />
-        </Routes>
-      </>
-    </BrowserRouter>
+    <GoogleOAuthProvider clientId={clientId}>
+      <BrowserRouter>
+        <>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/users" element={<Users />} />
+            <Route path="/dashboard/movies" element={<Films />} />
+            <Route path="/dashboard/movies/preview" element={<MoviesPreview />} />
+            <Route path="/dashboard/movies/recommended" element={<MoviesRecommended />} />
+            <Route path="/dashboard/movies/add" element={<FilmsAdd />} />
+            <Route path="/dashboard/banners/add" element={<BannersAdd />} />
+            <Route path="/dashboard/halls" element={<Halls />} />
+            <Route path="/dashboard/halls/add" element={<HallsAdd />} />
+            <Route path="/dashboard/schedules" element={<SchedulesList />} />
+            <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
+            <Route path="/dashboard/tickets" element={<TicketsView />} />
+            <Route path="/dashboard/vouchers" element={<VouchersView />} />
+            <Route path="/dashboard/vouchers/add" element={<VouchersAdd />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
+            <Route path="/regulamin" element={<Terms />} />
+            <Route path="/o-nas" element={<Abouts />} />
+            <Route path="/cennik" element={<Prices />} />
+            <Route path="/program-lojalnosciowy" element={<LoyaltyPrograms />} />
+            <Route path="/zapowiedz" element={<MoviePreviewsLists />} />
+            <Route path="/zapowiedz/:id" element={<MoviePreviewsDetails />} />
+            <Route path="/polecane" element={<MovieRecommendsList />} />
+            <Route path="/film/:id" element={<MovieRecommendsDetails />} />
+            <Route path="/repertuar" element={<ReportiresList />} />
+            <Route path="/kup-bilet/:id" element={<TicketsPurchase />} />
+            <Route path="/podsumowanie/:id" element={<PaymentsSummary />} />
+            <Route path="/podsumowanie/" element={<PaymentsSummary />} />
+          </Routes>
+        </>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 }
 

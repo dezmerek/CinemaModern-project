@@ -1,9 +1,11 @@
+// Navbar.js
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { BsSearch, BsBoxArrowInLeft } from 'react-icons/bs';
 import '../../../Styles/components/_Navbar.scss';
 import NavbarSearch from './NavbarSearch';
 import Sidebar from './Sidebar';
+import MojeEkinoContent from './../Auth/AuthOptions'; // Import the new component
 import logo from '../../../assets/images/logo.png';
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -14,6 +16,7 @@ const Navbar = () => {
   const searchContainerRef = useRef(null);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isMojeEkinoVisible, setIsMojeEkinoVisible] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -95,6 +98,14 @@ const Navbar = () => {
     setSearchTerm('');
   };
 
+  const openMojeEkino = () => {
+    setIsMojeEkinoVisible(!isMojeEkinoVisible);
+  };
+
+  const closeMojeEkino = () => {
+    setIsMojeEkinoVisible(false);
+  };
+
   return (
     <div className="navbar-home">
       <div className="navbar-home__container">
@@ -130,10 +141,14 @@ const Navbar = () => {
             <span></span>
           </div>
 
-          <Link className="navbar-home__my-account" to="/moje-ekino">
+          <div className="navbar-home__my-account" onClick={openMojeEkino}>
             Moje e-kino
             <BsBoxArrowInLeft className="arrow-icon" />
-          </Link>
+          </div>
+
+          {isMojeEkinoVisible && (
+            <MojeEkinoContent onCloseMojeEkino={closeMojeEkino} />
+          )}
         </div>
         <Sidebar isOpen={isOpen} menuItems={menuData} />
       </div>
