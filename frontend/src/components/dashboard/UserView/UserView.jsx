@@ -1,34 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UniversalTable from '../TableUniversal/TableUniversal';
-import data from '../../../data/usersData';
 import SearchBar from '../TableUniversal/TableSearch';
 import UserEdit from './UserEdit';
 import UserPreview from './UserPreview';
 import UserDelete from './UserDelete';
+import { format } from 'date-fns';
 
 import '../../../Styles/layout/_ListUniversal.scss';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
+const formatDate = (dateString, withTime = false) => {
+  const date = new Date(dateString);
+  if (!isNaN(date.getTime())) {
+    return format(date, withTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd');
+  } else {
+    return 'Invalid Date';
+  }
+};
+
+const userColumns = [
+  'userId',
+  'displayName',
+  'role',
+  'phoneNumber',
+  'registrationDate',
+];
+const translatedColumns = [
+  'ID',
+  'imię i nazwisko',
+  'Rola',
+  'Numer telefonu',
+  'Data rejestracji',
+];
+
+const columnsMap = userColumns.map((column, index) => ({
+  label: translatedColumns[index],
+  value: column,
+  formatter: column === 'registrationDate' ? formatDate : undefined,
+}));
+
 const UsersView = () => {
+  const [users, setUsers] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   const [itemToDelete, setItemToDelete] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedItem, setEditedItem] = useState(null);
 
-  const userColumns = ['id', 'firstName', 'lastName', 'role', 'phoneNumber'];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/api/users`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch users');
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
 
-  const translatedColumns = [
-    'ID',
-    'Imię',
-    'Nazwisko',
-    'Rola',
-    'Numer telefonu',
-  ];
-
-  const columnsMap = userColumns.map((column, index) => ({
-    label: translatedColumns[index],
-    value: column,
-  }));
+    fetchUsers();
+  }, []); // Empty dependency array to run the effect only once when the component mounts
 
   const handleSearchChange = (newSearchText) => {
     setSearchText(newSearchText);
@@ -58,7 +93,21 @@ const UsersView = () => {
 
   const handleDelete = () => {
     if (itemToDelete) {
-      setItemToDelete(null);
+      const userId = itemToDelete._id; // Poprawny identyfikator użytkownika
+      fetch(`${apiUrl}/api/users/${userId}`, {
+        method: 'DELETE',
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to delete user');
+          }
+          // Po udanym usunięciu odśwież listę użytkowników
+          return fetch(`${apiUrl}/api/users`);
+        })
+        .then((response) => response.json())
+        .then((data) => setUsers(data))
+        .catch((error) => console.error('Error deleting user:', error))
+        .finally(() => setItemToDelete(null));
     }
   };
 
@@ -66,10 +115,15 @@ const UsersView = () => {
     setItemToDelete(null);
   };
 
-  const filteredData = data.filter((item) => {
+  const filteredData = users.filter((item) => {
     const itemDataString = Object.values(item).join(' ').toLowerCase();
     return itemDataString.includes(searchText.toLowerCase());
   });
+
+  const formattedData = filteredData.map((item) => ({
+    ...item,
+    registrationDate: formatDate(item.registrationDate),
+  }));
 
   return (
     <div>
@@ -81,7 +135,7 @@ const UsersView = () => {
       </div>
 
       <UniversalTable
-        data={filteredData}
+        data={formattedData}
         columns={columnsMap}
         onPreview={handlePreview}
         onEdit={startEditing}
