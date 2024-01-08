@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../home/Auth/AuthContext';
 import menuItemsData from './SidebarItems';
 import '../../../Styles/components/_Sidebar.scss';
 import logo from '../../../assets/images/logo.png';
-import avatar from '../../../assets/images/avatar.png';
 
 const Sidebar = () => {
   const location = useLocation();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isHamburgerActive, setHamburgerActive] = useState(false);
   const [menuItems, setMenuItems] = useState(menuItemsData);
+  const { user } = useAuth();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -42,10 +43,10 @@ const Sidebar = () => {
           <img src={logo} alt="logo" />
         </div>
         <div className="profile">
-          <img src={avatar} alt="avatar" />
+          <img src={user ? user.picture : ''} alt="avatar" />
           <div className="profile__info">
-            <p className="profile__info-role">Admin</p>
-            <p>Jan Kowalski</p>
+            <p className="profile__info-role">{user ? user.role : ''}</p>
+            <p>{user ? user.displayName : ''}</p>
           </div>
         </div>
         <div className="sidebar__menu">
