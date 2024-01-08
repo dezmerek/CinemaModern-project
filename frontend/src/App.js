@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from './components/home/Auth/AuthContext';
+import NotFound from './components/common/NotFound/NotFound';
 
 import { Dashboard } from "./routers/Dashboard";
 import { Users } from "./routers/Users";
@@ -68,6 +69,8 @@ function App() {
               <Route path="/kup-bilet/:id" element={<TicketsPurchase />} />
               <Route path="/podsumowanie/:id" element={<PaymentsSummary />} />
               <Route path="/podsumowanie/" element={<PaymentsSummary />} />
+
+              <Route path="/*" element={<NotFound />} />
             </Routes>
           </>
         </BrowserRouter>
