@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import '../../../Styles/components/_MovieRecommendReview.scss';
-import avatar from '../../../assets/images/avatar.png';
 import { useAuth } from '../Auth/AuthContext';
+import avatar from '../../../assets/images/avatar.png';
 
 const fetchReviews = async (id, setReviews) => {
   try {
@@ -33,16 +33,44 @@ const MovieReviewForm = () => {
   const [userReview, setUserReview] = useState('');
   const [reviews, setReviews] = useState([]);
   const { user } = useAuth();
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (user) {
       fetchReviews(id, setReviews);
+      fetchUsers();
     }
   }, [id, user]);
 
   useEffect(() => {
     fetchReviews(id, setReviews);
+    fetchUsers();
   }, [id, user]);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/users`
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch users');
+      }
+      const userData = await response.json();
+      setUsers(userData);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  };
+
+  const getUsernameById = (userId) => {
+    const user = users.find((u) => u._id === userId);
+    return user ? user.displayName : 'Nieznany użytkownik';
+  };
+
+  const getAvatarById = (userId) => {
+    const user = users.find((u) => u._id === userId);
+    return user ? user.picture : avatar;
+  };
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
@@ -97,10 +125,13 @@ const MovieReviewForm = () => {
               <li key={review._id || review.comment}>
                 <div className="review__content">
                   <div>
-                    <img src={avatar} alt="profilowe zdjecie" />
+                    <img
+                      src={getAvatarById(review.user)}
+                      alt="profilowe zdjecie"
+                    />
                   </div>
                   <div>
-                    <h4>Jan Kowalski</h4>
+                    <h4>{getUsernameById(review.user)}</h4>
                     <p>
                       {format(new Date(review.dateAdded), 'dd.MM.yyyy, HH:mm')}
                     </p>
