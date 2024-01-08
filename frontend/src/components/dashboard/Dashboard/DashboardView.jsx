@@ -352,60 +352,61 @@ const DashboardView = () => {
 
   return (
     <>
-      <h2>Dashboard</h2>
-
       <div className="dashboard">
-        <div className="dashboard__stats">
-          <DashboardStat
-            title="Sprzedanych biletów"
-            subtitle="Ostatnie 30 dni"
-            value={soldTickets}
-          />
-          <DashboardStat
-            title="Nowych filmów"
-            subtitle="Ostatnie 30 dni"
-            value={newMoviesCount}
-          />
-          <DashboardStat
-            title="Nowych użytkowników"
-            subtitle="Ostatnie 30 dni"
-            value={newUsersCount}
-          />
-          <DashboardStat
-            title="Napisantch recenzji"
-            subtitle="Ostatnie 30 dni"
-            value={newReviewsCount}
-          />
-        </div>
+        <div className="dashboard__container">
+          <h2>Dashboard</h2>
+          <div className="dashboard__stats">
+            <DashboardStat
+              title="Sprzedanych biletów"
+              subtitle="Ostatnie 30 dni"
+              value={soldTickets}
+            />
+            <DashboardStat
+              title="Nowych filmów"
+              subtitle="Ostatnie 30 dni"
+              value={newMoviesCount}
+            />
+            <DashboardStat
+              title="Nowych użytkowników"
+              subtitle="Ostatnie 30 dni"
+              value={newUsersCount}
+            />
+            <DashboardStat
+              title="Napisantch recenzji"
+              subtitle="Ostatnie 30 dni"
+              value={newReviewsCount}
+            />
+          </div>
 
-        <div className="dashboard__cards">
-          <DashboardCard
-            title="Najnowsze filmy"
-            buttonText="Wszystkie"
-            data={latestMovies}
-            columns={lastMovieColumns}
-          />
+          <div className="dashboard__cards">
+            <DashboardCard
+              title="Najnowsze filmy"
+              buttonText="Wszystkie"
+              data={latestMovies}
+              columns={lastMovieColumns}
+            />
 
-          <DashboardCard
-            title="Najnowszy użytkownik"
-            buttonText="Wszystkie"
-            data={latestUsers}
-            columns={lastUserColumns}
-          />
+            <DashboardCard
+              title="Najnowszy użytkownik"
+              buttonText="Wszystkie"
+              data={latestUsers}
+              columns={lastUserColumns}
+            />
 
-          <DashboardCard
-            title="Najnowsze recenzje"
-            buttonText="Wszystkie"
-            data={latestReviews}
-            columns={lastReviewColumns}
-          />
+            <DashboardCard
+              title="Najnowsze recenzje"
+              buttonText="Wszystkie"
+              data={latestReviews}
+              columns={lastReviewColumns}
+            />
 
-          <DashboardCard
-            title="Najlepsze filmy"
-            buttonText="Wszystkie"
-            data={topRatedMovies}
-            columns={topMovieColumns}
-          />
+            <DashboardCard
+              title="Najlepsze filmy"
+              buttonText="Wszystkie"
+              data={topRatedMovies}
+              columns={topMovieColumns}
+            />
+          </div>
         </div>
       </div>
     </>
