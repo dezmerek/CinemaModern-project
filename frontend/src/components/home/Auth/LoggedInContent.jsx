@@ -16,6 +16,7 @@ const LoggedInContent = ({ user, handleLogout, handleCloseAuthOptions }) => {
       </div>
       <div>
         <h2>{user.displayName}</h2>
+        <Link to="/dashboard">Dashboard</Link>
         <Link to="/edytuj">Edytuj profil</Link>
       </div>
 

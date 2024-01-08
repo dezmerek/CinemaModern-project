@@ -1,7 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { AuthProvider } from './components/home/Auth/AuthContext';
+import { AuthProvider, useAuth } from './components/home/Auth/AuthContext';
 import NotFound from './components/common/NotFound/NotFound';
 import AccessDenied from './components/common/AccessDenied/AccessDenied';
 
@@ -35,6 +35,21 @@ import { VouchersAdd } from './routers/VouchersAdd';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
+const ProtectedRoute = ({ element, adminOnly }) => {
+  const auth = useAuth();
+
+  if (auth.user) {
+    if (adminOnly && auth.user.role !== 'admin') {
+      return <Navigate to="/brak-dostepu" />;
+    } else {
+      return element;
+    }
+  } else {
+    // Redirect to login or handle unauthenticated users
+    return <Navigate to="/" />;
+  }
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -42,20 +57,95 @@ function App() {
         <BrowserRouter>
           <>
             <Routes>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/dashboard/users" element={<Users />} />
-              <Route path="/dashboard/movies" element={<Films />} />
-              <Route path="/dashboard/movies/preview" element={<MoviesPreview />} />
-              <Route path="/dashboard/movies/recommended" element={<MoviesRecommended />} />
-              <Route path="/dashboard/movies/add" element={<FilmsAdd />} />
-              <Route path="/dashboard/banners/add" element={<BannersAdd />} />
-              <Route path="/dashboard/halls" element={<Halls />} />
-              <Route path="/dashboard/halls/add" element={<HallsAdd />} />
-              <Route path="/dashboard/schedules" element={<SchedulesList />} />
-              <Route path="/dashboard/schedules/add" element={<SchedulesAdd />} />
-              <Route path="/dashboard/tickets" element={<TicketsView />} />
-              <Route path="/dashboard/vouchers" element={<VouchersView />} />
-              <Route path="/dashboard/vouchers/add" element={<VouchersAdd />} />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute element={<Dashboard />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/users"
+                element={
+                  <ProtectedRoute element={<Users />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/movies"
+                element={
+                  <ProtectedRoute element={<Films />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/movies/preview"
+                element={
+                  <ProtectedRoute
+                    element={<MoviesPreview />}
+                    adminOnly={true}
+                  />
+                }
+              />
+              <Route
+                path="/dashboard/movies/recommended"
+                element={
+                  <ProtectedRoute
+                    element={<MoviesRecommended />}
+                    adminOnly={true}
+                  />
+                }
+              />
+              <Route
+                path="/dashboard/movies/add"
+                element={
+                  <ProtectedRoute element={<FilmsAdd />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/banners/add"
+                element={
+                  <ProtectedRoute element={<BannersAdd />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/halls"
+                element={<ProtectedRoute element={<Halls />} adminOnly={true} />}
+              />
+              <Route
+                path="/dashboard/halls/add"
+                element={
+                  <ProtectedRoute element={<HallsAdd />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/schedules"
+                element={
+                  <ProtectedRoute element={<SchedulesList />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/schedules/add"
+                element={
+                  <ProtectedRoute element={<SchedulesAdd />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/tickets"
+                element={
+                  <ProtectedRoute element={<TicketsView />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/vouchers"
+                element={
+                  <ProtectedRoute element={<VouchersView />} adminOnly={true} />
+                }
+              />
+              <Route
+                path="/dashboard/vouchers/add"
+                element={
+                  <ProtectedRoute element={<VouchersAdd />} adminOnly={true} />
+                }
+              />
+
               <Route path="/" element={<Home />} />
               <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
               <Route path="/regulamin" element={<Terms />} />
