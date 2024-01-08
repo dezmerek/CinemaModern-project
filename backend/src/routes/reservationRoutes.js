@@ -175,5 +175,68 @@ router.get('/:userId/transactions/count', async (req, res) => {
     }
 });
 
+router.get('/:userId/selectedSeats', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const reservations = await Reservation.find({ userId }).populate('scheduleId');
+
+        let selectedSeatsData = [];
+
+        for (const reservation of reservations) {
+            const schedule = reservation.scheduleId;
+            const clonedHallLayout = schedule.clonedHallLayout;
+
+            for (const seatId of reservation.selectedSeats) {
+                const seat = clonedHallLayout.id(seatId);
+
+                if (seat && seat.price !== undefined) {
+                    const movie = await Movie.findById(schedule.movie);
+
+                    selectedSeatsData.push({
+                        reservationId: reservation._id,
+                        seatId,
+                        movieTitle: movie.title,
+                        ticketPrice: seat.price,
+                        createdAt: reservation.createdAt,
+                    });
+                }
+            }
+        }
+
+        res.status(200).json(selectedSeatsData);
+    } catch (error) {
+        console.error('Error fetching selected seats data:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
+router.get('/:userId/transactions', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const transactions = await Reservation.find({ userId });
+
+        let transactionsData = [];
+
+        for (const transaction of transactions) {
+            const schedule = await Schedule.findById(transaction.scheduleId);
+            const movie = await Movie.findById(schedule.movie);
+
+            transactionsData.push({
+                reservationId: transaction._id,
+                scheduleId: transaction.scheduleId,
+                movieTitle: movie.title,
+                totalPrice: transaction.totalPrice,
+                createdAt: transaction.createdAt,
+            });
+        }
+
+        res.status(200).json(transactionsData);
+    } catch (error) {
+        console.error('Error fetching transactions data:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 
 export default router;

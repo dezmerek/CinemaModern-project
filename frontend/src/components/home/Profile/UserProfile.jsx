@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Auth/AuthContext';
+import { format } from 'date-fns';
 import UserProfileStats from './UserProfileStats';
+import UserProfileCard from './UserProfileCard';
 
 const UserProfile = () => {
   const auth = useAuth();
@@ -8,6 +10,8 @@ const UserProfile = () => {
   const [reviewsCount, setReviewsCount] = useState(0);
   const [selectedSeatsCount, setSelectedSeatsCount] = useState(0);
   const [transactionsCount, setTransactionsCount] = useState(0);
+  const [selectedSeatsData, setSelectedSeatsData] = useState([]);
+  const [transactionsData, setTransactionsData] = useState([]);
 
   const getRatingsCount = async (userId) => {
     try {
@@ -87,6 +91,59 @@ const UserProfile = () => {
     fetchData();
   }, [auth.user]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (auth.user) {
+        try {
+          const fetchedRatingsCount = await getRatingsCount(auth.user._id);
+          const fetchedReviewsCount = await getReviewsCount(auth.user._id);
+          const fetchedSelectedSeatsCount = await getSelectedSeatsCount(
+            auth.user._id
+          );
+          const fetchedTransactionsCount = await getTransactionsCount(
+            auth.user._id
+          );
+
+          setRatingsCount(fetchedRatingsCount);
+          setReviewsCount(fetchedReviewsCount);
+          setSelectedSeatsCount(fetchedSelectedSeatsCount);
+          setTransactionsCount(fetchedTransactionsCount);
+
+          const selectedSeatsResponse = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/reservations/${auth.user._id}/selectedSeats`
+          );
+
+          const selectedSeatsData = await selectedSeatsResponse.json();
+
+          const formattedSelectedSeatsData = selectedSeatsData.map((seat) => ({
+            ...seat,
+            createdAt: format(new Date(seat.createdAt), 'M/d/yyyy'),
+          }));
+
+          setSelectedSeatsData(formattedSelectedSeatsData);
+
+          const transactionsResponse = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/reservations/${auth.user._id}/transactions`
+          );
+          const transactionsData = await transactionsResponse.json();
+
+          const formattedTransactionsData = transactionsData.map(
+            (transaction) => ({
+              ...transaction,
+              createdAt: format(new Date(transaction.createdAt), 'M/d/yyyy'),
+            })
+          );
+
+          setTransactionsData(formattedTransactionsData);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [auth.user]);
+
   return (
     <div className="user-profile">
       <h2>Profil użytkownika</h2>
@@ -101,6 +158,28 @@ const UserProfile = () => {
             ratingsCount={ratingsCount}
             reviewsCount={reviewsCount}
             transactionsCount={transactionsCount}
+          />
+
+          <UserProfileCard
+            title="Zakupione bilety"
+            buttonText="Wszystkie"
+            data={selectedSeatsData.slice(0, 5)}
+            columns={[
+              { label: 'Film', value: 'movieTitle' },
+              { label: 'Cena', value: 'ticketPrice' },
+              { label: 'Data zakupu', value: 'createdAt' },
+            ]}
+          />
+
+          <UserProfileCard
+            title="Transakcje"
+            buttonText="Wszystkie"
+            data={transactionsData.slice(0, 5)}
+            columns={[
+              { label: 'Film', value: 'movieTitle' },
+              { label: 'Cena', value: 'totalPrice' },
+              { label: 'Data zakupu', value: 'createdAt' },
+            ]}
           />
         </div>
       ) : (
