@@ -12,6 +12,10 @@ const reservationSchema = new mongoose.Schema({
             ref: 'Seat',
         },
     ],
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     voucherCode: String,
     voucherDiscount: Number,
     totalPrice: Number,

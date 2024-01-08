@@ -14,17 +14,26 @@ router.post('/', async (req, res) => {
             voucherCode,
             voucherDiscount,
             totalPrice,
+            userId,
         } = req.body;
+
+        // Add a check to ensure that selectedSeats is an array and not undefined
+        if (!Array.isArray(selectedSeats)) {
+            return res.status(400).json({ error: 'Invalid selectedSeats data' });
+        }
 
         const schedule = await Schedule.findById(scheduleId);
         const hall = await Hall.findById(schedule.hall);
 
         selectedSeats.forEach(selectedSeat => {
-            const seatIndex = schedule.clonedHallLayout.findIndex(seat => seat._id.equals(selectedSeat._id));
+            // Check if selectedSeat is a valid object before accessing its properties
+            if (selectedSeat && selectedSeat._id) {
+                const seatIndex = schedule.clonedHallLayout.findIndex(seat => seat._id.equals(selectedSeat._id));
 
-            if (seatIndex !== -1) {
-                schedule.clonedHallLayout[seatIndex].price = selectedSeat.price;
-                schedule.clonedHallLayout[seatIndex].ticketType = selectedSeat.ticketType;
+                if (seatIndex !== -1) {
+                    schedule.clonedHallLayout[seatIndex].price = selectedSeat.price;
+                    schedule.clonedHallLayout[seatIndex].ticketType = selectedSeat.ticketType;
+                }
             }
         });
 
@@ -35,10 +44,12 @@ router.post('/', async (req, res) => {
             voucherDiscount,
             totalPrice,
             hallName: hall.name,
+            userId,
             createdAt: new Date(),
         });
-
+        console.log('userId:', userId);
         const savedReservation = await reservation.save();
+
         await schedule.save();
 
         res.status(201).json({ message: 'Reservation saved successfully!', _id: savedReservation._id });

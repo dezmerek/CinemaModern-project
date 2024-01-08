@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import header from '../../../assets/images/header_3.png';
 import '../../../Styles/layout/_Reservation.scss';
 import { useParams, Link } from 'react-router-dom';
-
+import { useAuth } from '../Auth/AuthContext';
 import SeatLegend from './SeatLegend';
 
 const TicketPurchase = () => {
@@ -208,6 +208,11 @@ const TicketPurchase = () => {
     setShowPersonalDataForm(true);
   };
 
+  const { user: loggedInUser } = useAuth();
+  console.log('loggedInUser:', loggedInUser);
+  const userId = loggedInUser ? loggedInUser._id : null;
+  console.log('userId:', userId);
+
   const handlePaymentTpay = async () => {
     const isFormValid = validateForm();
     if (isFormValid) {
@@ -231,6 +236,7 @@ const TicketPurchase = () => {
               voucherCode,
               voucherDiscount,
               totalPrice,
+              userId: userId,
             }),
           }
         );
