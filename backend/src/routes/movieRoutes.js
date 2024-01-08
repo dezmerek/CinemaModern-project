@@ -335,7 +335,7 @@ router.get('/:id/reviews', async (req, res) => {
 router.post('/:id/reviews', async (req, res) => {
     try {
         const movieId = req.params.id;
-        const { comment } = req.body;
+        const { comment, userId } = req.body;
 
         const movie = await Movie.findById(movieId);
 
@@ -347,6 +347,7 @@ router.post('/:id/reviews', async (req, res) => {
         const newReview = new Review({
             reviewID: reviewCount + 1,
             movie: movieId,
+            user: userId,
             comment,
         });
 

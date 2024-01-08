@@ -10,6 +10,11 @@ const reviewSchema = new mongoose.Schema({
         ref: 'Movie',
         required: true,
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
     comment: String,
     dateAdded: {
         type: Date,

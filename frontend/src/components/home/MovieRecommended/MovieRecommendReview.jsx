@@ -60,10 +60,12 @@ const MovieReviewForm = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${user.token}`,
           },
           body: JSON.stringify({
             comment: userReview,
             dateTime: getCurrentDateTime(),
+            userId: user._id,
           }),
         }
       );
