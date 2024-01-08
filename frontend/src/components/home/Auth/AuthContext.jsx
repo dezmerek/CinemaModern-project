@@ -6,8 +6,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Pobierz dane użytkownika z sessionStorage
-    const storedUser = sessionStorage.getItem('user');
+    // Pobierz dane użytkownika z localStorage
+    const storedUser = localStorage.getItem('user');
     if (storedUser && typeof storedUser === 'string') {
       try {
         setUser(JSON.parse(storedUser));

@@ -10,8 +10,8 @@ const AuthOptions = ({ onAuthOptions, handleCloseAuthOptions }) => {
   const { user, setUser } = auth;
 
   useEffect(() => {
-    // Pobierz dane użytkownika z sessionStorage
-    const storedUser = sessionStorage.getItem('user');
+    // Pobierz dane użytkownika z localStorage
+    const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
@@ -19,15 +19,15 @@ const AuthOptions = ({ onAuthOptions, handleCloseAuthOptions }) => {
 
   const handleGoogleAuth = (userData) => {
     setUser(userData);
-    // Zapisz dane użytkownika w sessionStorage
-    sessionStorage.setItem('user', JSON.stringify(userData));
+    // Zapisz dane użytkownika w localStorage
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const handleLogout = () => {
     googleLogout();
     setUser(null);
-    // Usuń dane użytkownika z sessionStorage
-    sessionStorage.removeItem('user');
+    // Usuń dane użytkownika z localStorage
+    localStorage.removeItem('user');
   };
 
   const handleHideAuthOptions = () => {
