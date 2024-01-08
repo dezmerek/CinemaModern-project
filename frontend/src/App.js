@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthProvider } from './components/home/Auth/AuthContext';
 import NotFound from './components/common/NotFound/NotFound';
+import AccessDenied from './components/common/AccessDenied/AccessDenied';
 
 import { Dashboard } from "./routers/Dashboard";
 import { Users } from "./routers/Users";
@@ -71,6 +72,7 @@ function App() {
               <Route path="/podsumowanie/" element={<PaymentsSummary />} />
 
               <Route path="/*" element={<NotFound />} />
+              <Route path="/brak-dostepu" element={<AccessDenied />} />
             </Routes>
           </>
         </BrowserRouter>
