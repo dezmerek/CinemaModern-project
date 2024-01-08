@@ -14,6 +14,10 @@ const UserProfile = () => {
   const [selectedSeatsData, setSelectedSeatsData] = useState([]);
   const [transactionsData, setTransactionsData] = useState([]);
 
+  useEffect(() => {
+    document.title = `CinemaModern - ${auth.user.displayName}`;
+  }, [auth.user.displayName]);
+
   const getRatingsCount = async (userId) => {
     try {
       const response = await fetch(

@@ -1,4 +1,3 @@
-// LoggedInContent.js
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BsJustify, BsCreditCard2Front } from 'react-icons/bs';
@@ -11,7 +10,9 @@ const LoggedInContent = ({ user, handleLogout, handleCloseAuthOptions }) => {
   return (
     <div className="logged-in-content">
       <div className="logged-in-content__header">
-        <img src={user.picture} alt="Avatar profilowy" />
+        <Link to="/profil">
+          <img src={user.picture} alt="Avatar profilowy" />
+        </Link>
         <button onClick={handleHideAuthOptions}>X</button>
       </div>
       <div className="logged-in-content__menu-main">
@@ -24,6 +25,9 @@ const LoggedInContent = ({ user, handleLogout, handleCloseAuthOptions }) => {
             Dashboard
           </Link>
         )}
+        <Link className="logged-in-content__menu-main--dashboard" to="/profil">
+          Profil użytkownika
+        </Link>
         <Link to="/edytuj">Edytuj profil</Link>
       </div>
 
