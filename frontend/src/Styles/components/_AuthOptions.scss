@@ -81,6 +81,16 @@
         }
     }
 
+    &__menu-main {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+
+        &--dashboard {
+            font-weight: 800;
+        }
+    }
+
     &__close {
         display: flex;
         justify-content: center;

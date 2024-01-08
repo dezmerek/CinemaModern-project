@@ -5,7 +5,7 @@ import { BsJustify, BsCreditCard2Front } from 'react-icons/bs';
 
 const LoggedInContent = ({ user, handleLogout, handleCloseAuthOptions }) => {
   const handleHideAuthOptions = () => {
-    handleCloseAuthOptions(); // Przekazanie do rodzica informacji o zamknięciu AuthOptions
+    handleCloseAuthOptions();
   };
 
   return (
@@ -14,9 +14,16 @@ const LoggedInContent = ({ user, handleLogout, handleCloseAuthOptions }) => {
         <img src={user.picture} alt="Avatar profilowy" />
         <button onClick={handleHideAuthOptions}>X</button>
       </div>
-      <div>
+      <div className="logged-in-content__menu-main">
         <h2>{user.displayName}</h2>
-        <Link to="/dashboard">Dashboard</Link>
+        {user.role === 'admin' && (
+          <Link
+            className="logged-in-content__menu-main--dashboard"
+            to="/dashboard"
+          >
+            Dashboard
+          </Link>
+        )}
         <Link to="/edytuj">Edytuj profil</Link>
       </div>
 
