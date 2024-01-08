@@ -8,6 +8,10 @@ const userSchema = new mongoose.Schema({
     picture: String,
     registrationDate: Date,
     lastLoginDate: Date,
+    role: {
+        type: String,
+        default: 'user'
+    },
 });
 
 const User = mongoose.model('User', userSchema);
