@@ -10,7 +10,7 @@ const Sidebar = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isHamburgerActive, setHamburgerActive] = useState(false);
   const [menuItems, setMenuItems] = useState(menuItemsData);
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -21,6 +21,13 @@ const Sidebar = () => {
     const updatedMenuItems = [...menuItems];
     updatedMenuItems[index].isExpanded = !updatedMenuItems[index].isExpanded;
     setMenuItems(updatedMenuItems);
+  };
+
+  const handleLogout = () => {
+    // Tutaj dodaj kod obsługujący wylogowanie, np. wywołaj funkcję logout z contextu autentykacji
+    // Przykładowo:
+    setUser(null);
+    // Dodatkowo możesz dodać logikę czyszczenia danych z localStorage lub innych miejsc przechowywania
   };
 
   return (
@@ -91,6 +98,9 @@ const Sidebar = () => {
               )}
             </div>
           ))}
+          <div className="sidebar__menu--logout">
+            <button onClick={handleLogout}>Wyloguj się</button>
+          </div>
         </div>
       </div>
     </>
