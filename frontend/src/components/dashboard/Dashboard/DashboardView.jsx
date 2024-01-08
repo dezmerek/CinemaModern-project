@@ -32,7 +32,7 @@ const DashboardView = () => {
   const lastReviewColumns = [
     { label: 'ID', value: 'reviewID' },
     { label: 'TYTUŁ', value: 'movieTitle' },
-    { label: 'UŻYTKOWNIK', value: 'rating' },
+    { label: 'UŻYTKOWNIK', value: 'userDisplayName' },
     { label: 'DATA', value: 'dateAdded' },
   ];
 
@@ -235,30 +235,38 @@ const DashboardView = () => {
           return reviewDate >= thirtyDaysAgo;
         });
 
-        const reviewsWithTitles = await Promise.all(
+        const reviewsWithUserDetails = await Promise.all(
           last30DaysReviews.map(async (review) => {
-            const movieResponse = await fetch(
-              `${apiUrl}/api/movies/${review.movie}`
-            );
-            if (!movieResponse.ok) {
-              throw new Error('Failed to fetch movie details');
+            const [userResponse, movieResponse] = await Promise.all([
+              fetch(`${apiUrl}/api/users/${review.user}`),
+              fetch(`${apiUrl}/api/movies/${review.movie}`),
+            ]);
+
+            if (!userResponse.ok || !movieResponse.ok) {
+              throw new Error('Failed to fetch user or movie details');
             }
+
+            const userData = await userResponse.json();
             const movieData = await movieResponse.json();
+
             return {
               ...review,
+              userDisplayName: userData.displayName,
               movieTitle: movieData.title,
             };
           })
         );
 
-        const sortedReviews = reviewsWithTitles.sort(
+        const sortedReviews = reviewsWithUserDetails.sort(
           (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
         );
+
         const topFiveReviews = sortedReviews.slice(0, 5);
         const reviewsWithFormattedDates = topFiveReviews.map((review) => ({
           ...review,
           dateAdded: format(new Date(review.dateAdded), 'dd/MM/yyyy'),
         }));
+
         setLatestReviews(reviewsWithFormattedDates);
       } catch (error) {
         console.error('Error fetching reviews:', error);
