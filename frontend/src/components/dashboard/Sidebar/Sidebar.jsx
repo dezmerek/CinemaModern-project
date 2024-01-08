@@ -97,8 +97,15 @@ const Sidebar = () => {
               )}
             </div>
           ))}
-          <div className="sidebar__menu--logout">
-            <button onClick={handleLogout}>Wyloguj się</button>
+          <div className="sidebar__menu__buttons">
+            <div className="sidebar__menu--home">
+              <Link to="/">
+                <button>Strona Główna</button>
+              </Link>
+            </div>
+            <div className="sidebar__menu--logout">
+              <button onClick={handleLogout}>Wyloguj się</button>
+            </div>
           </div>
         </div>
       </div>
