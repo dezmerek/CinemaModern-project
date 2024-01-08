@@ -53,9 +53,9 @@ const MovieRecommendDetail = () => {
   }, [movieDetails?.title]);
 
   const handleRatingClick = async (rating) => {
-    console.log('Rating Data:', { rating, userId: user._id });
+    console.log('Rating Data:', { rating, userId: user?._id });
 
-    if (!user) {
+    if (!user || !user._id) {
       alert('Musisz być zalogowany, aby ocenić film');
       return;
     }
