@@ -32,6 +32,7 @@ import { SchedulesList } from './routers/SchedulesList';
 import { TicketsView } from './routers/TicketsView';
 import { VouchersView } from './routers/VouchersView';
 import { VouchersAdd } from './routers/VouchersAdd';
+import UsersProfile from './routers/UsersProfile';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -160,6 +161,8 @@ function App() {
               <Route path="/kup-bilet/:id" element={<TicketsPurchase />} />
               <Route path="/podsumowanie/:id" element={<PaymentsSummary />} />
               <Route path="/podsumowanie/" element={<PaymentsSummary />} />
+              <Route path="/profil/" element={<UsersProfile />} />
+
 
               <Route path="/*" element={<NotFound />} />
               <Route path="/brak-dostepu" element={<AccessDenied />} />
