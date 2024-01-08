@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../home/Auth/AuthContext';
 import menuItemsData from './SidebarItems';
 import '../../../Styles/components/_Sidebar.scss';
-import logo from '../../../assets/images/logo.png';
+import logo from '../../../assets/images/logo_dashboard.png';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -24,10 +24,7 @@ const Sidebar = () => {
   };
 
   const handleLogout = () => {
-    // Tutaj dodaj kod obsługujący wylogowanie, np. wywołaj funkcję logout z contextu autentykacji
-    // Przykładowo:
     setUser(null);
-    // Dodatkowo możesz dodać logikę czyszczenia danych z localStorage lub innych miejsc przechowywania
   };
 
   return (
@@ -47,7 +44,9 @@ const Sidebar = () => {
       </div>
       <div className={`sidebar ${isSidebarOpen ? 'is-active' : ''}`}>
         <div className="sidebar__logo">
-          <img src={logo} alt="logo" />
+          <Link to="/dashboard">
+            <img src={logo} alt="logo" />
+          </Link>
         </div>
         <div className="profile">
           <img src={user ? user.picture : ''} alt="avatar" />
