@@ -371,4 +371,26 @@ router.get('/ratings/all', async (req, res) => {
     }
 });
 
+router.get('/:userId/ratings/count', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const ratingsCount = await Rating.countDocuments({ user: userId });
+        res.status(200).json({ count: ratingsCount });
+    } catch (error) {
+        console.error('Error fetching ratings count:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.get('/:userId/reviews/count', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const reviewsCount = await Review.countDocuments({ user: userId });
+        res.status(200).json({ count: reviewsCount });
+    } catch (error) {
+        console.error('Error fetching reviews count:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 export default router;

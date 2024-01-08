@@ -147,4 +147,33 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+router.get('/:userId/selectedSeats/count', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const reservations = await Reservation.find({ userId });
+
+        let selectedSeatsCount = 0;
+        reservations.forEach(reservation => {
+            selectedSeatsCount += reservation.selectedSeats.length;
+        });
+
+        res.status(200).json({ count: selectedSeatsCount });
+    } catch (error) {
+        console.error('Error fetching selected seats count:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+router.get('/:userId/transactions/count', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const transactionsCount = await Reservation.countDocuments({ userId });
+        res.status(200).json({ count: transactionsCount });
+    } catch (error) {
+        console.error('Error fetching transactions count:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 export default router;
