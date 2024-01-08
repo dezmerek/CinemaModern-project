@@ -15,6 +15,7 @@ const TicketPurchase = () => {
   const [reservationId, setReservationId] = useState(null);
   const [isVoucherApplied, setIsVoucherApplied] = useState(false);
   const [voucherError, setVoucherError] = useState(null);
+  const [formErrors, setFormErrors] = useState({});
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -27,6 +28,7 @@ const TicketPurchase = () => {
     electronicCommunication: false,
   });
   const [showPersonalDataForm, setShowPersonalDataForm] = useState(false);
+  const [consentError, setConsentError] = useState(null);
 
   useEffect(() => {
     if (scheduleData && scheduleData.movie) {
@@ -188,52 +190,66 @@ const TicketPurchase = () => {
 
   const handleConsentChange = (e) => {
     const { name, checked } = e.target;
+
+    // Update the state for the specific consent being changed
     setConsents({
       ...consents,
       [name]: checked,
     });
+
+    // Reset consentError when user checks consents
+    setConsentError(null);
   };
+
+  const isConsentsGiven =
+    consents.marketing && consents.electronicCommunication;
 
   const handleConfirmSeats = async () => {
     setShowPersonalDataForm(true);
   };
 
   const handlePaymentTpay = async () => {
-    try {
-      const responseConfirm = await fetch(
-        'http://localhost:3001/api/reservations',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            scheduleId: id,
-            selectedSeats: selectedSeats.map((seat) => ({
-              _id: seat._id,
-              row: seat.row,
-              seat: seat.seat,
-              ticketType: seat.ticketType,
-              price: seat.price,
-            })),
-            voucherCode,
-            voucherDiscount,
-            totalPrice,
-          }),
+    const isFormValid = validateForm();
+    if (isFormValid) {
+      try {
+        const responseConfirm = await fetch(
+          'http://localhost:3001/api/reservations',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              scheduleId: id,
+              selectedSeats: selectedSeats.map((seat) => ({
+                _id: seat._id,
+                row: seat.row,
+                seat: seat.seat,
+                ticketType: seat.ticketType,
+                price: seat.price,
+              })),
+              voucherCode,
+              voucherDiscount,
+              totalPrice,
+            }),
+          }
+        );
+
+        if (!responseConfirm.ok) {
+          console.error(
+            'Error saving reservation:',
+            responseConfirm.statusText
+          );
+          return;
         }
-      );
 
-      if (!responseConfirm.ok) {
-        console.error('Error saving reservation:', responseConfirm.statusText);
-        return;
+        const responseDataConfirm = await responseConfirm.json();
+        console.log('Rezerwacja zapisana pomyślnie!', responseDataConfirm);
+
+        setReservationId(responseDataConfirm._id);
+      } catch (error) {
+        console.error('Error initiating Tpay payment:', error);
       }
-
-      const responseDataConfirm = await responseConfirm.json();
-      console.log('Rezerwacja zapisana pomyślnie!', responseDataConfirm);
-
-      setReservationId(responseDataConfirm._id);
-    } catch (error) {
-      console.error('Error saving reservation:', error);
     }
   };
 
@@ -289,6 +305,51 @@ const TicketPurchase = () => {
   };
 
   const headerText = showPersonalDataForm ? 'Dane osobiste' : 'Wybierz miejsce';
+
+  const validateForm = () => {
+    const errors = {};
+
+    // Validate firstName
+    if (!formData.firstName.trim()) {
+      errors.firstName = 'Pole Imię jest wymagane.';
+    }
+
+    // Validate lastName
+    if (!formData.lastName.trim()) {
+      errors.lastName = 'Pole Nazwisko jest wymagane.';
+    }
+
+    // Validate email
+    if (!formData.email.trim()) {
+      errors.email = 'Pole Email jest wymagane.';
+    } else if (
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)
+    ) {
+      errors.email = 'Podaj poprawny adres email.';
+    }
+
+    // Validate repeatEmail
+    if (!formData.repeatEmail.trim()) {
+      errors.repeatEmail = 'Pole Powtórz email jest wymagane.';
+    } else if (formData.repeatEmail !== formData.email) {
+      errors.repeatEmail = 'Adresy email nie są identyczne.';
+    }
+
+    // Validate phone
+    if (!formData.phone.trim()) {
+      errors.phone = 'Pole Telefon jest wymagane.';
+    } else if (!/^\d{9}$/.test(formData.phone)) {
+      errors.phone = 'Numer telefonu musi składać się z 9 cyfr.';
+    }
+
+    // Validate consents
+    if (!consents.marketing || !consents.electronicCommunication) {
+      errors.consents = 'Proszę udzielić obu zgód przed przejściem dalej.';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0; // Return true if there are no errors
+  };
 
   return (
     <div className="reservation-ticket">
@@ -454,6 +515,11 @@ const TicketPurchase = () => {
                             onChange={handleInputChange}
                             required
                           />
+                          {formErrors.firstName && (
+                            <div className="error-message">
+                              {formErrors.firstName}
+                            </div>
+                          )}
                         </label>
                       </div>
                       <div>
@@ -467,6 +533,11 @@ const TicketPurchase = () => {
                             onChange={handleInputChange}
                             required
                           />
+                          {formErrors.lastName && (
+                            <div className="error-message">
+                              {formErrors.lastName}
+                            </div>
+                          )}
                         </label>
                       </div>
                     </div>
@@ -480,9 +551,15 @@ const TicketPurchase = () => {
                             type="email"
                             name="email"
                             value={formData.email}
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                             onChange={handleInputChange}
                             required
                           />
+                          {formErrors.email && (
+                            <div className="error-message">
+                              {formErrors.email}
+                            </div>
+                          )}
                         </label>
                       </div>
                       <div>
@@ -493,9 +570,15 @@ const TicketPurchase = () => {
                             type="email"
                             name="repeatEmail"
                             value={formData.repeatEmail}
+                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                             onChange={handleInputChange}
                             required
                           />
+                          {formErrors.repeatEmail && (
+                            <div className="error-message">
+                              {formErrors.repeatEmail}
+                            </div>
+                          )}
                         </label>
                       </div>
                     </div>
@@ -512,6 +595,11 @@ const TicketPurchase = () => {
                             onChange={handleInputChange}
                             required
                           />
+                          {formErrors.phone && (
+                            <div className="error-message">
+                              {formErrors.phone}
+                            </div>
+                          )}
                         </label>
                       </div>
                       <div></div>
@@ -543,6 +631,10 @@ const TicketPurchase = () => {
                       handlowych drogą elektroniczną na wskazany numer telefonu
                       i adres email
                     </label>
+
+                    {consentError && (
+                      <div className="error-message2">{consentError}</div>
+                    )}
                   </div>
                 </form>
                 <div className="personal-data-form__btn">
@@ -553,7 +645,13 @@ const TicketPurchase = () => {
                   )}
                   <button
                     onClick={() => {
-                      handlePaymentTpay();
+                      if (isConsentsGiven) {
+                        handlePaymentTpay();
+                      } else {
+                        setConsentError(
+                          'Proszę udzielić obu zgód przed przejściem dalej.'
+                        );
+                      }
                     }}
                   >
                     Przejdź do płatności

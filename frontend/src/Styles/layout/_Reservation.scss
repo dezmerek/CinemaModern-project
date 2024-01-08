@@ -314,4 +314,16 @@
             cursor: pointer;
         }
     }
+
+    .error-message {
+        color: red;
+        font-weight: 400;
+        margin-top: -1rem;
+        margin-bottom: 1rem;
+    }
+
+
+    .error-message2 {
+        color: red;
+    }
 }
