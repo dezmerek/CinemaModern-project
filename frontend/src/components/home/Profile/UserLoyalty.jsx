@@ -8,6 +8,7 @@ const UserLoyalty = () => {
   const [requiredAmount, setRequiredAmount] = useState(0);
   const [message, setMessage] = useState('');
   const [userVouchers, setUserVouchers] = useState([]);
+  const [usedVouchersCount, setUsedVouchersCount] = useState(0); // Dodany nowy stan
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -26,6 +27,12 @@ const UserLoyalty = () => {
         );
         const vouchersData = await vouchersResponse.json();
         setUserVouchers(vouchersData);
+
+        // Zaktualizuj liczbę zrealizowanych voucherów
+        const usedVouchers = vouchersData.filter(
+          (voucher) => voucher.usedCount === voucher.usageLimit
+        );
+        setUsedVouchersCount(usedVouchers.length);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -35,8 +42,7 @@ const UserLoyalty = () => {
   }, [auth.user.displayName, auth.user._id]);
 
   useEffect(() => {
-    document.title = `CinemaModern - Program lojalnościowy
-    `;
+    document.title = `CinemaModern - Program lojalnościowy`;
   }, []);
 
   const handleGenerateVoucher = async () => {
@@ -58,7 +64,7 @@ const UserLoyalty = () => {
         const data = await response.json();
 
         if (data.error === 'User has not spent enough to generate a voucher') {
-          setMessage('Nie spełniasz wymagań do kolejnego voucher.');
+          setMessage('Nie spełniasz wymagań do kolejnego vouchera.');
         } else {
           setMessage(`Failed to generate voucher: ${data.error}`);
         }
@@ -78,6 +84,12 @@ const UserLoyalty = () => {
       );
       const vouchersData = await vouchersResponse.json();
       setUserVouchers(vouchersData);
+
+      // Zaktualizuj liczbę zrealizowanych voucherów
+      const usedVouchers = vouchersData.filter(
+        (voucher) => voucher.usedCount === voucher.usageLimit
+      );
+      setUsedVouchersCount(usedVouchers.length);
     } catch (error) {
       console.error('Error generating voucher:', error);
       setMessage('Internal server error. Please try again later.');
@@ -106,13 +118,16 @@ const UserLoyalty = () => {
             </p>
             {message && <p className="error-message">{message}</p>}
             <button onClick={handleGenerateVoucher}>Generuj voucher</button>
+            <p>Liczba zrealizowanych voucherów: {usedVouchersCount}</p>
 
             <div>
               <h3>Twoje vouchery:</h3>
               <ul>
-                {userVouchers.map((voucher) => (
-                  <li key={voucher.voucherId}>{voucher.code}</li>
-                ))}
+                {userVouchers
+                  .filter((voucher) => voucher.usedCount !== voucher.usageLimit) // Filtruj vouchery, które nie zostały jeszcze zrealizowane
+                  .map((voucher) => (
+                    <li key={voucher.voucherId}>{voucher.code}</li>
+                  ))}
               </ul>
             </div>
           </div>
