@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Auth/AuthContext';
 import '../../../Styles/layout/_UserLoyalty.scss';
 import { Navigate } from 'react-router-dom';
+import UserProfileStats from './UserProfileStats';
+import UserProfileCard from './UserProfileCard';
 
 const UserLoyalty = () => {
   const auth = useAuth();
@@ -10,6 +12,7 @@ const UserLoyalty = () => {
   const [message, setMessage] = useState('');
   const [userVouchers, setUserVouchers] = useState([]);
   const [usedVouchersCount, setUsedVouchersCount] = useState(0);
+  const [toRedeemVouchersCount, setToRedeemVouchersCount] = useState(0);
 
   useEffect(() => {
     document.title = `CinemaModern - Program lojalnościowy`;
@@ -24,18 +27,21 @@ const UserLoyalty = () => {
         setTotalSpentAmount(parseFloat(userData.totalSpentAmount));
         setRequiredAmount((userData.generatedVouchersCount + 1) * 100);
 
-        // Pobierz listę voucherów użytkownika
         const vouchersResponse = await fetch(
           `${process.env.REACT_APP_API_URL}/api/vouchers?userId=${auth.user._id}`
         );
         const vouchersData = await vouchersResponse.json();
         setUserVouchers(vouchersData);
 
-        // Zaktualizuj liczbę zrealizowanych voucherów
         const usedVouchers = vouchersData.filter(
           (voucher) => voucher.usedCount === voucher.usageLimit
         );
         setUsedVouchersCount(usedVouchers.length);
+
+        const toRedeemVouchers = vouchersData.filter(
+          (voucher) => voucher.usedCount !== voucher.usageLimit
+        );
+        setToRedeemVouchersCount(toRedeemVouchers.length);
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -79,14 +85,12 @@ const UserLoyalty = () => {
         }
       }
 
-      // Pobierz zaktualizowaną listę voucherów użytkownika po wygenerowaniu nowego vouchera
       const vouchersResponse = await fetch(
         `${process.env.REACT_APP_API_URL}/api/vouchers?userId=${auth.user._id}`
       );
       const vouchersData = await vouchersResponse.json();
       setUserVouchers(vouchersData);
 
-      // Zaktualizuj liczbę zrealizowanych voucherów
       const usedVouchers = vouchersData.filter(
         (voucher) => voucher.usedCount === voucher.usageLimit
       );
@@ -103,37 +107,60 @@ const UserLoyalty = () => {
         <h2>Program lojalnościowy</h2>
         {auth.user ? (
           <div>
-            <div className="user-profile__profile">
+            <div className="user-loyalty__profile">
               <img src={auth.user.picture} alt="Avatar profilowy" />
-              <div className="user-profile__profile--data">
-                <p className="user-profile__profile--name">
+              <div className="user-loyalty__profile--data">
+                <p className="user-loyalty__profile--name">
                   {auth.user.displayName}
                 </p>
                 <p>{auth.user.email}</p>
               </div>
             </div>
-            <p>Łączna kwota wydana: {totalSpentAmount.toFixed(2)} zł</p>
             {totalSpentAmount >= 100 && (
               <div>
-                <p>
-                  Kwota potrzebna do kolejnego vouchera:{' '}
-                  {requiredAmount.toFixed(2)} zł
-                </p>
-                {message && <p className="error-message">{message}</p>}
-                <button onClick={handleGenerateVoucher}>Generuj voucher</button>
-                <p>Liczba zrealizowanych voucherów: {usedVouchersCount}</p>
+                <div className="user-loyalty__stats">
+                  <UserProfileStats
+                    title="Łączenie wydano"
+                    subtitle="PLN"
+                    value={totalSpentAmount.toFixed(2)}
+                  />
+                  <UserProfileStats
+                    title="Do kolejnego voucher"
+                    subtitle="PLN"
+                    value={requiredAmount.toFixed(2)}
+                  />
+                  <UserProfileStats
+                    title="Do wygenerowania voucherów"
+                    subtitle="pozostało"
+                    value={toRedeemVouchersCount}
+                  />
+                  <UserProfileStats
+                    title="Zrealizowanych voucherów"
+                    subtitle="od początku"
+                    value={usedVouchersCount}
+                  />
+                </div>
 
-                <div>
-                  <h3>Twoje vouchery:</h3>
-                  <ul>
-                    {userVouchers
-                      .filter(
-                        (voucher) => voucher.usedCount !== voucher.usageLimit
-                      ) // Filtruj vouchery, które nie zostały jeszcze zrealizowane
-                      .map((voucher) => (
-                        <li key={voucher.voucherId}>{voucher.code}</li>
-                      ))}
-                  </ul>
+                <div className="user-loyalty__cards">
+                  <div>
+                    <button onClick={handleGenerateVoucher}>
+                      Generuj voucher
+                    </button>
+                    {message && <p className="error-message">{message}</p>}
+                  </div>
+
+                  <UserProfileCard
+                    title="Twoje vouchery"
+                    buttonText="Wszystkie"
+                    data={userVouchers.filter(
+                      (voucher) => voucher.usedCount !== voucher.usageLimit
+                    )}
+                    columns={[
+                      { label: 'Kod Vouchera', value: 'code' },
+                      { label: 'Wartość Zniżki (%)', value: 'discountValue' },
+                      { label: 'Liczba Użyć', value: 'usageLimit' },
+                    ]}
+                  />
                 </div>
               </div>
             )}

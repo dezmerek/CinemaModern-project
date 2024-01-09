@@ -45,7 +45,6 @@ const calculateTotalSpentAmount = async (userId) => {
     try {
         const user = await User.findById(userId);
 
-        // Sumuj kwoty z voucherów
         const vouchersTotal = user.totalSpentAmount;
 
         return vouchersTotal;
@@ -83,13 +82,12 @@ router.post('/generate', async (req, res) => {
             if (totalSpentAmount < requiredAmount) {
                 return res.status(403).json({
                     error: 'User has not spent enough to generate a voucher',
-                    requiredAmount: requiredAmount, // Dodaj informację o wymaganej kwocie
-                    currentSpentAmount: totalSpentAmount // Dodaj informację o aktualnej wydanej kwocie
+                    requiredAmount: requiredAmount,
+                    currentSpentAmount: totalSpentAmount
                 });
             }
         }
 
-        // Reszta kodu pozostaje bez zmian
         const lastVoucher = await Voucher.findOne().sort({ voucherId: -1 });
         const voucherId = lastVoucher ? lastVoucher.voucherId + 1 : 1;
         const voucherCode = generateVoucherCode();
@@ -114,6 +112,41 @@ router.post('/generate', async (req, res) => {
         res.status(500).json({ error: 'Internal server error. Please try again later.' });
     }
 });
+
+router.get('/to-redeem/:userId', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const user = await User.findById(userId);
+        const totalSpentAmount = await calculateTotalSpentAmount(userId);
+
+        if (user && user.generatedVouchersCount) {
+            const requiredAmount = (user.generatedVouchersCount + 1) * 100;
+
+            if (totalSpentAmount < requiredAmount) {
+                return res.status(403).json({
+                    error: 'User has not spent enough to generate a voucher',
+                    requiredAmount: requiredAmount,
+                    currentSpentAmount: totalSpentAmount,
+                });
+            }
+        }
+
+        const vouchers = await Voucher.find({ userId, usedCount: 0 });
+
+        res.status(200).json({
+            totalToRedeem: vouchers.length,
+        });
+    } catch (error) {
+        console.error('Error fetching vouchers to redeem:', error);
+        res
+            .status(500)
+            .json({
+                error: 'Internal server error. Please try again later.',
+            });
+    }
+});
+
 
 
 export default router;

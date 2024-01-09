@@ -37,4 +37,70 @@
             font-size: 16px;
         }
     }
+
+    &__stats {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 1rem;
+        padding-bottom: 2rem;
+    }
+
+    &__stat-box {
+        background-color: rgb(21, 31, 48);
+        width: 100%;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem;
+
+        p {
+            margin: 0;
+            text-align: right;
+        }
+
+        &--30-last {
+            font-weight: 100;
+            font-size: 12px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        @media (min-width: 481px) {
+            width: calc(50% - 0.5rem);
+        }
+
+        @media (min-width: 768px) {
+            width: calc(25% - 1rem);
+        }
+    }
+
+
+    &__cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+
+        button {
+            background-color: rgb(47, 128, 237);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: rgb(31, 94, 188);
+            }
+        }
+
+        p {
+            color: red;
+        }
+    }
 }
