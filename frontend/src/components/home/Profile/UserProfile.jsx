@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import UserProfileStats from './UserProfileStats';
 import UserProfileCard from './UserProfileCard';
 import '../../../Styles/layout/_UserProfile.scss';
+import { Navigate } from 'react-router-dom';
 
 const UserProfile = () => {
   const auth = useAuth();
@@ -216,7 +217,7 @@ const UserProfile = () => {
             </div>
           </div>
         ) : (
-          <p>Nie jesteś zalogowany.</p>
+          <Navigate to="/brak-dostepu" />
         )}
       </div>
     </div>

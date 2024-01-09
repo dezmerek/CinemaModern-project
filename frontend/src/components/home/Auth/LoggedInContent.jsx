@@ -36,7 +36,10 @@ const LoggedInContent = ({ user, handleLogout, handleCloseAuthOptions }) => {
           <BsJustify />
           Moje zamówienia
         </Link>
-        <Link className="logged-in-content__menu--link" to="/">
+        <Link
+          className="logged-in-content__menu--link"
+          to="/voucher-lojalnosciowy"
+        >
           <BsCreditCard2Front />
           Program lojalnościowy
         </Link>

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Auth/AuthContext';
 import '../../../Styles/layout/_UserLoyalty.scss';
+import { Navigate } from 'react-router-dom';
 
 const UserLoyalty = () => {
   const auth = useAuth();
@@ -8,9 +9,11 @@ const UserLoyalty = () => {
   const [requiredAmount, setRequiredAmount] = useState(0);
   const [message, setMessage] = useState('');
   const [userVouchers, setUserVouchers] = useState([]);
-  const [usedVouchersCount, setUsedVouchersCount] = useState(0); // Dodany nowy stan
+  const [usedVouchersCount, setUsedVouchersCount] = useState(0);
 
   useEffect(() => {
+    document.title = `CinemaModern - Program lojalnościowy`;
+
     const fetchUserData = async () => {
       try {
         const response = await fetch(
@@ -38,12 +41,10 @@ const UserLoyalty = () => {
       }
     };
 
-    fetchUserData();
-  }, [auth.user.displayName, auth.user._id]);
-
-  useEffect(() => {
-    document.title = `CinemaModern - Program lojalnościowy`;
-  }, []);
+    if (auth.user) {
+      fetchUserData();
+    }
+  }, [auth.user]);
 
   const handleGenerateVoucher = async () => {
     try {
@@ -100,37 +101,45 @@ const UserLoyalty = () => {
     <div className="user-loyalty">
       <div className="user-loyalty__container">
         <h2>Program lojalnościowy</h2>
-        <div className="user-profile__profile">
-          <img src={auth.user.picture} alt="Avatar profilowy" />
-          <div className="user-profile__profile--data">
-            <p className="user-profile__profile--name">
-              {auth.user.displayName}
-            </p>
-            <p>{auth.user.email}</p>
-          </div>
-        </div>
-        <p>Łączna kwota wydana: {totalSpentAmount.toFixed(2)} zł</p>
-        {totalSpentAmount >= 100 && (
+        {auth.user ? (
           <div>
-            <p>
-              Kwota potrzebna do kolejnego vouchera: {requiredAmount.toFixed(2)}{' '}
-              zł
-            </p>
-            {message && <p className="error-message">{message}</p>}
-            <button onClick={handleGenerateVoucher}>Generuj voucher</button>
-            <p>Liczba zrealizowanych voucherów: {usedVouchersCount}</p>
-
-            <div>
-              <h3>Twoje vouchery:</h3>
-              <ul>
-                {userVouchers
-                  .filter((voucher) => voucher.usedCount !== voucher.usageLimit) // Filtruj vouchery, które nie zostały jeszcze zrealizowane
-                  .map((voucher) => (
-                    <li key={voucher.voucherId}>{voucher.code}</li>
-                  ))}
-              </ul>
+            <div className="user-profile__profile">
+              <img src={auth.user.picture} alt="Avatar profilowy" />
+              <div className="user-profile__profile--data">
+                <p className="user-profile__profile--name">
+                  {auth.user.displayName}
+                </p>
+                <p>{auth.user.email}</p>
+              </div>
             </div>
+            <p>Łączna kwota wydana: {totalSpentAmount.toFixed(2)} zł</p>
+            {totalSpentAmount >= 100 && (
+              <div>
+                <p>
+                  Kwota potrzebna do kolejnego vouchera:{' '}
+                  {requiredAmount.toFixed(2)} zł
+                </p>
+                {message && <p className="error-message">{message}</p>}
+                <button onClick={handleGenerateVoucher}>Generuj voucher</button>
+                <p>Liczba zrealizowanych voucherów: {usedVouchersCount}</p>
+
+                <div>
+                  <h3>Twoje vouchery:</h3>
+                  <ul>
+                    {userVouchers
+                      .filter(
+                        (voucher) => voucher.usedCount !== voucher.usageLimit
+                      ) // Filtruj vouchery, które nie zostały jeszcze zrealizowane
+                      .map((voucher) => (
+                        <li key={voucher.voucherId}>{voucher.code}</li>
+                      ))}
+                  </ul>
+                </div>
+              </div>
+            )}
           </div>
+        ) : (
+          <Navigate to="/brak-dostepu" />
         )}
       </div>
     </div>
