@@ -13,6 +13,18 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
     phoneNumber: Number,
+    totalSpentAmount: {
+        type: Number,
+        default: 0,
+    },
+    generatedVouchers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Voucher',
+    }],
+    generatedVouchersCount: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const User = mongoose.model('User', userSchema);

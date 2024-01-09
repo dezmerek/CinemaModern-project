@@ -38,6 +38,9 @@ const voucherSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    usageLimit: {
+        type: Number,
+    }
 });
 
 const Voucher = mongoose.model('Voucher', voucherSchema);

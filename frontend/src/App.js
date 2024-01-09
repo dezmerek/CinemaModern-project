@@ -33,6 +33,7 @@ import { TicketsView } from './routers/TicketsView';
 import { VouchersView } from './routers/VouchersView';
 import { VouchersAdd } from './routers/VouchersAdd';
 import UsersProfile from './routers/UsersProfile';
+import UsersLoyalty from './routers/UsersLoyalty';
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -46,7 +47,6 @@ const ProtectedRoute = ({ element, adminOnly }) => {
       return element;
     }
   } else {
-    // Redirect to login or handle unauthenticated users
     return <Navigate to="/" />;
   }
 };
@@ -162,7 +162,7 @@ function App() {
               <Route path="/podsumowanie/:id" element={<PaymentsSummary />} />
               <Route path="/podsumowanie/" element={<PaymentsSummary />} />
               <Route path="/profil/" element={<UsersProfile />} />
-
+              <Route path="/voucher-lojalnosciowy" element={<UsersLoyalty />} />
 
               <Route path="/*" element={<NotFound />} />
               <Route path="/brak-dostepu" element={<AccessDenied />} />

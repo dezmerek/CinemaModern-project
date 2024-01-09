@@ -15,8 +15,8 @@ const UserProfile = () => {
   const [transactionsData, setTransactionsData] = useState([]);
 
   useEffect(() => {
-    document.title = `CinemaModern - ${auth.user.displayName}`;
-  }, [auth.user.displayName]);
+    document.title = `CinemaModern - Profil Użytkownika`;
+  }, []);
 
   const getRatingsCount = async (userId) => {
     try {

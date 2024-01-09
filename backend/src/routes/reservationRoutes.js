@@ -3,7 +3,7 @@ import Reservation from '../models/reservation.js';
 import Schedule from '../models/schedule.js';
 import Movie from '../models/movie.js';
 import Hall from '../models/hall.js';
-
+import User from '../models/user.js';
 const router = express.Router();
 
 router.post('/', async (req, res) => {
@@ -47,9 +47,15 @@ router.post('/', async (req, res) => {
             userId,
             createdAt: new Date(),
         });
-        console.log('userId:', userId);
-        const savedReservation = await reservation.save();
 
+        // Dodajemy do modelu User aktualną kwotę zakupów
+        const user = await User.findById(userId);
+        if (user) {
+            user.totalSpentAmount += parseFloat(totalPrice);
+            await user.save();
+        }
+
+        const savedReservation = await reservation.save();
         await schedule.save();
 
         res.status(201).json({ message: 'Reservation saved successfully!', _id: savedReservation._id });
@@ -238,5 +244,21 @@ router.get('/:userId/transactions', async (req, res) => {
     }
 });
 
+router.get('/:userId/totalspentamount', async (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        const reservations = await Reservation.find({ userId });
+
+        const totalSpentAmount = reservations.reduce((total, reservation) => {
+            return total + parseFloat(reservation.totalPrice);
+        }, 0);
+
+        res.status(200).json({ totalSpentAmount });
+    } catch (error) {
+        console.error('Error calculating total spent amount:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 export default router;

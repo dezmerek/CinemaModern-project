@@ -2,19 +2,17 @@ import React from "react";
 import Navbar from "../components/home/Navbar/Navbar";
 import Footer from "../components/home/Footer/Footer";
 import Contact from "../components/home/Contact/Contact";
-import UserProfile from "../components/home/Profile/UserProfile";
+import UserLoyalty from "../components/home/Profile/UserLoyalty";
 
-const UsersProfile = () => {
-
-
+const UsersLoyalty = () => {
     return (
         <div>
             <Navbar />
-            <UserProfile />
+            <UserLoyalty />
             <Contact />
             <Footer />
         </div>
     );
 }
 
-export default UsersProfile;
+export default UsersLoyalty;
