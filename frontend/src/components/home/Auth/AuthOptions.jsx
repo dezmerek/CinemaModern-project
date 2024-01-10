@@ -9,7 +9,6 @@ const AuthOptions = ({ onAuthOptions, handleCloseAuthOptions }) => {
   const { user, setUser } = auth;
 
   useEffect(() => {
-    // Pobierz dane użytkownika z localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
