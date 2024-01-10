@@ -63,7 +63,7 @@ const UsersView = () => {
     };
 
     fetchUsers();
-  }, []); // Empty dependency array to run the effect only once when the component mounts
+  }, []);
 
   const handleSearchChange = (newSearchText) => {
     setSearchText(newSearchText);
@@ -93,7 +93,7 @@ const UsersView = () => {
 
   const handleDelete = () => {
     if (itemToDelete) {
-      const userId = itemToDelete._id; // Poprawny identyfikator użytkownika
+      const userId = itemToDelete._id;
       fetch(`${apiUrl}/api/users/${userId}`, {
         method: 'DELETE',
       })
@@ -101,7 +101,6 @@ const UsersView = () => {
           if (!response.ok) {
             throw new Error('Failed to delete user');
           }
-          // Po udanym usunięciu odśwież listę użytkowników
           return fetch(`${apiUrl}/api/users`);
         })
         .then((response) => response.json())

@@ -101,7 +101,6 @@ const DashboardView = () => {
         }
         const data = await response.json();
 
-        // Pobierz oceny dla każdego filmu
         const moviesWithRatings = await Promise.all(
           data.map(async (movie) => {
             const ratingResponse = await fetch(
@@ -149,7 +148,7 @@ const DashboardView = () => {
     const formattedUsers = sortedUsers.map((user) => ({
       ...user,
       registrationDate: new Date(user.registrationDate).toLocaleDateString(),
-      lastLoginDate: new Date(user.lastLoginDate).toLocaleDateString(), // Format lastLoginDate
+      lastLoginDate: new Date(user.lastLoginDate).toLocaleDateString(),
     }));
     return formattedUsers.slice(0, limit);
   };

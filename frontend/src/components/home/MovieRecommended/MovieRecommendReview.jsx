@@ -75,7 +75,6 @@ const MovieReviewForm = () => {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
 
-    // Sprawdź, czy użytkownik jest zalogowany
     if (!user) {
       alert('Musisz być zalogowany, aby dodać recenzję');
       return;

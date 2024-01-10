@@ -5,7 +5,6 @@ import { format } from 'date-fns';
 import '../../../Styles/components/_MoviePreviews.scss';
 import PreviewCard from './PreviewCard';
 
-// ...
 const MoviePreviews = () => {
   const [movies, setMovies] = useState([]);
 

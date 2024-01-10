@@ -38,7 +38,7 @@ const Repertoire = () => {
         language: entry.movie.language,
         startTime: format(new Date(entry.startTime), 'HH:mm'),
         isPremiere: entry.movie.isPremiere,
-        scheduleId: entry._id, // Added scheduleId to the result
+        scheduleId: entry._id,
       }));
 
       setSelectedMovies(schedulesForSelectedDate);
@@ -110,7 +110,7 @@ const Repertoire = () => {
                           language: curr.language,
                           times: [curr.startTime],
                           isPremiere: curr.isPremiere,
-                          scheduleId: curr.scheduleId, // Added scheduleId to the result
+                          scheduleId: curr.scheduleId,
                         };
                       } else {
                         acc[curr.movie].times.push(curr.startTime);
@@ -140,7 +140,7 @@ const Repertoire = () => {
                           <Link
                             key={timeIndex}
                             to={{
-                              pathname: `/kup-bilet/${details.scheduleId}`, // Use scheduleId here
+                              pathname: `/kup-bilet/${details.scheduleId}`,
                               state: {
                                 id: details.scheduleId,
                                 movie: {

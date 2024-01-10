@@ -1,4 +1,3 @@
-// UserProfileCard.js
 import React from 'react';
 import { BsArrowUpRightSquare } from 'react-icons/bs';
 

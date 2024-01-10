@@ -1,4 +1,3 @@
-// UserProfileStats.js
 import React from 'react';
 
 const UserProfileStats = ({ title, subtitle, value }) => {

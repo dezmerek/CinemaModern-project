@@ -17,7 +17,7 @@ const PaymentSummary = () => {
     const fetchTransactionData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/reservations/${id}`
+          `${process.env.REACT_APP_API_URL}/api/reservations/${id}`
         );
 
         if (!response.ok) {

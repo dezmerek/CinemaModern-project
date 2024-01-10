@@ -4,7 +4,7 @@ import { BsSearch, BsBoxArrowInLeft } from 'react-icons/bs';
 import '../../../Styles/components/_Navbar.scss';
 import NavbarSearch from './NavbarSearch';
 import Sidebar from './Sidebar';
-import AuthOptions from './../Auth/AuthOptions'; // Import the new component
+import AuthOptions from './../Auth/AuthOptions';
 import logo from '../../../assets/images/logo.png';
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -107,7 +107,6 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if the clicked element is inside the search container
       if (
         searchContainerRef.current &&
         searchContainerRef.current.contains(event.target)
@@ -115,17 +114,14 @@ const Navbar = () => {
         return;
       }
 
-      // Check if the clicked element is inside the MojeEkinoContent
       if (isAuthOptionsVisible && event.target.closest('.logged-in-content')) {
         return;
       }
 
-      // Close the search if it's open
       if (isSearchVisible) {
         setSearchTerm('');
       }
 
-      // Close MojeEkino if it's open
       if (isAuthOptionsVisible) {
         setIsAuthOptionsVisible(false);
       }

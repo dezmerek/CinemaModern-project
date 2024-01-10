@@ -66,9 +66,9 @@ const MovieRecommendDetail = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user.token}`, // Zakładając, że token jest przechowywany w obiekcie user
+            Authorization: `Bearer ${user.token}`,
           },
-          body: JSON.stringify({ rating, userId: user._id }), // Przesyłanie ID użytkownika wraz z oceną
+          body: JSON.stringify({ rating, userId: user._id }),
         }
       );
 

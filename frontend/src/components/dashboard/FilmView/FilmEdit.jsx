@@ -3,6 +3,7 @@ import '../../../Styles/components/_UniversalEdit.scss';
 
 const FilmEdit = ({ film, onSave, onCancel }) => {
   const [editedFilm, setEditedFilm] = useState(film);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -11,16 +12,14 @@ const FilmEdit = ({ film, onSave, onCancel }) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/movies/${editedFilm._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(editedFilm),
-        }
-      );
+      const response = await (`${apiUrl}/api/movies/${editedFilm._id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editedFilm),
+      });
 
       if (!response.ok) {
         throw new Error('Failed to save changes');

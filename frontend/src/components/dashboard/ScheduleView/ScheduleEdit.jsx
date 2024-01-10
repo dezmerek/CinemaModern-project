@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../../Styles/components/_UniversalEdit.scss';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const ScheduleEdit = ({ schedule, onSave, onCancel }) => {
   const [editedSchedule, setEditedSchedule] = useState({ ...schedule });
 
@@ -24,8 +26,8 @@ const ScheduleEdit = ({ schedule, onSave, onCancel }) => {
       const startTimeAsDate = new Date(`${date}T${startTime}:00.000Z`);
       const endTimeAsDate = new Date(`${date}T${endTime}:00.000Z`);
 
-      const response = await fetch(
-        `http://localhost:3001/api/schedules/${editedSchedule._id}`,
+      const response = await await fetch(
+        `${apiUrl}/api/schedules/${editedSchedule._id}`,
         {
           method: 'PUT',
           headers: {

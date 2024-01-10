@@ -40,7 +40,7 @@ const TicketPurchase = () => {
     const fetchScheduleData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/schedules/${id}`
+          `${process.env.REACT_APP_API_URL}/api/schedules/${id}`
         );
         const data = await response.json();
         setScheduleData(data);
@@ -54,7 +54,7 @@ const TicketPurchase = () => {
 
   const handleApplyVoucher = async () => {
     try {
-      setVoucherError(null); // Zresetuj błąd przed próbą zastosowania vouchera
+      setVoucherError(null);
 
       const responseVouchers = await fetch(`${apiUrl}/api/vouchers`);
       if (!responseVouchers.ok) {
@@ -191,13 +191,11 @@ const TicketPurchase = () => {
   const handleConsentChange = (e) => {
     const { name, checked } = e.target;
 
-    // Update the state for the specific consent being changed
     setConsents({
       ...consents,
       [name]: checked,
     });
 
-    // Reset consentError when user checks consents
     setConsentError(null);
   };
 
@@ -218,7 +216,7 @@ const TicketPurchase = () => {
     if (isFormValid) {
       try {
         const responseConfirm = await fetch(
-          'http://localhost:3001/api/reservations',
+          `${process.env.REACT_APP_API_URL}/api/reservations`,
           {
             method: 'POST',
             headers: {
@@ -264,7 +262,7 @@ const TicketPurchase = () => {
       const initiateTpayPayment = async () => {
         try {
           const response = await fetch(
-            'http://localhost:3001/api/payments/create-session-transaction-tpay',
+            `${process.env.REACT_APP_API_URL}/api/payments/create-session-transaction-tpay`,
             {
               method: 'POST',
               headers: {
@@ -277,7 +275,7 @@ const TicketPurchase = () => {
                 name: `${formData.firstName} ${formData.lastName}`,
                 phone: formData.phone,
                 hiddenDescription: reservationId,
-                success: `http://localhost:3000/podsumowanie/${reservationId}`,
+                success: `${process.env.REACT_APP_API_URL_SUCCESS}/podsumowanie/${reservationId}`,
               }),
             }
           );
@@ -315,17 +313,14 @@ const TicketPurchase = () => {
   const validateForm = () => {
     const errors = {};
 
-    // Validate firstName
     if (!formData.firstName.trim()) {
       errors.firstName = 'Pole Imię jest wymagane.';
     }
 
-    // Validate lastName
     if (!formData.lastName.trim()) {
       errors.lastName = 'Pole Nazwisko jest wymagane.';
     }
 
-    // Validate email
     if (!formData.email.trim()) {
       errors.email = 'Pole Email jest wymagane.';
     } else if (
@@ -334,27 +329,24 @@ const TicketPurchase = () => {
       errors.email = 'Podaj poprawny adres email.';
     }
 
-    // Validate repeatEmail
     if (!formData.repeatEmail.trim()) {
       errors.repeatEmail = 'Pole Powtórz email jest wymagane.';
     } else if (formData.repeatEmail !== formData.email) {
       errors.repeatEmail = 'Adresy email nie są identyczne.';
     }
 
-    // Validate phone
     if (!formData.phone.trim()) {
       errors.phone = 'Pole Telefon jest wymagane.';
     } else if (!/^\d{9}$/.test(formData.phone)) {
       errors.phone = 'Numer telefonu musi składać się z 9 cyfr.';
     }
 
-    // Validate consents
     if (!consents.marketing || !consents.electronicCommunication) {
       errors.consents = 'Proszę udzielić obu zgód przed przejściem dalej.';
     }
 
     setFormErrors(errors);
-    return Object.keys(errors).length === 0; // Return true if there are no errors
+    return Object.keys(errors).length === 0;
   };
 
   return (

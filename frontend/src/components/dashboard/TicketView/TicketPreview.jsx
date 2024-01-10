@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './../../../Styles/components/_UniversalPreview.scss';
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const TicketPreview = ({ ticket, onClose }) => {
   const [seatDetails, setSeatDetails] = useState([]);
@@ -8,7 +9,7 @@ const TicketPreview = ({ ticket, onClose }) => {
     const fetchSeatDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/schedules/${ticket.scheduleId}`
+          `${apiUrl}/api/schedules/${ticket.scheduleId}`
         );
         if (!response.ok) {
           throw new Error('Failed to fetch seat details');
