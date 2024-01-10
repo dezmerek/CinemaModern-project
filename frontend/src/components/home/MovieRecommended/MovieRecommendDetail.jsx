@@ -87,7 +87,6 @@ const MovieRecommendDetail = () => {
       const updatedData = await updatedResponse.json();
       setMovieDetails(updatedData);
 
-      // Aktualizuj stan userRating, aby zmienić podświetlenie
       setUserRating(rating);
     } catch (error) {
       console.error('Error submitting rating:', error);
