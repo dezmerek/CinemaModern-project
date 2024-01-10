@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../../Styles/layout/_VoucherAdd.scss';
 
 const VoucherAdd = () => {
   const [code, setCode] = useState('');
