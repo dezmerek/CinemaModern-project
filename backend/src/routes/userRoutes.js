@@ -71,7 +71,7 @@ router.delete('/:id', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        await User.deleteOne({ _id: userId }); // Updated to use deleteOne
+        await User.deleteOne({ _id: userId });
         res.json({ message: 'User deleted successfully' });
     } catch (error) {
         console.error('Error deleting user:', error);
@@ -89,14 +89,12 @@ router.put('/:id', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Update user properties
         user.displayName = displayName;
         user.email = email;
         user.picture = picture;
         user.role = role;
         user.phoneNumber = phoneNumber;
 
-        // Save the updated user
         await user.save();
 
         res.json(user);

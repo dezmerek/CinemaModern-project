@@ -1,4 +1,3 @@
-// hallRoutes.js
 import express from 'express';
 import Hall from '../models/hall.js';
 import multer from 'multer';

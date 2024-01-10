@@ -17,7 +17,6 @@ router.post('/', async (req, res) => {
             userId,
         } = req.body;
 
-        // Add a check to ensure that selectedSeats is an array and not undefined
         if (!Array.isArray(selectedSeats)) {
             return res.status(400).json({ error: 'Invalid selectedSeats data' });
         }
@@ -26,7 +25,6 @@ router.post('/', async (req, res) => {
         const hall = await Hall.findById(schedule.hall);
 
         selectedSeats.forEach(selectedSeat => {
-            // Check if selectedSeat is a valid object before accessing its properties
             if (selectedSeat && selectedSeat._id) {
                 const seatIndex = schedule.clonedHallLayout.findIndex(seat => seat._id.equals(selectedSeat._id));
 
@@ -48,7 +46,6 @@ router.post('/', async (req, res) => {
             createdAt: new Date(),
         });
 
-        // Dodajemy do modelu User aktualną kwotę zakupów
         const user = await User.findById(userId);
         if (user) {
             user.totalSpentAmount += parseFloat(totalPrice);

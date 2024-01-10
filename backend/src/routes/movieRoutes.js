@@ -241,19 +241,16 @@ router.post('/:id/rate', async (req, res) => {
         const movieId = req.params.id;
         const { rating, userId } = req.body;
 
-        // Sprawdź, czy użytkownik już ocenił ten film
         const existingRating = await Rating.findOneAndUpdate(
             { movie: movieId, user: userId },
             { rating },
             { new: true }
         );
 
-        // Jeśli ocena istnieje, zwróć zaktualizowaną ocenę
         if (existingRating) {
             return res.status(200).json({ message: 'Rating updated successfully' });
         }
 
-        // W przeciwnym razie, dodaj nową ocenę
         const movie = await Movie.findById(movieId);
 
         if (!movie) {
@@ -304,14 +301,11 @@ router.get('/:id/user-rating/:userId', async (req, res) => {
         const movieId = req.params.id;
         const userId = req.params.userId;
 
-        // Pobierz ocenę użytkownika dla danego filmu
         const userRating = await Rating.findOne({ movie: movieId, user: userId });
 
         if (!userRating) {
-            // Jeśli nie ma oceny od tego użytkownika, zwróć null lub odpowiednią wartość domyślną
             res.status(200).json({ rating: null });
         } else {
-            // Jeśli istnieje, zwróć ocenę
             res.status(200).json({ rating: userRating.rating });
         }
     } catch (error) {
