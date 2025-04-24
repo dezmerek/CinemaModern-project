@@ -2,6 +2,13 @@
 
 CinemaModern is a comprehensive web application designed to streamline cinema management operations. It offers a wide range of features for efficient planning, management, and promotion of film events.
 
+### Home
+![Strona Główna](https://github.com/user-attachments/assets/c1eac108-a67c-4eea-a438-8dcb74e810ce)
+
+### Dashboard
+![DASHBOARD](https://github.com/user-attachments/assets/746fd59d-af1b-49c0-afb5-2f0306455b90)
+
+
 ## Introduction
 
 CinemaModern is aimed at simplifying cinema management tasks, including film scheduling, ticket booking, and user management. It provides both administrators and end-users with intuitive interfaces for seamless interaction with cinema-related data and services.
